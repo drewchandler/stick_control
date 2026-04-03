@@ -55,3 +55,7 @@ To enable hosting:
 2. Go to **Pages**.
 3. Set **Source** to **GitHub Actions**.
 4. Push to `main` (or run the workflow manually) to publish.
+
+Expected URL after publish:
+
+- https://drewchandler.github.io/stick_control/

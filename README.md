@@ -1,1 +1,43 @@
-# stick_control
+# Stick Control Practice App
+
+React + Vite web app for practicing Stick Control-style snare exercises with a MusicXML-first workflow.
+
+## Features
+
+- Drum staff rendering with sticking labels (`R` / `L`)
+- Active-note highlighting as playback advances
+- Time signature and measure timing imported from MusicXML
+- Adjustable BPM (auto-seeded from MusicXML tempo when present)
+- Metronome subdivisions:
+  - Quarter notes
+  - 8th notes
+  - Triplets
+  - 16th notes
+  - 32nd notes
+- Count-in bars before playback starts
+- Repetition tracking (default: 20 reps per measure)
+- Automatic next-measure popup after target reps
+- MusicXML import (`.xml`, `.musicxml`)
+
+## MusicXML expectations
+
+- Sticking is read from:
+  - `<notations><technical><hand>` when present (`right` / `left`)
+  - `<lyric><text>` when it starts with `R` or `L`
+- If sticking is missing on a note, the app alternates hands (`R/L`) as a fallback.
+- Timing (beats, beat-type, note positions) is derived from the MusicXML measure data.
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Then open the local Vite URL shown in the terminal.
+
+## Build
+
+```bash
+npm run build
+```

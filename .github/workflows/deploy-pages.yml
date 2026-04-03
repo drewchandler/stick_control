@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - cursor/stick-control-practice-app-6259
   workflow_dispatch:
 
 permissions:
@@ -46,6 +45,7 @@ jobs:
           path: ./dist
 
   deploy:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

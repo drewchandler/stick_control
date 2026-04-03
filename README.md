@@ -26,6 +26,7 @@ React + Vite web app for practicing Stick Control-style snare exercises with a M
   - `<lyric><text>` when it starts with `R` or `L`
 - If sticking is missing on a note, the app alternates hands (`R/L`) as a fallback.
 - Timing (beats, beat-type, note positions) is derived from the MusicXML measure data.
+- A bundled sample file is available at `public/sample-stick-control.musicxml` and can be loaded from the UI.
 
 ## Run locally
 

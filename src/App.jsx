@@ -179,6 +179,20 @@ function parseMusicXmlRhythms(fileText) {
   return { rhythms: rhythms.slice(0, 256), tempo }
 }
 
+function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythms, runtimeRef, setCurrentRhythmIndex, setImportStatus, setImportError) {
+  handleReset()
+  setRhythms(parsed.rhythms)
+  setCurrentRhythmIndex(0)
+  runtimeRef.current.rhythmIndex = 0
+  if (parsed.tempo) {
+    setBpm(Math.max(30, Math.min(260, Math.round(parsed.tempo))))
+  }
+  setImportStatus(
+    `Loaded ${parsed.rhythms.length} measure(s) from "${sourceLabel}"${parsed.tempo ? ` (tempo ${Math.round(parsed.tempo)} BPM).` : '.'}`,
+  )
+  setImportError('')
+}
+
 function App() {
   const [bpm, setBpm] = useState(90)
   const [repetitions, setRepetitions] = useState(20)
@@ -533,23 +547,49 @@ function App() {
 
       const fileText = await file.text()
       const parsed = parseMusicXmlRhythms(fileText)
-      handleReset()
-      setRhythms(parsed.rhythms)
-      setCurrentRhythmIndex(0)
-      runtimeRef.current.rhythmIndex = 0
-      if (parsed.tempo) {
-        setBpm(Math.max(30, Math.min(260, Math.round(parsed.tempo))))
-      }
-      setImportStatus(
-        `Loaded ${parsed.rhythms.length} measure(s) from "${file.name}"${parsed.tempo ? ` (tempo ${Math.round(parsed.tempo)} BPM).` : '.'}`,
+      applyParsedMusicXml(
+        parsed,
+        file.name,
+        setBpm,
+        handleReset,
+        setRhythms,
+        runtimeRef,
+        setCurrentRhythmIndex,
+        setImportStatus,
+        setImportError,
       )
-      setImportError('')
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to load MusicXML file.'
       setImportError(message)
       setImportStatus('')
     } finally {
       event.target.value = ''
+    }
+  }
+
+  async function handleLoadSample() {
+    try {
+      const response = await fetch('./sample-stick-control.musicxml')
+      if (!response.ok) {
+        throw new Error('Could not load the bundled sample MusicXML file.')
+      }
+      const text = await response.text()
+      const parsed = parseMusicXmlRhythms(text)
+      applyParsedMusicXml(
+        parsed,
+        'sample-stick-control.musicxml',
+        setBpm,
+        handleReset,
+        setRhythms,
+        runtimeRef,
+        setCurrentRhythmIndex,
+        setImportStatus,
+        setImportError,
+      )
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to load sample MusicXML file.'
+      setImportError(message)
+      setImportStatus('')
     }
   }
 
@@ -762,6 +802,11 @@ function App() {
           from the file for playback and highlighting.
         </p>
         <input type="file" accept=".xml,.musicxml,text/xml,application/xml" onChange={handleRhythmFileChange} />
+        <div className="button-row">
+          <button type="button" onClick={handleLoadSample}>
+            Load sample MusicXML
+          </button>
+        </div>
         {importStatus && <p className="import-success">{importStatus}</p>}
         {importError && <p className="import-error">{importError}</p>}
       </section>

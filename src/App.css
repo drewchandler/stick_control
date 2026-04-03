@@ -175,6 +175,10 @@ button:disabled {
   color: #ff8787;
 }
 
+.import-actions {
+  margin-top: 8px;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;

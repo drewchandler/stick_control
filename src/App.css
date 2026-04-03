@@ -128,6 +128,12 @@ button:disabled {
   stroke-width: 1.5;
 }
 
+.note-beam {
+  stroke: #101010;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+
 .note-head {
   fill: #111;
   stroke: #111;
@@ -145,9 +151,29 @@ button:disabled {
   font-weight: 700;
 }
 
-.time-signature {
-  font-size: 17px;
+.percussion-clef-bar {
+  fill: #222;
+}
+
+.cut-time-glyph {
+  font-size: 38px;
+  font-weight: 600;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  fill: #222;
+}
+
+.cut-time-slasher {
+  stroke: #222;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.time-signature-top,
+.time-signature-bottom {
+  font-size: 24px;
   font-weight: 700;
+  text-anchor: middle;
   fill: #222;
 }
 

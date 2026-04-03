@@ -13,6 +13,18 @@ const SUBDIVISIONS = [
   { label: '32nd notes', value: 32, pulses: 3 },
 ]
 
+const STEP_TO_DIATONIC = {
+  C: 0,
+  D: 1,
+  E: 2,
+  F: 3,
+  G: 4,
+  A: 5,
+  B: 6,
+}
+const MIDDLE_LINE_DIATONIC = 4 * 7 + STEP_TO_DIATONIC.B
+const DEFAULT_SNARE_STAFF_OFFSET = 1
+
 function clickToneForBeat(beat, beatsPerBar) {
   if (beat === 1) {
     return { frequency: 1680, gain: 0.25, duration: 0.075 }
@@ -53,6 +65,35 @@ function extractStickFromMusicXmlNote(noteElement) {
 function parseNumericText(node, fallback) {
   const parsed = Number(node?.textContent ?? '')
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
+}
+
+function parsePitchPosition(noteElement) {
+  const displayStep = (noteElement.querySelector('unpitched display-step')?.textContent ?? '').trim().toUpperCase()
+  const displayOctave = Number(noteElement.querySelector('unpitched display-octave')?.textContent ?? '')
+  if (displayStep && Number.isFinite(displayOctave) && displayStep in STEP_TO_DIATONIC) {
+    return { step: displayStep, octave: displayOctave }
+  }
+
+  const pitchStep = (noteElement.querySelector('pitch step')?.textContent ?? '').trim().toUpperCase()
+  const pitchOctave = Number(noteElement.querySelector('pitch octave')?.textContent ?? '')
+  if (pitchStep && Number.isFinite(pitchOctave) && pitchStep in STEP_TO_DIATONIC) {
+    return { step: pitchStep, octave: pitchOctave }
+  }
+  return null
+}
+
+function staffOffsetFromPitch(position) {
+  if (!position) {
+    return DEFAULT_SNARE_STAFF_OFFSET
+  }
+  const diatonic = position.octave * 7 + STEP_TO_DIATONIC[position.step]
+  return diatonic - MIDDLE_LINE_DIATONIC
+}
+
+function staffYForOffset(staffOffset) {
+  const middleLineY = 74
+  const halfStepY = 8
+  return middleLineY - staffOffset * halfStepY
 }
 
 function parseTempo(xmlDocument) {
@@ -222,11 +263,13 @@ function parseMusicXmlRhythms(fileText) {
         const explicitHand = extractStickFromMusicXmlNote(child)
         const hand = explicitHand ?? alternateHand
         alternateHand = hand === 'R' ? 'L' : 'R'
+        const staffOffset = staffOffsetFromPitch(parsePitchPosition(child))
         events.push({
           stick: hand,
           startPulse: Math.max(0, Math.round((startDivisions / currentDivisions) * PULSES_PER_QUARTER)),
           durationPulses,
           beamCount,
+          staffOffset,
         })
       }
 
@@ -248,6 +291,7 @@ function parseMusicXmlRhythms(fileText) {
         startPulse: Math.min(pulsesPerBar - 1, event.startPulse),
         durationPulses: event.durationPulses,
         beamCount: event.beamCount,
+        staffOffset: event.staffOffset,
       }))
       .sort((a, b) => a.startPulse - b.startPulse)
 
@@ -697,7 +741,6 @@ function App() {
   const canPause = phase === 'playing' || phase === 'countIn'
   const hasRhythms = rhythms.length > 0
   const lineYs = [42, 58, 74, 90, 106]
-  const noteY = 74
   const staffXStart = 40
   const staffXEnd = 1110
   const noteAreaStart = staffXStart + 110
@@ -907,13 +950,14 @@ function App() {
               })}
               {currentRhythm.notes.map((note, index) => {
                 const x = noteAreaStart + (note.startPulse / currentRhythm.pulsesPerBar) * noteAreaWidth
+                const y = staffYForOffset(note.staffOffset ?? DEFAULT_SNARE_STAFF_OFFSET)
                 const isActive = index === activeNoteIndex
                 return (
                   <g key={note.id}>
-                    <line x1={x + 10} y1={noteY} x2={x + 10} y2="28" className="note-stem" />
+                    <line x1={x + 10} y1={y} x2={x + 10} y2="28" className="note-stem" />
                     <ellipse
                       cx={x}
-                      cy={noteY}
+                      cy={y}
                       rx="10"
                       ry="7"
                       className={`note-head ${isActive ? 'active' : ''}`}

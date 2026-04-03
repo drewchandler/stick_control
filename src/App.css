@@ -151,19 +151,29 @@ button:disabled {
   font-weight: 700;
 }
 
-.time-signature {
-  font-size: 17px;
+.percussion-clef-bar {
+  fill: #222;
+}
+
+.cut-time-glyph {
+  font-size: 38px;
+  font-weight: 600;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  fill: #222;
+}
+
+.cut-time-slasher {
+  stroke: #222;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.time-signature-top,
+.time-signature-bottom {
+  font-size: 24px;
   font-weight: 700;
-  fill: #222;
-}
-
-.perc-clef {
-  font-size: 34px;
-  fill: #222;
-}
-
-.cut-time {
-  font-size: 28px;
+  text-anchor: middle;
   fill: #222;
 }
 

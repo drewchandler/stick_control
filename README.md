@@ -41,3 +41,16 @@ Then open the local Vite URL shown in the terminal.
 ```bash
 npm run build
 ```
+
+## Deploy to GitHub Pages
+
+This repo now includes a GitHub Actions workflow at:
+
+- `.github/workflows/deploy-pages.yml`
+
+To enable hosting:
+
+1. Open your repository settings on GitHub.
+2. Go to **Pages**.
+3. Set **Source** to **GitHub Actions**.
+4. Push to `main` (or run the workflow manually) to publish.

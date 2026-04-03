@@ -76,6 +76,83 @@ function timingFromSignature(beats, beatType) {
   }
 }
 
+function isCutTimeSignature(beats, beatType, timeSymbol) {
+  const normalized = String(timeSymbol || '').toLowerCase()
+  return normalized === 'cut' || normalized === 'cut-time' || (beats === 2 && beatType === 2)
+}
+
+function beamCountForNote(noteElement, durationDivisions, currentDivisions) {
+  const typeText = (noteElement.querySelector('type')?.textContent ?? '').trim().toLowerCase()
+  if (typeText === '32nd') {
+    return 3
+  }
+  if (typeText === '16th') {
+    return 2
+  }
+  if (typeText === 'eighth' || typeText === '8th') {
+    return 1
+  }
+
+  const durationInQuarters = currentDivisions > 0 ? durationDivisions / currentDivisions : 0
+  if (durationInQuarters <= 0.125) {
+    return 3
+  }
+  if (durationInQuarters <= 0.25) {
+    return 2
+  }
+  if (durationInQuarters <= 0.5) {
+    return 1
+  }
+  return 0
+}
+
+function buildBeamSegments(notes, pulsesPerBeat) {
+  const segments = []
+  if (!notes.length) {
+    return segments
+  }
+
+  function flushRun(level, run) {
+    if (run.length < 2) {
+      return
+    }
+    segments.push({
+      level,
+      startPulse: run[0].startPulse,
+      endPulse: run[run.length - 1].startPulse,
+    })
+  }
+
+  for (let level = 1; level <= 3; level += 1) {
+    let run = []
+    for (const note of notes) {
+      if (note.beamCount < level) {
+        flushRun(level, run)
+        run = []
+        continue
+      }
+
+      if (!run.length) {
+        run = [note]
+        continue
+      }
+
+      const previous = run[run.length - 1]
+      const sameBeat = Math.floor(previous.startPulse / pulsesPerBeat) === Math.floor(note.startPulse / pulsesPerBeat)
+      const contiguous = note.startPulse <= previous.startPulse + Math.max(1, previous.durationPulses) + 1
+      if (sameBeat && contiguous) {
+        run.push(note)
+      } else {
+        flushRun(level, run)
+        run = [note]
+      }
+    }
+    flushRun(level, run)
+  }
+
+  return segments
+}
+
 function parseMusicXmlRhythms(fileText) {
   const parser = new window.DOMParser()
   const xml = parser.parseFromString(fileText, 'application/xml')
@@ -97,6 +174,7 @@ function parseMusicXmlRhythms(fileText) {
   const rhythms = []
   let currentBeats = 4
   let currentBeatType = 4
+  let currentTimeSymbol = ''
   let currentDivisions = 1
 
   for (const measure of Array.from(part.querySelectorAll('measure'))) {
@@ -107,6 +185,7 @@ function parseMusicXmlRhythms(fileText) {
       if (time) {
         currentBeats = parseNumericText(time.querySelector('beats'), currentBeats)
         currentBeatType = parseNumericText(time.querySelector('beat-type'), currentBeatType)
+        currentTimeSymbol = (time.getAttribute('symbol') ?? '').toLowerCase()
       }
     }
 
@@ -133,6 +212,11 @@ function parseMusicXmlRhythms(fileText) {
       const isChord = Boolean(child.querySelector('chord'))
       const durationDivisions = parseNumericText(child.querySelector('duration'), 0)
       const startDivisions = isChord ? Math.max(0, elapsedDivisions - durationDivisions) : elapsedDivisions
+      const durationPulses = Math.max(
+        1,
+        Math.round(((durationDivisions || 1) / Math.max(1, currentDivisions)) * PULSES_PER_QUARTER),
+      )
+      const beamCount = beamCountForNote(child, durationDivisions, currentDivisions)
 
       if (!isRest && !isGrace) {
         const explicitHand = extractStickFromMusicXmlNote(child)
@@ -141,6 +225,8 @@ function parseMusicXmlRhythms(fileText) {
         events.push({
           stick: hand,
           startPulse: Math.max(0, Math.round((startDivisions / currentDivisions) * PULSES_PER_QUARTER)),
+          durationPulses,
+          beamCount,
         })
       }
 
@@ -160,6 +246,8 @@ function parseMusicXmlRhythms(fileText) {
         id: `${measure.getAttribute('number') || rhythms.length + 1}-${index}`,
         stick: event.stick,
         startPulse: Math.min(pulsesPerBar - 1, event.startPulse),
+        durationPulses: event.durationPulses,
+        beamCount: event.beamCount,
       }))
       .sort((a, b) => a.startPulse - b.startPulse)
 
@@ -167,6 +255,7 @@ function parseMusicXmlRhythms(fileText) {
       name: `${title} - Measure ${measure.getAttribute('number') || rhythms.length + 1}`,
       beats: currentBeats,
       beatType: currentBeatType,
+      timeSymbol: currentTimeSymbol,
       pulsesPerBar,
       notes,
     })
@@ -611,14 +700,23 @@ function App() {
   const noteY = 74
   const staffXStart = 40
   const staffXEnd = 1110
-  const staffWidth = staffXEnd - staffXStart
+  const noteAreaStart = staffXStart + 110
+  const noteAreaWidth = staffXEnd - noteAreaStart
+  const staffPrefixCenterX = staffXStart + 52
+  const showCutTime =
+    currentRhythm != null &&
+    isCutTimeSignature(currentRhythm.beats, currentRhythm.beatType, currentRhythm.timeSymbol)
   const beatSeparators =
     currentRhythm == null
       ? []
       : Array.from({ length: Math.max(0, currentRhythm.beats - 1) }, (_, idx) => {
           const pulse = (idx + 1) * getRhythmTiming(currentRhythm).pulsesPerBeat
-          return staffXStart + (pulse / currentRhythm.pulsesPerBar) * staffWidth
+          return noteAreaStart + (pulse / currentRhythm.pulsesPerBar) * noteAreaWidth
         })
+  const beamSegments =
+    currentRhythm == null
+      ? []
+      : buildBeamSegments(currentRhythm.notes, getRhythmTiming(currentRhythm).pulsesPerBeat)
 
   return (
     <main className="app">
@@ -764,11 +862,51 @@ function App() {
 
           {currentRhythm ? (
             <>
-              <text x="55" y="32" className="time-signature">
-                {currentRhythm.beats}/{currentRhythm.beatType}
-              </text>
+              <g className="staff-prefix" aria-hidden="true">
+                <rect x={staffXStart + 12} y="53" width="6" height="42" className="percussion-clef-bar" />
+                <rect x={staffXStart + 24} y="53" width="6" height="42" className="percussion-clef-bar" />
+                {showCutTime ? (
+                  <>
+                    <text x={staffPrefixCenterX} y="96" className="cut-time-glyph">
+                      C
+                    </text>
+                    <line
+                      x1={staffPrefixCenterX + 6}
+                      y1="50"
+                      x2={staffPrefixCenterX + 6}
+                      y2="98"
+                      className="cut-time-slasher"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <text x={staffPrefixCenterX + 7} y="64" className="time-signature-top">
+                      {currentRhythm.beats}
+                    </text>
+                    <text x={staffPrefixCenterX + 7} y="98" className="time-signature-bottom">
+                      {currentRhythm.beatType}
+                    </text>
+                  </>
+                )}
+              </g>
+              {beamSegments.map((segment) => {
+                const startX =
+                  noteAreaStart + (segment.startPulse / currentRhythm.pulsesPerBar) * noteAreaWidth + 10
+                const endX = noteAreaStart + (segment.endPulse / currentRhythm.pulsesPerBar) * noteAreaWidth + 10
+                const y = 28 + (segment.level - 1) * 6
+                return (
+                  <line
+                    key={`beam-${segment.level}-${segment.startPulse}-${segment.endPulse}`}
+                    x1={startX}
+                    y1={y}
+                    x2={endX}
+                    y2={y}
+                    className="note-beam"
+                  />
+                )
+              })}
               {currentRhythm.notes.map((note, index) => {
-                const x = staffXStart + (note.startPulse / currentRhythm.pulsesPerBar) * staffWidth
+                const x = noteAreaStart + (note.startPulse / currentRhythm.pulsesPerBar) * noteAreaWidth
                 const isActive = index === activeNoteIndex
                 return (
                   <g key={note.id}>

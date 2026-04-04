@@ -138,6 +138,39 @@
   right: 6px;
 }
 
+.icon-metronome {
+  width: 16px;
+  height: 18px;
+  border: 2px solid #111;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  position: relative;
+}
+
+.icon-metronome::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 3px;
+  width: 2px;
+  height: 10px;
+  background: #111;
+  transform: rotate(22deg);
+  transform-origin: top center;
+}
+
+.icon-metronome::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: -6px;
+  width: 2px;
+  height: 7px;
+  background: #111;
+}
+
 .tempo-control {
   display: inline-flex;
   align-items: center;
@@ -365,6 +398,26 @@ button:disabled {
   border-radius: 12px;
   padding: 18px;
   max-width: 520px;
+}
+
+.modal-title {
+  margin: 0 0 12px;
+}
+
+.metronome-modal {
+  width: min(520px, 100%);
+}
+
+.modal-grid {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.toggle-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 @media (max-width: 720px) {

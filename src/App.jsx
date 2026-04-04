@@ -331,7 +331,9 @@ function App() {
   const [tempoInput, setTempoInput] = useState('90')
   const [repetitions, setRepetitions] = useState(20)
   const [countInBars, setCountInBars] = useState(1)
+  const [countInEnabled, setCountInEnabled] = useState(true)
   const [metSubdivision, setMetSubdivision] = useState(16)
+  const [metronomeMode, setMetronomeMode] = useState('subdivision')
   const [rhythms, setRhythms] = useState([])
   const [currentRhythmIndex, setCurrentRhythmIndex] = useState(0)
   const [currentRep, setCurrentRep] = useState(0)
@@ -340,6 +342,7 @@ function App() {
   const [phase, setPhase] = useState('stopped')
   const [transportState, setTransportState] = useState('Stopped')
   const [showNextModal, setShowNextModal] = useState(false)
+  const [showMetronomeModal, setShowMetronomeModal] = useState(false)
   const [modalText, setModalText] = useState('')
   const [importStatus, setImportStatus] = useState('Load a MusicXML file to begin.')
   const [importError, setImportError] = useState('')
@@ -364,12 +367,14 @@ function App() {
     bpm,
     repetitions,
     countInBars,
+    countInEnabled,
     metSubdivision,
+    metronomeMode,
   })
 
   useEffect(() => {
-    settingsRef.current = { bpm, repetitions, countInBars, metSubdivision }
-  }, [bpm, repetitions, countInBars, metSubdivision])
+    settingsRef.current = { bpm, repetitions, countInBars, countInEnabled, metSubdivision, metronomeMode }
+  }, [bpm, repetitions, countInBars, countInEnabled, metSubdivision, metronomeMode])
 
   useEffect(() => {
     setTempoInput(String(bpm))
@@ -494,8 +499,10 @@ function App() {
     const runtime = runtimeRef.current
     const timing = getRhythmTiming(rhythm)
     const subdivisionStep = subdivisionPulseStep(settingsRef.current.metSubdivision)
+    const clickMode = settingsRef.current.metronomeMode
+    const clickStep = clickMode === 'subdivision' ? subdivisionStep : timing.pulsesPerBeat
 
-    if (pulseInBar % subdivisionStep === 0) {
+    if (clickMode !== 'off' && pulseInBar % clickStep === 0) {
       const isBeatBoundary = pulseInBar % timing.pulsesPerBeat === 0
       if (isBeatBoundary) {
         const beat = Math.floor(pulseInBar / timing.pulsesPerBeat) + 1
@@ -504,7 +511,7 @@ function App() {
         scheduleUiAtAudioTime(pulseTime, () => {
           setCurrentBeat(String(beat))
         })
-      } else {
+      } else if (clickMode === 'subdivision') {
         playClick(pulseTime, 720, 0.08, 0.04)
       }
     }
@@ -612,18 +619,26 @@ function App() {
     }
 
     clearScheduledUiUpdates()
-    setRuntimePhase('countIn')
-    runtimeRef.current.countInPulsesRemaining = settingsRef.current.countInBars * currentRhythm.pulsesPerBar
     runtimeRef.current.completedReps = 0
     runtimeRef.current.rhythmIndex = currentRhythmIndex
     runtimeRef.current.noteCursor = 0
 
     clockRef.current.pulseInBar = 0
     setCurrentRep(0)
-    setActiveNoteIndex(null)
     setCurrentBeat('-')
-    setTransportState('Count-in')
     setImportError('')
+    if (settingsRef.current.countInEnabled) {
+      setRuntimePhase('countIn')
+      runtimeRef.current.countInPulsesRemaining = settingsRef.current.countInBars * currentRhythm.pulsesPerBar
+      setActiveNoteIndex(null)
+      setTransportState('Count-in')
+    } else {
+      setRuntimePhase('playing')
+      runtimeRef.current.countInPulsesRemaining = 0
+      const firstAtZero = currentRhythm.notes.findIndex((note) => note.startPulse === 0)
+      setActiveNoteIndex(firstAtZero >= 0 ? firstAtZero : null)
+      setTransportState('Playing')
+    }
     startScheduler()
   }
 
@@ -948,6 +963,14 @@ function App() {
           >
             <span className="icon-skip icon-skip-right" aria-hidden="true" />
           </button>
+          <button
+            type="button"
+            className="transport-icon-button"
+            onClick={() => setShowMetronomeModal(true)}
+            aria-label="Open metronome settings"
+          >
+            <span className="icon-metronome" aria-hidden="true" />
+          </button>
           <div className="tempo-control" aria-label="Tempo control">
             <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
               -
@@ -1004,33 +1027,6 @@ function App() {
               />
             </div>
             <div className="control-row">
-              <label htmlFor="countInBars">Count-in bars</label>
-              <input
-                id="countInBars"
-                type="number"
-                min="1"
-                max="4"
-                value={countInBars}
-                disabled={controlsDisabled}
-                onChange={(event) => setCountInBars(Math.max(1, Math.min(4, Number(event.target.value) || 1)))}
-              />
-            </div>
-            <div className="control-row">
-              <label htmlFor="metSubdivision">Metronome subdivision</label>
-              <select
-                id="metSubdivision"
-                value={metSubdivision}
-                disabled={controlsDisabled}
-                onChange={(event) => setMetSubdivision(Number(event.target.value))}
-              >
-                {SUBDIVISIONS.map((subdivision) => (
-                  <option key={subdivision.value} value={subdivision.value}>
-                    {subdivision.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="control-row">
               <label htmlFor="rhythm">Rhythm (measure)</label>
               <select
                 id="rhythm"
@@ -1046,9 +1042,76 @@ function App() {
               </select>
             </div>
           </div>
-          <p className="hint">Use settings when stopped; quick transport controls stay visible above.</p>
+          <p className="hint">Use settings when stopped; metronome and count-in live under the metronome button.</p>
         </details>
       </section>
+
+      {showMetronomeModal && (
+        <div className="modal-backdrop" role="presentation">
+          <div className="modal-card metronome-modal" role="dialog" aria-modal="true" aria-label="Metronome settings">
+            <h3 className="modal-title">Metronome settings</h3>
+            <div className="modal-grid">
+              <div className="control-row">
+                <label htmlFor="metronomeMode">Click pattern</label>
+                <select
+                  id="metronomeMode"
+                  value={metronomeMode}
+                  onChange={(event) => setMetronomeMode(event.target.value)}
+                >
+                  <option value="off">Off</option>
+                  <option value="beats">Beats only</option>
+                  <option value="subdivision">Beats + subdivision</option>
+                </select>
+              </div>
+              {metronomeMode === 'subdivision' && (
+                <div className="control-row">
+                  <label htmlFor="metSubdivision">Subdivision note value</label>
+                  <select
+                    id="metSubdivision"
+                    value={metSubdivision}
+                    onChange={(event) => setMetSubdivision(Number(event.target.value))}
+                  >
+                    {SUBDIVISIONS.map((subdivision) => (
+                      <option key={subdivision.value} value={subdivision.value}>
+                        {subdivision.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              <div className="control-row">
+                <label className="toggle-row" htmlFor="countInEnabled">
+                  <input
+                    id="countInEnabled"
+                    type="checkbox"
+                    checked={countInEnabled}
+                    onChange={(event) => setCountInEnabled(event.target.checked)}
+                  />
+                  Enable count-in
+                </label>
+              </div>
+              {countInEnabled && (
+                <div className="control-row">
+                  <label htmlFor="countInBars">Count-in bars</label>
+                  <input
+                    id="countInBars"
+                    type="number"
+                    min="1"
+                    max="4"
+                    value={countInBars}
+                    onChange={(event) => setCountInBars(Math.max(1, Math.min(4, Number(event.target.value) || 1)))}
+                  />
+                </div>
+              )}
+            </div>
+            <div className="button-row">
+              <button type="button" onClick={() => setShowMetronomeModal(false)}>
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showNextModal && (
         <div className="modal-backdrop" role="presentation">

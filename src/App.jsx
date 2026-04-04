@@ -346,10 +346,11 @@ function App() {
   const [showUploadModal, setShowUploadModal] = useState(false)
   const [showMetronomeModal, setShowMetronomeModal] = useState(false)
   const [modalText, setModalText] = useState('')
-  const [importStatus, setImportStatus] = useState('Load a MusicXML file to begin.')
+  const [importStatus, setImportStatus] = useState('Loading bundled sample MusicXML...')
   const [importError, setImportError] = useState('')
 
   const fileInputRef = useRef(null)
+  const hasAutoLoadedSampleRef = useRef(false)
   const audioContextRef = useRef(null)
   const audioUnlockedRef = useRef(false)
   const schedulerIdRef = useRef(null)
@@ -790,6 +791,14 @@ function App() {
       setImportStatus('')
     }
   }
+
+  useEffect(() => {
+    if (hasAutoLoadedSampleRef.current) {
+      return
+    }
+    hasAutoLoadedSampleRef.current = true
+    handleLoadSample()
+  }, [])
 
   function handleOpenFilePicker() {
     fileInputRef.current?.click()

@@ -978,22 +978,6 @@ function App() {
           >
             <SkipForward size={18} className="transport-icon" aria-hidden="true" />
           </button>
-          <button
-            type="button"
-            className="transport-icon-button"
-            onClick={() => setShowUploadModal(true)}
-            aria-label="Open upload options"
-          >
-            <Upload size={18} className="transport-icon" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            className="transport-icon-button"
-            onClick={() => setShowMetronomeModal(true)}
-            aria-label="Open settings"
-          >
-            <Settings size={18} className="transport-icon" aria-hidden="true" />
-          </button>
           <div className="tempo-control" aria-label="Tempo control">
             <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
               -
@@ -1019,6 +1003,22 @@ function App() {
               +
             </button>
           </div>
+          <button
+            type="button"
+            className="transport-icon-button"
+            onClick={() => setShowUploadModal(true)}
+            aria-label="Open upload options"
+          >
+            <Upload size={18} className="transport-icon" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="transport-icon-button"
+            onClick={() => setShowMetronomeModal(true)}
+            aria-label="Open settings"
+          >
+            <Settings size={18} className="transport-icon" aria-hidden="true" />
+          </button>
         </div>
       </section>
 

@@ -567,7 +567,7 @@ function App() {
   const [activeNoteIndex, setActiveNoteIndex] = useState(null)
   const [currentBeat, setCurrentBeat] = useState('-')
   const [phase, setPhase] = useState('stopped')
-  const [transportState, setTransportState] = useState('Stopped')
+  const [transportState, setTransportState] = useState('')
   const [showNextModal, setShowNextModal] = useState(false)
   const [showUploadModal, setShowUploadModal] = useState(false)
   const [showMetronomeModal, setShowMetronomeModal] = useState(false)
@@ -903,7 +903,7 @@ function App() {
     setCurrentRep(0)
     setActiveNoteIndex(null)
     setCurrentBeat('-')
-    setTransportState('Stopped')
+    setTransportState('')
     setShowNextModal(false)
   }
 
@@ -1280,7 +1280,7 @@ function App() {
             <span>Rep {currentRep}/{repetitions}</span>
             <span>Beat {currentBeat}</span>
             <span>{timeSignatureLabel}</span>
-            <span>{transportState}</span>
+            {transportState && <span>{transportState}</span>}
           </div>
           {importError && <p className="import-error">{importError}</p>}
         </div>

@@ -360,6 +360,20 @@ button:disabled {
   fill: #6b6b6b;
 }
 
+.repeat-bar-thin {
+  stroke: #1a1a1a;
+  stroke-width: 1.4;
+}
+
+.repeat-bar-thick {
+  stroke: #111;
+  stroke-width: 3;
+}
+
+.repeat-dot {
+  fill: #111;
+}
+
 .advanced-panel summary {
   cursor: pointer;
   font-weight: 600;

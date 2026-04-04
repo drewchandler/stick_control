@@ -847,7 +847,16 @@ function App() {
           ))}
 
           <line x1={staffXStart} y1="24" x2={staffXStart} y2="145" className="bar-line" />
-          <line x1={staffXEnd} y1="24" x2={staffXEnd} y2="145" className="bar-line" />
+          {currentRhythm ? (
+            <g className="repeat-ending" aria-hidden="true">
+              <line x1={staffXEnd - 9} y1="24" x2={staffXEnd - 9} y2="145" className="repeat-bar-thin" />
+              <line x1={staffXEnd} y1="24" x2={staffXEnd} y2="145" className="repeat-bar-thick" />
+              <circle cx={staffXEnd - 15} cy="66" r="2.8" className="repeat-dot" />
+              <circle cx={staffXEnd - 15} cy="82" r="2.8" className="repeat-dot" />
+            </g>
+          ) : (
+            <line x1={staffXEnd} y1="24" x2={staffXEnd} y2="145" className="bar-line" />
+          )}
 
           {currentRhythm ? (
             <>

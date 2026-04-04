@@ -910,7 +910,7 @@ function App() {
                 <rect x={staffXStart + 24} y="53" width="6" height="42" className="percussion-clef-bar" />
                 {showCutTime ? (
                   <>
-                    <text x={staffPrefixCenterX} y="96" className="cut-time-glyph">
+                    <text x={staffPrefixCenterX} y="74" className="cut-time-glyph">
                       C
                     </text>
                     <line

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Pause, Play, Settings, SkipBack, SkipForward, Upload } from 'lucide-react'
+import { ChevronDown, Pause, Play, Settings, SkipBack, SkipForward, Upload } from 'lucide-react'
 import './App.css'
 
 const PULSES_PER_QUARTER = 24
@@ -574,8 +574,10 @@ function App() {
   const [modalText, setModalText] = useState('')
   const [importStatus, setImportStatus] = useState('Loading bundled sample MusicXML...')
   const [importError, setImportError] = useState('')
+  const [showExerciseDropdown, setShowExerciseDropdown] = useState(false)
 
   const fileInputRef = useRef(null)
+  const exerciseDropdownRef = useRef(null)
   const hasAutoLoadedSampleRef = useRef(false)
   const audioContextRef = useRef(null)
   const audioUnlockedRef = useRef(false)
@@ -613,6 +615,40 @@ function App() {
   useEffect(() => {
     runtimeRef.current.rhythmIndex = currentRhythmIndex
   }, [currentRhythmIndex])
+
+  useEffect(() => {
+    if (!showExerciseDropdown) {
+      return undefined
+    }
+    function handleDocumentClick(event) {
+      if (!exerciseDropdownRef.current?.contains(event.target)) {
+        setShowExerciseDropdown(false)
+      }
+    }
+    function handleEscape(event) {
+      if (event.key === 'Escape') {
+        setShowExerciseDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleDocumentClick)
+    document.addEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('mousedown', handleDocumentClick)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [showExerciseDropdown])
+
+  useEffect(() => {
+    if (!importStatus) {
+      return undefined
+    }
+    const timeoutId = window.setTimeout(() => {
+      setImportStatus('')
+    }, 3600)
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
+  }, [importStatus])
 
   useEffect(() => {
     rhythmsRef.current = rhythms
@@ -695,10 +731,6 @@ function App() {
 
   function secondsPerPulse() {
     return 60 / settingsRef.current.bpm / PULSES_PER_QUARTER
-  }
-
-  function getRhythmTiming(rhythm) {
-    return timingFromSignature(rhythm.beats, rhythm.beatType)
   }
 
   function playClick(time, frequency, gainAmount, durationSeconds) {
@@ -951,14 +983,14 @@ function App() {
     runtimeRef.current.rhythmIndex = previousIndex
   }
 
-  function handleRhythmSelect(event) {
-    const newIndex = Number(event.target.value)
+  function handleRhythmSelect(newIndex) {
     if (!Number.isInteger(newIndex) || newIndex < 0 || newIndex >= rhythms.length) {
       return
     }
     handleReset()
     setCurrentRhythmIndex(newIndex)
     runtimeRef.current.rhythmIndex = newIndex
+    setShowExerciseDropdown(false)
   }
 
   async function handleRhythmFileChange(event) {
@@ -1124,6 +1156,7 @@ function App() {
       ? 'Cut Time'
       : `${rhythmMeasures[0].beats}/${rhythmMeasures[0].beatType}`
     : '-'
+  const currentExerciseLabel = hasRhythms ? currentRhythm?.name ?? `Exercise ${currentRhythmIndex + 1}` : 'No exercises loaded'
 
   return (
     <main className="app">
@@ -1249,7 +1282,6 @@ function App() {
             <span>{timeSignatureLabel}</span>
             <span>{transportState}</span>
           </div>
-          {importStatus && <p className="import-success">{importStatus}</p>}
           {importError && <p className="import-error">{importError}</p>}
         </div>
         <div className="transport-row" aria-label="Playback controls">
@@ -1284,6 +1316,37 @@ function App() {
           >
             <SkipForward size={18} className="transport-icon" aria-hidden="true" />
           </button>
+          <div className="exercise-dropdown" ref={exerciseDropdownRef}>
+            <button
+              type="button"
+              className="exercise-trigger"
+              disabled={controlsDisabled || !hasRhythms}
+              onClick={() => setShowExerciseDropdown((open) => !open)}
+              aria-expanded={showExerciseDropdown}
+              aria-haspopup="listbox"
+              aria-label="Select exercise"
+            >
+              <span className="exercise-trigger-label">{currentExerciseLabel}</span>
+              <ChevronDown size={16} className="transport-icon" aria-hidden="true" />
+            </button>
+            {showExerciseDropdown && hasRhythms && (
+              <div className="exercise-dropdown-menu" role="listbox" aria-label="Exercises">
+                {rhythms.map((rhythm, index) => (
+                  <button
+                    key={`${rhythm.name}-${index}`}
+                    type="button"
+                    className={`exercise-option ${index === currentRhythmIndex ? 'active' : ''}`}
+                    role="option"
+                    aria-selected={index === currentRhythmIndex}
+                    onClick={() => handleRhythmSelect(index)}
+                  >
+                    <span className="exercise-option-index">{index + 1}.</span>
+                    <span>{rhythm.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <div className="tempo-control" aria-label="Tempo control">
             <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
               -
@@ -1380,21 +1443,6 @@ function App() {
                 />
               </div>
               <div className="control-row">
-                <label htmlFor="rhythm">Rhythm (exercise)</label>
-                <select
-                  id="rhythm"
-                  value={currentRhythmIndex}
-                  disabled={controlsDisabled || !hasRhythms}
-                  onChange={handleRhythmSelect}
-                >
-                  {rhythms.map((rhythm, index) => (
-                    <option key={`${rhythm.name}-${index}`} value={index}>
-                      {rhythm.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="control-row">
                 <label htmlFor="metronomeMode">Click pattern</label>
                 <select
                   id="metronomeMode"
@@ -1472,6 +1520,11 @@ function App() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+      {importStatus && (
+        <div className="toast toast-success" role="status" aria-live="polite">
+          {importStatus}
         </div>
       )}
     </main>

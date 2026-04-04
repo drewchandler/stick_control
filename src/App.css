@@ -83,6 +83,66 @@
   color: #242424;
 }
 
+.exercise-dropdown {
+  position: relative;
+}
+
+.exercise-trigger {
+  min-width: 230px;
+  max-width: 360px;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.exercise-trigger-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exercise-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: min(76vw, 400px);
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 15;
+  border: 1px solid #c8c8c8;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+  padding: 4px;
+}
+
+.exercise-option {
+  width: 100%;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  text-align: left;
+  justify-content: flex-start;
+  gap: 7px;
+  padding: 8px 9px;
+}
+
+.exercise-option:hover:not(:disabled),
+.exercise-option:focus {
+  background: #eceff8;
+  border-color: transparent;
+  outline: none;
+}
+
+.exercise-option.active {
+  background: #dde4f5;
+  font-weight: 600;
+}
+
+.exercise-option-index {
+  color: #5b5b5b;
+  min-width: 20px;
+}
+
 .tempo-control button {
   width: 30px;
   min-width: 30px;
@@ -456,6 +516,15 @@ button:disabled {
   .tempo-control {
     margin-left: 0;
     gap: 4px;
+  }
+
+  .exercise-trigger {
+    min-width: 190px;
+    max-width: min(100%, 280px);
+  }
+
+  .exercise-dropdown-menu {
+    min-width: min(86vw, 320px);
   }
 
   .transport-row .tempo-control {

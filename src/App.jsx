@@ -804,19 +804,6 @@ function App() {
         onChange={handleRhythmFileChange}
       />
 
-      <section className="panel status-compact" aria-live="polite">
-        <p className="current-rhythm-name">{currentRhythm?.name ?? 'No MusicXML loaded'}</p>
-        <div className="meta-row">
-          <span>Rhythm {hasRhythms ? `${currentRhythmIndex + 1}/${rhythms.length}` : '0/0'}</span>
-          <span>Rep {currentRep}/{repetitions}</span>
-          <span>Beat {currentBeat}</span>
-          <span>{timeSignatureLabel}</span>
-          <span>{transportState}</span>
-        </div>
-        {importStatus && <p className="import-success">{importStatus}</p>}
-        {importError && <p className="import-error">{importError}</p>}
-      </section>
-
       <section className="panel notation">
         <h2>Drum Staff</h2>
         <svg className="staff-svg" viewBox="0 0 1150 180" role="img" aria-label="Snare drum sticking staff">
@@ -906,6 +893,18 @@ function App() {
       </section>
 
       <section className="panel transport-panel transport-under-staff">
+        <div className="status-compact transport-status" aria-live="polite">
+          <p className="current-rhythm-name">{currentRhythm?.name ?? 'No MusicXML loaded'}</p>
+          <div className="meta-row">
+            <span>Rhythm {hasRhythms ? `${currentRhythmIndex + 1}/${rhythms.length}` : '0/0'}</span>
+            <span>Rep {currentRep}/{repetitions}</span>
+            <span>Beat {currentBeat}</span>
+            <span>{timeSignatureLabel}</span>
+            <span>{transportState}</span>
+          </div>
+          {importStatus && <p className="import-success">{importStatus}</p>}
+          {importError && <p className="import-error">{importError}</p>}
+        </div>
         <div className="transport-row" aria-label="Playback controls">
           <button
             type="button"

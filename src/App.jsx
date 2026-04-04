@@ -1066,9 +1066,6 @@ function App() {
   }
 
   function adjustBpm(delta) {
-    if (controlsDisabled) {
-      return
-    }
     setBpm((previous) => Math.max(30, Math.min(260, previous + delta)))
   }
 
@@ -1364,7 +1361,7 @@ function App() {
             )}
           </div>
           <div className="tempo-control" aria-label="Tempo control">
-            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
+            <button type="button" onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
               -
             </button>
             <input
@@ -1373,7 +1370,6 @@ function App() {
               inputMode="numeric"
               aria-label="Tempo BPM"
               value={tempoInput}
-              disabled={controlsDisabled}
               onChange={(event) => setTempoInput(event.target.value)}
               onBlur={commitTempoInput}
               onKeyDown={(event) => {
@@ -1384,7 +1380,7 @@ function App() {
               }}
             />
             <span>BPM</span>
-            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(1)} aria-label="Increase tempo">
+            <button type="button" onClick={() => adjustBpm(1)} aria-label="Increase tempo">
               +
             </button>
           </div>

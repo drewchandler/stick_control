@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { FileMusic, Pause, Play, RotateCcw, Settings, SkipBack, SkipForward, Upload, X } from 'lucide-react'
 import './App.css'
 
 const PULSES_PER_QUARTER = 24
@@ -312,7 +313,7 @@ function parseMusicXmlRhythms(fileText) {
   return { rhythms: rhythms.slice(0, 256), tempo }
 }
 
-function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythms, runtimeRef, setCurrentRhythmIndex, setImportStatus, setImportError) {
+function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythms, runtimeRef, setCurrentRhythmIndex, setImportToast, setImportError) {
   handleReset()
   setRhythms(parsed.rhythms)
   setCurrentRhythmIndex(0)
@@ -320,7 +321,7 @@ function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythm
   if (parsed.tempo) {
     setBpm(Math.max(30, Math.min(260, Math.round(parsed.tempo))))
   }
-  setImportStatus(
+  setImportToast(
     `Loaded ${parsed.rhythms.length} measure(s) from "${sourceLabel}"${parsed.tempo ? ` (tempo ${Math.round(parsed.tempo)} BPM).` : '.'}`,
   )
   setImportError('')

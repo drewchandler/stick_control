@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { FileMusic, Pause, Play, RotateCcw, Settings, SkipForward, Upload, X } from 'lucide-react'
 import './App.css'
 
 const PULSES_PER_QUARTER = 24
@@ -312,7 +313,7 @@ function parseMusicXmlRhythms(fileText) {
   return { rhythms: rhythms.slice(0, 256), tempo }
 }
 
-function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythms, runtimeRef, setCurrentRhythmIndex, setImportStatus, setImportError) {
+function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythms, runtimeRef, setCurrentRhythmIndex, setImportToast, setImportError) {
   handleReset()
   setRhythms(parsed.rhythms)
   setCurrentRhythmIndex(0)
@@ -320,7 +321,7 @@ function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythm
   if (parsed.tempo) {
     setBpm(Math.max(30, Math.min(260, Math.round(parsed.tempo))))
   }
-  setImportStatus(
+  setImportToast(
     `Loaded ${parsed.rhythms.length} measure(s) from "${sourceLabel}"${parsed.tempo ? ` (tempo ${Math.round(parsed.tempo)} BPM).` : '.'}`,
   )
   setImportError('')
@@ -339,8 +340,9 @@ function App() {
   const [phase, setPhase] = useState('stopped')
   const [transportState, setTransportState] = useState('Stopped')
   const [showNextModal, setShowNextModal] = useState(false)
+  const [showSettingsModal, setShowSettingsModal] = useState(false)
   const [modalText, setModalText] = useState('')
-  const [importStatus, setImportStatus] = useState('Load a MusicXML file to begin.')
+  const [importToast, setImportToast] = useState('')
   const [importError, setImportError] = useState('')
 
   const audioContextRef = useRef(null)
@@ -385,6 +387,18 @@ function App() {
       runtimeRef.current.rhythmIndex = 0
     }
   }, [rhythms, currentRhythmIndex])
+
+  useEffect(() => {
+    if (!importToast) {
+      return undefined
+    }
+    const timeoutId = window.setTimeout(() => {
+      setImportToast('')
+    }, 3800)
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
+  }, [importToast])
 
   const currentRhythm = useMemo(() => rhythms[currentRhythmIndex] ?? null, [rhythms, currentRhythmIndex])
 
@@ -623,6 +637,7 @@ function App() {
 
   function handlePlay() {
     setShowNextModal(false)
+    setShowSettingsModal(false)
     const currentPhase = runtimeRef.current.phase
     if (currentPhase === 'paused') {
       setRuntimePhase('playing')
@@ -688,13 +703,13 @@ function App() {
         setRhythms,
         runtimeRef,
         setCurrentRhythmIndex,
-        setImportStatus,
+        setImportToast,
         setImportError,
       )
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to load MusicXML file.'
       setImportError(message)
-      setImportStatus('')
+      setImportToast('')
     } finally {
       event.target.value = ''
     }
@@ -716,13 +731,13 @@ function App() {
         setRhythms,
         runtimeRef,
         setCurrentRhythmIndex,
-        setImportStatus,
+        setImportToast,
         setImportError,
       )
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to load sample MusicXML file.'
       setImportError(message)
-      setImportStatus('')
+      setImportToast('')
     }
   }
 
@@ -769,89 +784,26 @@ function App() {
       </header>
 
       <section className="panel controls">
-        <div className="control-row">
-          <label htmlFor="bpm">BPM</label>
-          <input
-            id="bpm"
-            type="number"
-            min="30"
-            max="260"
-            value={bpm}
-            disabled={controlsDisabled}
-            onChange={(event) => setBpm(Math.max(30, Math.min(260, Number(event.target.value) || 90)))}
-          />
-        </div>
-
-        <div className="control-row">
-          <label htmlFor="repetitions">Repetitions per rhythm</label>
-          <input
-            id="repetitions"
-            type="number"
-            min="1"
-            max="200"
-            value={repetitions}
-            disabled={controlsDisabled}
-            onChange={(event) => setRepetitions(Math.max(1, Math.min(200, Number(event.target.value) || 20)))}
-          />
-        </div>
-
-        <div className="control-row">
-          <label htmlFor="countInBars">Count-in bars</label>
-          <input
-            id="countInBars"
-            type="number"
-            min="1"
-            max="4"
-            value={countInBars}
-            disabled={controlsDisabled}
-            onChange={(event) => setCountInBars(Math.max(1, Math.min(4, Number(event.target.value) || 1)))}
-          />
-        </div>
-
-        <div className="control-row">
-          <label htmlFor="metSubdivision">Metronome subdivision</label>
-          <select
-            id="metSubdivision"
-            value={metSubdivision}
-            disabled={controlsDisabled}
-            onChange={(event) => setMetSubdivision(Number(event.target.value))}
-          >
-            {SUBDIVISIONS.map((subdivision) => (
-              <option key={subdivision.value} value={subdivision.value}>
-                {subdivision.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="control-row">
-          <label htmlFor="rhythm">Rhythm (measure)</label>
-          <select
-            id="rhythm"
-            value={currentRhythmIndex}
-            disabled={controlsDisabled || !hasRhythms}
-            onChange={handleRhythmSelect}
-          >
-            {rhythms.map((rhythm, index) => (
-              <option key={`${rhythm.name}-${index}`} value={index}>
-                {rhythm.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="button-row">
+        <div className="button-row transport-row">
           <button type="button" disabled={!hasRhythms} onClick={handlePlay}>
+            <Play size={16} aria-hidden="true" />
             Play
           </button>
           <button type="button" disabled={!canPause} onClick={handlePause}>
+            <Pause size={16} aria-hidden="true" />
             Pause
           </button>
           <button type="button" onClick={handleReset}>
+            <RotateCcw size={16} aria-hidden="true" />
             Reset
           </button>
           <button type="button" disabled={!hasRhythms} onClick={handleNextRhythm}>
+            <SkipForward size={16} aria-hidden="true" />
             Next Rhythm
+          </button>
+          <button type="button" onClick={() => setShowSettingsModal(true)}>
+            <Settings size={16} aria-hidden="true" />
+            Settings
           </button>
         </div>
       </section>
@@ -859,8 +811,23 @@ function App() {
       <section className="panel status">
         <div className="status-grid">
           <div>
-            <span className="label">Current rhythm</span>
-            <span>{currentRhythm?.name ?? 'No MusicXML loaded'}</span>
+            <label className="label" htmlFor="rhythmSelect">
+              Current rhythm
+            </label>
+            <select
+              id="rhythmSelect"
+              className="status-select"
+              value={hasRhythms ? currentRhythmIndex : ''}
+              disabled={controlsDisabled || !hasRhythms}
+              onChange={handleRhythmSelect}
+            >
+              {!hasRhythms && <option value="">No MusicXML loaded</option>}
+              {rhythms.map((rhythm, index) => (
+                <option key={`${rhythm.name}-${index}`} value={index}>
+                  {rhythm.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <span className="label">Rhythm index</span>
@@ -986,12 +953,101 @@ function App() {
         <input type="file" accept=".xml,.musicxml,text/xml,application/xml" onChange={handleRhythmFileChange} />
         <div className="button-row">
           <button type="button" onClick={handleLoadSample}>
+            <FileMusic size={16} aria-hidden="true" />
             Load sample MusicXML
           </button>
         </div>
-        {importStatus && <p className="import-success">{importStatus}</p>}
+        <p className="hint import-actions">
+          <Upload size={16} aria-hidden="true" /> Use the file picker above to import your own exercises.
+        </p>
         {importError && <p className="import-error">{importError}</p>}
       </section>
+
+      {importToast && (
+        <div className="toast toast-success" role="status" aria-live="polite">
+          {importToast}
+        </div>
+      )}
+
+      {showSettingsModal && (
+        <div className="modal-backdrop" role="presentation" onClick={() => setShowSettingsModal(false)}>
+          <div
+            className="modal-card settings-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Practice settings"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="modal-header">
+              <h2>Practice settings</h2>
+              <button
+                type="button"
+                className="icon-only-button"
+                aria-label="Close settings"
+                onClick={() => setShowSettingsModal(false)}
+              >
+                <X size={18} aria-hidden="true" />
+              </button>
+            </div>
+            <div className="settings-grid">
+              <div className="control-row">
+                <label htmlFor="bpm">BPM</label>
+                <input
+                  id="bpm"
+                  type="number"
+                  min="30"
+                  max="260"
+                  value={bpm}
+                  disabled={controlsDisabled}
+                  onChange={(event) => setBpm(Math.max(30, Math.min(260, Number(event.target.value) || 90)))}
+                />
+              </div>
+
+              <div className="control-row">
+                <label htmlFor="repetitions">Repetitions per rhythm</label>
+                <input
+                  id="repetitions"
+                  type="number"
+                  min="1"
+                  max="200"
+                  value={repetitions}
+                  disabled={controlsDisabled}
+                  onChange={(event) => setRepetitions(Math.max(1, Math.min(200, Number(event.target.value) || 20)))}
+                />
+              </div>
+
+              <div className="control-row">
+                <label htmlFor="countInBars">Count-in bars</label>
+                <input
+                  id="countInBars"
+                  type="number"
+                  min="1"
+                  max="4"
+                  value={countInBars}
+                  disabled={controlsDisabled}
+                  onChange={(event) => setCountInBars(Math.max(1, Math.min(4, Number(event.target.value) || 1)))}
+                />
+              </div>
+
+              <div className="control-row">
+                <label htmlFor="metSubdivision">Metronome subdivision</label>
+                <select
+                  id="metSubdivision"
+                  value={metSubdivision}
+                  disabled={controlsDisabled}
+                  onChange={(event) => setMetSubdivision(Number(event.target.value))}
+                >
+                  {SUBDIVISIONS.map((subdivision) => (
+                    <option key={subdivision.value} value={subdivision.value}>
+                      {subdivision.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showNextModal && (
         <div className="modal-backdrop" role="presentation">

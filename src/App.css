@@ -24,8 +24,8 @@
 
 .controls {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
+  grid-template-columns: 1fr;
+  gap: 10px;
   align-items: end;
 }
 
@@ -65,6 +65,10 @@ input[type='file'] {
 
 button {
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 button:disabled {
@@ -76,6 +80,10 @@ button:disabled {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+.transport-row {
+  justify-content: flex-start;
 }
 
 .status-grid {
@@ -92,6 +100,11 @@ button:disabled {
 
 .status-grid span:last-child {
   font-size: 1.05rem;
+}
+
+.status-select {
+  width: 100%;
+  margin-top: 4px;
 }
 
 .notation h2,
@@ -203,6 +216,9 @@ button:disabled {
 
 .import-actions {
   margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .modal-backdrop {
@@ -222,8 +238,62 @@ button:disabled {
   max-width: 520px;
 }
 
+.settings-modal {
+  width: min(100%, 560px);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.icon-only-button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+.toast {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  z-index: 50;
+  max-width: min(92vw, 520px);
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid #2f6e38;
+  background: #173022;
+  color: #b9f5c3;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.34);
+}
+
+.toast-success {
+  border-color: #357d43;
+}
+
 @media (max-width: 720px) {
-  .controls {
+  .button-row.transport-row {
+    width: 100%;
+  }
+
+  .button-row.transport-row > button {
+    flex: 1 1 46%;
+  }
+
+  .settings-grid {
     grid-template-columns: 1fr;
   }
 }

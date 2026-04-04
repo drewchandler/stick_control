@@ -343,6 +343,7 @@ function App() {
   const [importStatus, setImportStatus] = useState('Load a MusicXML file to begin.')
   const [importError, setImportError] = useState('')
 
+  const fileInputRef = useRef(null)
   const audioContextRef = useRef(null)
   const schedulerIdRef = useRef(null)
   const scheduledUiTimeoutsRef = useRef([])
@@ -656,6 +657,16 @@ function App() {
     runtimeRef.current.rhythmIndex = nextIndex
   }
 
+  function handlePreviousRhythm() {
+    if (!rhythms.length) {
+      return
+    }
+    handleReset()
+    const previousIndex = (currentRhythmIndex - 1 + rhythms.length) % rhythms.length
+    setCurrentRhythmIndex(previousIndex)
+    runtimeRef.current.rhythmIndex = previousIndex
+  }
+
   function handleRhythmSelect(event) {
     const newIndex = Number(event.target.value)
     if (!Number.isInteger(newIndex) || newIndex < 0 || newIndex >= rhythms.length) {
@@ -726,6 +737,17 @@ function App() {
     }
   }
 
+  function handleOpenFilePicker() {
+    fileInputRef.current?.click()
+  }
+
+  function adjustBpm(delta) {
+    if (controlsDisabled) {
+      return
+    }
+    setBpm((previous) => Math.max(30, Math.min(260, previous + delta)))
+  }
+
   useEffect(
     () => () => {
       stopScheduler()
@@ -738,7 +760,7 @@ function App() {
   )
 
   const controlsDisabled = phase === 'playing' || phase === 'countIn'
-  const canPause = phase === 'playing' || phase === 'countIn'
+  const isTransportRunning = phase === 'playing' || phase === 'countIn'
   const hasRhythms = rhythms.length > 0
   const lineYs = [42, 58, 74, 90, 106]
   const staffXStart = 40
@@ -760,133 +782,73 @@ function App() {
     currentRhythm == null
       ? []
       : buildBeamSegments(currentRhythm.notes, getRhythmTiming(currentRhythm).pulsesPerBeat)
+  const playPauseLabel = isTransportRunning ? 'Pause' : phase === 'paused' ? 'Resume' : 'Play'
+  const timeSignatureLabel = currentRhythm
+    ? showCutTime
+      ? 'Cut Time'
+      : `${currentRhythm.beats}/${currentRhythm.beatType}`
+    : '-'
 
   return (
     <main className="app">
       <header className="top-bar">
         <h1>Stick Control Practice</h1>
-        <p className="subtitle">MusicXML-driven practice with count-in, click accents, and guided note highlighting.</p>
+        <p className="subtitle">Notation-first practice for clean, focused reps.</p>
       </header>
 
-      <section className="panel controls">
-        <div className="control-row">
-          <label htmlFor="bpm">BPM</label>
-          <input
-            id="bpm"
-            type="number"
-            min="30"
-            max="260"
-            value={bpm}
-            disabled={controlsDisabled}
-            onChange={(event) => setBpm(Math.max(30, Math.min(260, Number(event.target.value) || 90)))}
-          />
-        </div>
-
-        <div className="control-row">
-          <label htmlFor="repetitions">Repetitions per rhythm</label>
-          <input
-            id="repetitions"
-            type="number"
-            min="1"
-            max="200"
-            value={repetitions}
-            disabled={controlsDisabled}
-            onChange={(event) => setRepetitions(Math.max(1, Math.min(200, Number(event.target.value) || 20)))}
-          />
-        </div>
-
-        <div className="control-row">
-          <label htmlFor="countInBars">Count-in bars</label>
-          <input
-            id="countInBars"
-            type="number"
-            min="1"
-            max="4"
-            value={countInBars}
-            disabled={controlsDisabled}
-            onChange={(event) => setCountInBars(Math.max(1, Math.min(4, Number(event.target.value) || 1)))}
-          />
-        </div>
-
-        <div className="control-row">
-          <label htmlFor="metSubdivision">Metronome subdivision</label>
-          <select
-            id="metSubdivision"
-            value={metSubdivision}
-            disabled={controlsDisabled}
-            onChange={(event) => setMetSubdivision(Number(event.target.value))}
-          >
-            {SUBDIVISIONS.map((subdivision) => (
-              <option key={subdivision.value} value={subdivision.value}>
-                {subdivision.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="control-row">
-          <label htmlFor="rhythm">Rhythm (measure)</label>
-          <select
-            id="rhythm"
-            value={currentRhythmIndex}
-            disabled={controlsDisabled || !hasRhythms}
-            onChange={handleRhythmSelect}
-          >
-            {rhythms.map((rhythm, index) => (
-              <option key={`${rhythm.name}-${index}`} value={index}>
-                {rhythm.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="button-row">
-          <button type="button" disabled={!hasRhythms} onClick={handlePlay}>
-            Play
+      <section className="panel transport-panel">
+        <input
+          ref={fileInputRef}
+          className="file-input-hidden"
+          type="file"
+          accept=".xml,.musicxml,text/xml,application/xml"
+          onChange={handleRhythmFileChange}
+        />
+        <div className="source-row">
+          <button type="button" onClick={handleOpenFilePicker}>
+            Load exercise
           </button>
-          <button type="button" disabled={!canPause} onClick={handlePause}>
-            Pause
+          <button type="button" onClick={handleLoadSample}>
+            Load sample
+          </button>
+        </div>
+
+        <div className="transport-row">
+          <button type="button" disabled={!hasRhythms} onClick={handlePreviousRhythm}>
+            Previous
+          </button>
+          <button type="button" className="play-button" disabled={!hasRhythms} onClick={isTransportRunning ? handlePause : handlePlay}>
+            {playPauseLabel}
+          </button>
+          <button type="button" disabled={!hasRhythms} onClick={handleNextRhythm}>
+            Next
           </button>
           <button type="button" onClick={handleReset}>
             Reset
           </button>
-          <button type="button" disabled={!hasRhythms} onClick={handleNextRhythm}>
-            Next Rhythm
-          </button>
+          <div className="tempo-control" aria-label="Tempo control">
+            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)}>
+              -
+            </button>
+            <span>{bpm} BPM</span>
+            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(1)}>
+              +
+            </button>
+          </div>
         </div>
       </section>
 
-      <section className="panel status">
-        <div className="status-grid">
-          <div>
-            <span className="label">Current rhythm</span>
-            <span>{currentRhythm?.name ?? 'No MusicXML loaded'}</span>
-          </div>
-          <div>
-            <span className="label">Rhythm index</span>
-            <span>
-              {hasRhythms ? currentRhythmIndex + 1 : 0} / {rhythms.length}
-            </span>
-          </div>
-          <div>
-            <span className="label">Repetition count</span>
-            <span>
-              {currentRep} / {repetitions}
-            </span>
-          </div>
-          <div>
-            <span className="label">Beat</span>
-            <span>{currentBeat}</span>
-          </div>
-          <div>
-            <span className="label">Time signature</span>
-            <span>{currentRhythm ? `${currentRhythm.beats}/${currentRhythm.beatType}` : '-'}</span>
-          </div>
-          <div>
-            <span className="label">State</span>
-            <span>{transportState}</span>
-          </div>
+      <section className="panel status-compact" aria-live="polite">
+        <p className="current-rhythm-name">{currentRhythm?.name ?? 'No MusicXML loaded'}</p>
+        <div className="meta-row">
+          <span>Rhythm {hasRhythms ? `${currentRhythmIndex + 1}/${rhythms.length}` : '0/0'}</span>
+          <span>Rep {currentRep}/{repetitions}</span>
+          <span>Beat {currentBeat}</span>
+          <span>{timeSignatureLabel}</span>
+          <span>{transportState}</span>
         </div>
+        {importStatus && <p className="import-success">{importStatus}</p>}
+        {importError && <p className="import-error">{importError}</p>}
       </section>
 
       <section className="panel notation">
@@ -977,20 +939,79 @@ function App() {
         </svg>
       </section>
 
-      <section className="panel import-panel">
-        <h2>Load MusicXML</h2>
-        <p className="hint">
-          Import a <code>.xml</code> or <code>.musicxml</code> file. Beats-per-bar and note timing are read directly
-          from the file for playback and highlighting.
-        </p>
-        <input type="file" accept=".xml,.musicxml,text/xml,application/xml" onChange={handleRhythmFileChange} />
-        <div className="button-row">
-          <button type="button" onClick={handleLoadSample}>
-            Load sample MusicXML
-          </button>
-        </div>
-        {importStatus && <p className="import-success">{importStatus}</p>}
-        {importError && <p className="import-error">{importError}</p>}
+      <section className="panel advanced-panel">
+        <details>
+          <summary>Practice settings</summary>
+          <div className="advanced-grid">
+            <div className="control-row">
+              <label htmlFor="bpm">BPM (exact)</label>
+              <input
+                id="bpm"
+                type="number"
+                min="30"
+                max="260"
+                value={bpm}
+                disabled={controlsDisabled}
+                onChange={(event) => setBpm(Math.max(30, Math.min(260, Number(event.target.value) || 90)))}
+              />
+            </div>
+            <div className="control-row">
+              <label htmlFor="repetitions">Repetitions per rhythm</label>
+              <input
+                id="repetitions"
+                type="number"
+                min="1"
+                max="200"
+                value={repetitions}
+                disabled={controlsDisabled}
+                onChange={(event) => setRepetitions(Math.max(1, Math.min(200, Number(event.target.value) || 20)))}
+              />
+            </div>
+            <div className="control-row">
+              <label htmlFor="countInBars">Count-in bars</label>
+              <input
+                id="countInBars"
+                type="number"
+                min="1"
+                max="4"
+                value={countInBars}
+                disabled={controlsDisabled}
+                onChange={(event) => setCountInBars(Math.max(1, Math.min(4, Number(event.target.value) || 1)))}
+              />
+            </div>
+            <div className="control-row">
+              <label htmlFor="metSubdivision">Metronome subdivision</label>
+              <select
+                id="metSubdivision"
+                value={metSubdivision}
+                disabled={controlsDisabled}
+                onChange={(event) => setMetSubdivision(Number(event.target.value))}
+              >
+                {SUBDIVISIONS.map((subdivision) => (
+                  <option key={subdivision.value} value={subdivision.value}>
+                    {subdivision.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="control-row">
+              <label htmlFor="rhythm">Rhythm (measure)</label>
+              <select
+                id="rhythm"
+                value={currentRhythmIndex}
+                disabled={controlsDisabled || !hasRhythms}
+                onChange={handleRhythmSelect}
+              >
+                {rhythms.map((rhythm, index) => (
+                  <option key={`${rhythm.name}-${index}`} value={index}>
+                    {rhythm.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <p className="hint">Use settings when stopped; quick transport controls stay visible above.</p>
+        </details>
       </section>
 
       {showNextModal && (

@@ -236,10 +236,6 @@ button:disabled {
   font-size: 0.95rem;
 }
 
-.notation h2 {
-  margin: 0 0 8px;
-}
-
 .staff-svg {
   width: 100%;
   min-height: 190px;

@@ -805,7 +805,6 @@ function App() {
       />
 
       <section className="panel notation">
-        <h2>Drum Staff</h2>
         <svg className="staff-svg" viewBox="0 0 1150 180" role="img" aria-label="Snare drum sticking staff">
           {lineYs.map((y) => (
             <line key={y} x1={staffXStart} y1={y} x2={staffXEnd} y2={y} className="staff-line" />

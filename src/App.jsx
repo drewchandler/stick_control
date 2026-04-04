@@ -351,6 +351,7 @@ function App() {
 
   const fileInputRef = useRef(null)
   const audioContextRef = useRef(null)
+  const audioUnlockedRef = useRef(false)
   const schedulerIdRef = useRef(null)
   const scheduledUiTimeoutsRef = useRef([])
   const rhythmsRef = useRef(rhythms)
@@ -419,14 +420,34 @@ function App() {
     scheduledUiTimeoutsRef.current.push(timeoutId)
   }
 
-  function ensureAudioContext() {
+  async function ensureAudioContext() {
     if (!audioContextRef.current) {
-      audioContextRef.current = new window.AudioContext()
+      const AudioContextCtor = window.AudioContext || window.webkitAudioContext
+      if (!AudioContextCtor) {
+        throw new Error('This browser does not support Web Audio.')
+      }
+      audioContextRef.current = new AudioContextCtor()
+      audioUnlockedRef.current = false
     }
-    if (audioContextRef.current.state === 'suspended') {
-      audioContextRef.current.resume()
+
+    const context = audioContextRef.current
+    if (context.state === 'suspended') {
+      await context.resume()
     }
-    return audioContextRef.current
+
+    if (!audioUnlockedRef.current && context.state === 'running') {
+      // iOS Safari often needs a short silent source started from a gesture event.
+      const source = context.createBufferSource()
+      source.buffer = context.createBuffer(1, 1, context.sampleRate)
+      source.connect(context.destination)
+      source.start(0)
+      audioUnlockedRef.current = true
+    }
+
+    if (context.state !== 'running') {
+      throw new Error('Audio is blocked by the browser. Tap Play again to enable sound.')
+    }
+    return context
   }
 
   function stopScheduler() {
@@ -590,14 +611,25 @@ function App() {
     }
   }
 
-  function startScheduler() {
-    const context = ensureAudioContext()
+  async function startScheduler() {
+    let context
+    try {
+      context = await ensureAudioContext()
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unable to start audio.'
+      setImportError(message)
+      setRuntimePhase('stopped')
+      setTransportState('Audio blocked')
+      return false
+    }
+
     if (schedulerIdRef.current) {
-      return
+      return true
     }
     clockRef.current.nextPulseTime = context.currentTime + 0.05
     schedulerIdRef.current = window.setInterval(schedulerTick, SCHEDULER_INTERVAL_MS)
     schedulerTick()
+    return true
   }
 
   function handleReset() {
@@ -614,7 +646,7 @@ function App() {
     setShowNextModal(false)
   }
 
-  function startPracticeFromBeginning() {
+  async function startPracticeFromBeginning() {
     if (!currentRhythm) {
       setImportError('Load a MusicXML file before pressing Play.')
       return
@@ -641,22 +673,22 @@ function App() {
       setActiveNoteIndex(firstAtZero >= 0 ? firstAtZero : null)
       setTransportState('Playing')
     }
-    startScheduler()
+    await startScheduler()
   }
 
-  function handlePlay() {
+  async function handlePlay() {
     setShowNextModal(false)
     const currentPhase = runtimeRef.current.phase
     if (currentPhase === 'paused') {
       setRuntimePhase('playing')
       setTransportState('Playing')
-      startScheduler()
+      await startScheduler()
       return
     }
     if (currentPhase === 'playing' || currentPhase === 'countIn') {
       return
     }
-    startPracticeFromBeginning()
+    await startPracticeFromBeginning()
   }
 
   function handlePause() {

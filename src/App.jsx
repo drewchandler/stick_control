@@ -148,7 +148,7 @@ function beamCountForNote(noteElement, durationDivisions, currentDivisions) {
   return 0
 }
 
-function buildBeamSegments(notes, pulsesPerBeat) {
+function buildMeasureBeamSegments(notes, pulsesPerBeat, pulseOffset = 0) {
   const segments = []
   if (!notes.length) {
     return segments
@@ -160,8 +160,8 @@ function buildBeamSegments(notes, pulsesPerBeat) {
     }
     segments.push({
       level,
-      startPulse: run[0].startPulse,
-      endPulse: run[run.length - 1].startPulse,
+      startPulse: pulseOffset + run[0].startPulse,
+      endPulse: pulseOffset + run[run.length - 1].startPulse,
     })
   }
 
@@ -195,6 +195,213 @@ function buildBeamSegments(notes, pulsesPerBeat) {
   return segments
 }
 
+function buildBeamSegmentsForRhythm(rhythm) {
+  if (!rhythm?.notes?.length) {
+    return []
+  }
+
+  const measures = rhythm.measures?.length
+    ? rhythm.measures
+    : [
+        {
+          startPulse: 0,
+          pulsesPerBar: rhythm.pulsesPerExercise ?? rhythm.pulsesPerBar ?? 1,
+          beats: rhythm.beats,
+          beatType: rhythm.beatType,
+        },
+      ]
+
+  const segments = []
+  for (const measure of measures) {
+    const measureStart = measure.startPulse
+    const measureEnd = measureStart + measure.pulsesPerBar
+    const localNotes = rhythm.notes
+      .filter((note) => note.startPulse >= measureStart && note.startPulse < measureEnd)
+      .map((note) => ({ ...note, startPulse: note.startPulse - measureStart }))
+    const timing = timingFromSignature(measure.beats, measure.beatType)
+    segments.push(...buildMeasureBeamSegments(localNotes, timing.pulsesPerBeat, measureStart))
+  }
+  return segments
+}
+
+function totalPulsesForRhythm(rhythm) {
+  return Math.max(1, rhythm?.pulsesPerExercise ?? rhythm?.pulsesPerBar ?? 1)
+}
+
+function measureForPulse(rhythm, pulseInExercise) {
+  const measures = rhythm?.measures ?? []
+  if (!measures.length) {
+    return {
+      startPulse: 0,
+      pulsesPerBar: totalPulsesForRhythm(rhythm),
+      beats: rhythm?.beats ?? 4,
+      beatType: rhythm?.beatType ?? 4,
+      timeSymbol: rhythm?.timeSymbol ?? '',
+    }
+  }
+  for (const measure of measures) {
+    if (pulseInExercise >= measure.startPulse && pulseInExercise < measure.startPulse + measure.pulsesPerBar) {
+      return measure
+    }
+  }
+  return measures[measures.length - 1]
+}
+
+function parseGroupingLabel(groupingElement) {
+  const features = Array.from(groupingElement.querySelectorAll('feature'))
+  const preferred = features.find((feature) => /exercise/i.test(feature.getAttribute('type') ?? ''))
+  const label = (preferred?.textContent ?? features[0]?.textContent ?? '').trim()
+  return label || null
+}
+
+function normalizeGroupingToken(value, fallback) {
+  const normalized = String(value ?? '').trim()
+  return normalized || fallback
+}
+
+function collectGroupingEventsFromMeasure(measureElement, measureIndex) {
+  const events = []
+  let sourceOrder = 0
+  for (const child of Array.from(measureElement.children)) {
+    if (child.tagName !== 'grouping') {
+      continue
+    }
+    const type = String(child.getAttribute('type') ?? '').toLowerCase()
+    if (type !== 'start' && type !== 'stop' && type !== 'single') {
+      continue
+    }
+    const memberOf = normalizeGroupingToken(child.getAttribute('member-of'), 'default')
+    const number = normalizeGroupingToken(child.getAttribute('number'), '1')
+    events.push({
+      key: `${memberOf}::${number}`,
+      type,
+      label: parseGroupingLabel(child),
+      measureIndex,
+      sourceOrder,
+    })
+    sourceOrder += 1
+  }
+  return events
+}
+
+function buildExerciseRangesFromGroupingEvents(events, measureCount) {
+  if (!events.length || measureCount <= 0) {
+    return []
+  }
+
+  const stackByKey = new Map()
+  const ranges = []
+
+  for (const event of events) {
+    if (event.type === 'single') {
+      ranges.push({
+        startMeasureIndex: event.measureIndex,
+        endMeasureIndex: event.measureIndex,
+        label: event.label,
+        sortMeasure: event.measureIndex,
+        sortOrder: event.sourceOrder,
+      })
+      continue
+    }
+
+    if (event.type === 'start') {
+      const stack = stackByKey.get(event.key) ?? []
+      stack.push(event)
+      stackByKey.set(event.key, stack)
+      continue
+    }
+
+    const stack = stackByKey.get(event.key) ?? []
+    const startEvent = stack.pop()
+    if (stack.length) {
+      stackByKey.set(event.key, stack)
+    } else {
+      stackByKey.delete(event.key)
+    }
+    if (!startEvent) {
+      continue
+    }
+    ranges.push({
+      startMeasureIndex: startEvent.measureIndex,
+      endMeasureIndex: event.measureIndex,
+      label: startEvent.label ?? event.label,
+      sortMeasure: startEvent.measureIndex,
+      sortOrder: startEvent.sourceOrder,
+    })
+  }
+
+  for (const stack of stackByKey.values()) {
+    for (const startEvent of stack) {
+      ranges.push({
+        startMeasureIndex: startEvent.measureIndex,
+        endMeasureIndex: measureCount - 1,
+        label: startEvent.label,
+        sortMeasure: startEvent.measureIndex,
+        sortOrder: startEvent.sourceOrder,
+      })
+    }
+  }
+
+  return ranges
+    .map((range) => ({
+      ...range,
+      startMeasureIndex: Math.max(0, Math.min(measureCount - 1, range.startMeasureIndex)),
+      endMeasureIndex: Math.max(0, Math.min(measureCount - 1, range.endMeasureIndex)),
+    }))
+    .filter((range) => range.startMeasureIndex <= range.endMeasureIndex)
+    .sort((a, b) =>
+      a.sortMeasure === b.sortMeasure ? a.sortOrder - b.sortOrder : a.sortMeasure - b.sortMeasure,
+    )
+}
+
+function buildExerciseFromMeasureRange(title, measureData, startMeasureIndex, endMeasureIndex, index, label) {
+  const selectedMeasures = measureData.slice(startMeasureIndex, endMeasureIndex + 1)
+  const firstMeasure = selectedMeasures[0]
+  const lastMeasure = selectedMeasures[selectedMeasures.length - 1]
+
+  let pulseOffset = 0
+  const notes = []
+  const measures = []
+
+  for (const measure of selectedMeasures) {
+    measures.push({
+      number: measure.number,
+      startPulse: pulseOffset,
+      pulsesPerBar: measure.pulsesPerBar,
+      beats: measure.beats,
+      beatType: measure.beatType,
+      timeSymbol: measure.timeSymbol,
+    })
+    for (const note of measure.notes) {
+      notes.push({
+        ...note,
+        id: `${measure.number}-${note.id}`,
+        startPulse: pulseOffset + note.startPulse,
+      })
+    }
+    pulseOffset += measure.pulsesPerBar
+  }
+
+  const rangeLabel =
+    firstMeasure.number === lastMeasure.number
+      ? `Measure ${firstMeasure.number}`
+      : `Measures ${firstMeasure.number}-${lastMeasure.number}`
+  const cleanedLabel = (label ?? '').trim()
+  const name = cleanedLabel ? `${title} - ${cleanedLabel}` : `${title} - ${rangeLabel}`
+
+  return {
+    name,
+    beats: firstMeasure.beats,
+    beatType: firstMeasure.beatType,
+    timeSymbol: firstMeasure.timeSymbol,
+    pulsesPerExercise: Math.max(1, pulseOffset),
+    pulsesPerBar: Math.max(1, pulseOffset),
+    notes: notes.sort((a, b) => a.startPulse - b.startPulse),
+    measures,
+    exerciseIndex: index,
+  }
+}
+
 function parseMusicXmlRhythms(fileText) {
   const parser = new window.DOMParser()
   const xml = parser.parseFromString(fileText, 'application/xml')
@@ -213,13 +420,15 @@ function parseMusicXmlRhythms(fileText) {
     'Imported MusicXML'
 
   const tempo = parseTempo(xml)
-  const rhythms = []
+  const measureData = []
+  const groupingEvents = []
+  let hasPlayableNotes = false
   let currentBeats = 4
   let currentBeatType = 4
   let currentTimeSymbol = ''
   let currentDivisions = 1
 
-  for (const measure of Array.from(part.querySelectorAll('measure'))) {
+  for (const [measureIndex, measure] of Array.from(part.querySelectorAll('measure')).entries()) {
     const attributes = measure.querySelector('attributes')
     if (attributes) {
       currentDivisions = parseNumericText(attributes.querySelector('divisions'), currentDivisions)
@@ -231,6 +440,7 @@ function parseMusicXmlRhythms(fileText) {
       }
     }
 
+    groupingEvents.push(...collectGroupingEventsFromMeasure(measure, measureIndex))
     const timing = timingFromSignature(currentBeats, currentBeatType)
     const events = []
     let elapsedDivisions = 0
@@ -279,10 +489,6 @@ function parseMusicXmlRhythms(fileText) {
       }
     }
 
-    if (!events.length) {
-      continue
-    }
-
     const derivedMeasurePulses = Math.round((elapsedDivisions / currentDivisions) * PULSES_PER_QUARTER)
     const pulsesPerBar = Math.max(timing.pulsesPerBar, derivedMeasurePulses, 1)
     const notes = events
@@ -296,8 +502,13 @@ function parseMusicXmlRhythms(fileText) {
       }))
       .sort((a, b) => a.startPulse - b.startPulse)
 
-    rhythms.push({
-      name: `${title} - Measure ${measure.getAttribute('number') || rhythms.length + 1}`,
+    if (notes.length) {
+      hasPlayableNotes = true
+    }
+
+    const measureNumber = String(measure.getAttribute('number') ?? measureIndex + 1).trim() || String(measureIndex + 1)
+    measureData.push({
+      number: measureNumber,
       beats: currentBeats,
       beatType: currentBeatType,
       timeSymbol: currentTimeSymbol,
@@ -306,9 +517,24 @@ function parseMusicXmlRhythms(fileText) {
     })
   }
 
-  if (!rhythms.length) {
+  if (!hasPlayableNotes) {
     throw new Error('No playable notes were found in this MusicXML file.')
   }
+
+  const groupedRanges = buildExerciseRangesFromGroupingEvents(groupingEvents, measureData.length)
+  const exerciseRanges = groupedRanges.length
+    ? groupedRanges
+    : [{ startMeasureIndex: 0, endMeasureIndex: measureData.length - 1, label: null }]
+  const rhythms = exerciseRanges.map((range, index) =>
+    buildExerciseFromMeasureRange(
+      title,
+      measureData,
+      range.startMeasureIndex,
+      range.endMeasureIndex,
+      index,
+      range.label,
+    ),
+  )
 
   return { rhythms: rhythms.slice(0, 256), tempo }
 }
@@ -322,7 +548,7 @@ function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythm
     setBpm(Math.max(30, Math.min(260, Math.round(parsed.tempo))))
   }
   setImportToast(
-    `Loaded ${parsed.rhythms.length} measure(s) from "${sourceLabel}"${parsed.tempo ? ` (tempo ${Math.round(parsed.tempo)} BPM).` : '.'}`,
+    `Loaded ${parsed.rhythms.length} exercise(s) from "${sourceLabel}"${parsed.tempo ? ` (tempo ${Math.round(parsed.tempo)} BPM).` : '.'}`,
   )
   setImportError('')
 }
@@ -346,10 +572,11 @@ function App() {
   const [showUploadModal, setShowUploadModal] = useState(false)
   const [showMetronomeModal, setShowMetronomeModal] = useState(false)
   const [modalText, setModalText] = useState('')
-  const [importStatus, setImportStatus] = useState('Load a MusicXML file to begin.')
+  const [importStatus, setImportStatus] = useState('Loading bundled sample MusicXML...')
   const [importError, setImportError] = useState('')
 
   const fileInputRef = useRef(null)
+  const hasAutoLoadedSampleRef = useRef(false)
   const audioContextRef = useRef(null)
   const audioUnlockedRef = useRef(false)
   const schedulerIdRef = useRef(null)
@@ -520,15 +747,17 @@ function App() {
 
   function schedulePulse(pulseTime, pulseInBar, rhythm) {
     const runtime = runtimeRef.current
-    const timing = getRhythmTiming(rhythm)
+    const activeMeasure = measureForPulse(rhythm, pulseInBar)
+    const timing = timingFromSignature(activeMeasure.beats, activeMeasure.beatType)
+    const pulseInMeasure = pulseInBar - activeMeasure.startPulse
     const subdivisionStep = subdivisionPulseStep(settingsRef.current.metSubdivision)
     const clickMode = settingsRef.current.metronomeMode
     const clickStep = clickMode === 'subdivision' ? subdivisionStep : timing.pulsesPerBeat
 
-    if (clickMode !== 'off' && pulseInBar % clickStep === 0) {
-      const isBeatBoundary = pulseInBar % timing.pulsesPerBeat === 0
+    if (clickMode !== 'off' && pulseInMeasure % clickStep === 0) {
+      const isBeatBoundary = pulseInMeasure % timing.pulsesPerBeat === 0
       if (isBeatBoundary) {
-        const beat = Math.floor(pulseInBar / timing.pulsesPerBeat) + 1
+        const beat = Math.floor(pulseInMeasure / timing.pulsesPerBeat) + 1
         const tone = clickToneForBeat(beat, timing.beatsPerBar)
         playClick(pulseTime, tone.frequency, tone.gain, tone.duration)
         scheduleUiAtAudioTime(pulseTime, () => {
@@ -572,7 +801,7 @@ function App() {
       runtime.noteCursor += 1
     }
 
-    if (pulseInBar === rhythm.pulsesPerBar - 1) {
+    if (pulseInBar === totalPulsesForRhythm(rhythm) - 1) {
       runtime.completedReps += 1
       runtime.noteCursor = 0
       const justCompleted = runtime.completedReps
@@ -603,7 +832,7 @@ function App() {
 
       schedulePulse(clockRef.current.nextPulseTime, clockRef.current.pulseInBar, rhythm)
       clockRef.current.nextPulseTime += secondsPerPulse()
-      clockRef.current.pulseInBar = (clockRef.current.pulseInBar + 1) % rhythm.pulsesPerBar
+      clockRef.current.pulseInBar = (clockRef.current.pulseInBar + 1) % totalPulsesForRhythm(rhythm)
 
       if (runtimeRef.current.phase === 'stopped') {
         break
@@ -663,7 +892,8 @@ function App() {
     setImportError('')
     if (settingsRef.current.countInEnabled) {
       setRuntimePhase('countIn')
-      runtimeRef.current.countInPulsesRemaining = settingsRef.current.countInBars * currentRhythm.pulsesPerBar
+      const countInPulses = currentRhythm.measures?.[0]?.pulsesPerBar ?? totalPulsesForRhythm(currentRhythm)
+      runtimeRef.current.countInPulsesRemaining = settingsRef.current.countInBars * countInPulses
       setActiveNoteIndex(null)
       setTransportState('Count-in')
     } else {
@@ -791,6 +1021,14 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    if (hasAutoLoadedSampleRef.current) {
+      return
+    }
+    hasAutoLoadedSampleRef.current = true
+    handleLoadSample()
+  }, [])
+
   function handleOpenFilePicker() {
     fileInputRef.current?.click()
   }
@@ -833,25 +1071,58 @@ function App() {
   const noteAreaStart = staffXStart + 110
   const noteAreaWidth = staffXEnd - noteAreaStart
   const staffPrefixCenterX = staffXStart + 52
+  const totalRhythmPulses = currentRhythm == null ? 1 : totalPulsesForRhythm(currentRhythm)
+  const rhythmMeasures =
+    currentRhythm?.measures?.length
+      ? currentRhythm.measures
+      : currentRhythm
+        ? [
+            {
+              startPulse: 0,
+              pulsesPerBar: totalRhythmPulses,
+              beats: currentRhythm.beats,
+              beatType: currentRhythm.beatType,
+              timeSymbol: currentRhythm.timeSymbol,
+            },
+          ]
+        : []
+  const hasMixedSignatures =
+    rhythmMeasures.length > 1 &&
+    rhythmMeasures.some(
+      (measure) =>
+        measure.beats !== rhythmMeasures[0].beats ||
+        measure.beatType !== rhythmMeasures[0].beatType ||
+        String(measure.timeSymbol ?? '').toLowerCase() !== String(rhythmMeasures[0].timeSymbol ?? '').toLowerCase(),
+    )
   const showCutTime =
     currentRhythm != null &&
-    isCutTimeSignature(currentRhythm.beats, currentRhythm.beatType, currentRhythm.timeSymbol)
+    !hasMixedSignatures &&
+    isCutTimeSignature(rhythmMeasures[0].beats, rhythmMeasures[0].beatType, rhythmMeasures[0].timeSymbol)
   const beatSeparators =
     currentRhythm == null
       ? []
-      : Array.from({ length: Math.max(0, currentRhythm.beats - 1) }, (_, idx) => {
-          const pulse = (idx + 1) * getRhythmTiming(currentRhythm).pulsesPerBeat
-          return noteAreaStart + (pulse / currentRhythm.pulsesPerBar) * noteAreaWidth
+      : rhythmMeasures.flatMap((measure) => {
+          const timing = timingFromSignature(measure.beats, measure.beatType)
+          return Array.from({ length: Math.max(0, measure.beats - 1) }, (_, idx) => {
+            const pulse = measure.startPulse + (idx + 1) * timing.pulsesPerBeat
+            return noteAreaStart + (pulse / totalRhythmPulses) * noteAreaWidth
+          })
         })
+  const barSeparators =
+    currentRhythm == null
+      ? []
+      : rhythmMeasures.slice(1).map((measure) => noteAreaStart + (measure.startPulse / totalRhythmPulses) * noteAreaWidth)
   const beamSegments =
     currentRhythm == null
       ? []
-      : buildBeamSegments(currentRhythm.notes, getRhythmTiming(currentRhythm).pulsesPerBeat)
+      : buildBeamSegmentsForRhythm(currentRhythm)
   const playPauseLabel = isTransportRunning ? 'Pause' : phase === 'paused' ? 'Resume' : 'Play'
   const timeSignatureLabel = currentRhythm
-    ? showCutTime
+    ? hasMixedSignatures
+      ? 'Mixed'
+      : showCutTime
       ? 'Cut Time'
-      : `${currentRhythm.beats}/${currentRhythm.beatType}`
+      : `${rhythmMeasures[0].beats}/${rhythmMeasures[0].beatType}`
     : '-'
 
   return (
@@ -877,6 +1148,9 @@ function App() {
 
           {beatSeparators.map((x) => (
             <line key={x} x1={x} y1="24" x2={x} y2="145" className="beat-separator" />
+          ))}
+          {barSeparators.map((x) => (
+            <line key={`bar-${x}`} x1={x} y1="24" x2={x} y2="145" className="bar-line" />
           ))}
 
           <line x1={staffXStart} y1="24" x2={staffXStart} y2="145" className="bar-line" />
@@ -912,18 +1186,18 @@ function App() {
                 ) : (
                   <>
                     <text x={staffPrefixCenterX + 7} y="64" className="time-signature-top">
-                      {currentRhythm.beats}
+                      {rhythmMeasures[0].beats}
                     </text>
                     <text x={staffPrefixCenterX + 7} y="98" className="time-signature-bottom">
-                      {currentRhythm.beatType}
+                      {rhythmMeasures[0].beatType}
                     </text>
                   </>
                 )}
               </g>
               {beamSegments.map((segment) => {
                 const startX =
-                  noteAreaStart + (segment.startPulse / currentRhythm.pulsesPerBar) * noteAreaWidth + 10
-                const endX = noteAreaStart + (segment.endPulse / currentRhythm.pulsesPerBar) * noteAreaWidth + 10
+                  noteAreaStart + (segment.startPulse / totalRhythmPulses) * noteAreaWidth + 10
+                const endX = noteAreaStart + (segment.endPulse / totalRhythmPulses) * noteAreaWidth + 10
                 const y = 28 + (segment.level - 1) * 6
                 return (
                   <line
@@ -937,7 +1211,7 @@ function App() {
                 )
               })}
               {currentRhythm.notes.map((note, index) => {
-                const x = noteAreaStart + (note.startPulse / currentRhythm.pulsesPerBar) * noteAreaWidth
+                const x = noteAreaStart + (note.startPulse / totalRhythmPulses) * noteAreaWidth
                 const y = staffYForOffset(note.staffOffset ?? DEFAULT_SNARE_STAFF_OFFSET)
                 const isActive = index === activeNoteIndex
                 return (
@@ -1106,7 +1380,7 @@ function App() {
                 />
               </div>
               <div className="control-row">
-                <label htmlFor="rhythm">Rhythm (measure)</label>
+                <label htmlFor="rhythm">Rhythm (exercise)</label>
                 <select
                   id="rhythm"
                   value={currentRhythmIndex}

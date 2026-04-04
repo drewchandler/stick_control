@@ -328,9 +328,12 @@ function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythm
 
 function App() {
   const [bpm, setBpm] = useState(90)
+  const [tempoInput, setTempoInput] = useState('90')
   const [repetitions, setRepetitions] = useState(20)
   const [countInBars, setCountInBars] = useState(1)
+  const [countInEnabled, setCountInEnabled] = useState(true)
   const [metSubdivision, setMetSubdivision] = useState(16)
+  const [metronomeMode, setMetronomeMode] = useState('subdivision')
   const [rhythms, setRhythms] = useState([])
   const [currentRhythmIndex, setCurrentRhythmIndex] = useState(0)
   const [currentRep, setCurrentRep] = useState(0)
@@ -339,6 +342,8 @@ function App() {
   const [phase, setPhase] = useState('stopped')
   const [transportState, setTransportState] = useState('Stopped')
   const [showNextModal, setShowNextModal] = useState(false)
+  const [showUploadModal, setShowUploadModal] = useState(false)
+  const [showMetronomeModal, setShowMetronomeModal] = useState(false)
   const [modalText, setModalText] = useState('')
   const [importStatus, setImportStatus] = useState('Load a MusicXML file to begin.')
   const [importError, setImportError] = useState('')
@@ -363,12 +368,18 @@ function App() {
     bpm,
     repetitions,
     countInBars,
+    countInEnabled,
     metSubdivision,
+    metronomeMode,
   })
 
   useEffect(() => {
-    settingsRef.current = { bpm, repetitions, countInBars, metSubdivision }
-  }, [bpm, repetitions, countInBars, metSubdivision])
+    settingsRef.current = { bpm, repetitions, countInBars, countInEnabled, metSubdivision, metronomeMode }
+  }, [bpm, repetitions, countInBars, countInEnabled, metSubdivision, metronomeMode])
+
+  useEffect(() => {
+    setTempoInput(String(bpm))
+  }, [bpm])
 
   useEffect(() => {
     runtimeRef.current.rhythmIndex = currentRhythmIndex
@@ -489,8 +500,10 @@ function App() {
     const runtime = runtimeRef.current
     const timing = getRhythmTiming(rhythm)
     const subdivisionStep = subdivisionPulseStep(settingsRef.current.metSubdivision)
+    const clickMode = settingsRef.current.metronomeMode
+    const clickStep = clickMode === 'subdivision' ? subdivisionStep : timing.pulsesPerBeat
 
-    if (pulseInBar % subdivisionStep === 0) {
+    if (clickMode !== 'off' && pulseInBar % clickStep === 0) {
       const isBeatBoundary = pulseInBar % timing.pulsesPerBeat === 0
       if (isBeatBoundary) {
         const beat = Math.floor(pulseInBar / timing.pulsesPerBeat) + 1
@@ -499,7 +512,7 @@ function App() {
         scheduleUiAtAudioTime(pulseTime, () => {
           setCurrentBeat(String(beat))
         })
-      } else {
+      } else if (clickMode === 'subdivision') {
         playClick(pulseTime, 720, 0.08, 0.04)
       }
     }
@@ -607,18 +620,26 @@ function App() {
     }
 
     clearScheduledUiUpdates()
-    setRuntimePhase('countIn')
-    runtimeRef.current.countInPulsesRemaining = settingsRef.current.countInBars * currentRhythm.pulsesPerBar
     runtimeRef.current.completedReps = 0
     runtimeRef.current.rhythmIndex = currentRhythmIndex
     runtimeRef.current.noteCursor = 0
 
     clockRef.current.pulseInBar = 0
     setCurrentRep(0)
-    setActiveNoteIndex(null)
     setCurrentBeat('-')
-    setTransportState('Count-in')
     setImportError('')
+    if (settingsRef.current.countInEnabled) {
+      setRuntimePhase('countIn')
+      runtimeRef.current.countInPulsesRemaining = settingsRef.current.countInBars * currentRhythm.pulsesPerBar
+      setActiveNoteIndex(null)
+      setTransportState('Count-in')
+    } else {
+      setRuntimePhase('playing')
+      runtimeRef.current.countInPulsesRemaining = 0
+      const firstAtZero = currentRhythm.notes.findIndex((note) => note.startPulse === 0)
+      setActiveNoteIndex(firstAtZero >= 0 ? firstAtZero : null)
+      setTransportState('Playing')
+    }
     startScheduler()
   }
 
@@ -748,6 +769,17 @@ function App() {
     setBpm((previous) => Math.max(30, Math.min(260, previous + delta)))
   }
 
+  function commitTempoInput() {
+    const parsed = Number(tempoInput)
+    if (!Number.isFinite(parsed)) {
+      setTempoInput(String(bpm))
+      return
+    }
+    const clamped = Math.max(30, Math.min(260, Math.round(parsed)))
+    setBpm(clamped)
+    setTempoInput(String(clamped))
+  }
+
   useEffect(
     () => () => {
       stopScheduler()
@@ -796,63 +828,15 @@ function App() {
         <p className="subtitle">Notation-first practice for clean, focused reps.</p>
       </header>
 
-      <section className="panel transport-panel">
-        <input
-          ref={fileInputRef}
-          className="file-input-hidden"
-          type="file"
-          accept=".xml,.musicxml,text/xml,application/xml"
-          onChange={handleRhythmFileChange}
-        />
-        <div className="source-row">
-          <button type="button" onClick={handleOpenFilePicker}>
-            Load exercise
-          </button>
-          <button type="button" onClick={handleLoadSample}>
-            Load sample
-          </button>
-        </div>
-
-        <div className="transport-row">
-          <button type="button" disabled={!hasRhythms} onClick={handlePreviousRhythm}>
-            Previous
-          </button>
-          <button type="button" className="play-button" disabled={!hasRhythms} onClick={isTransportRunning ? handlePause : handlePlay}>
-            {playPauseLabel}
-          </button>
-          <button type="button" disabled={!hasRhythms} onClick={handleNextRhythm}>
-            Next
-          </button>
-          <button type="button" onClick={handleReset}>
-            Reset
-          </button>
-          <div className="tempo-control" aria-label="Tempo control">
-            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)}>
-              -
-            </button>
-            <span>{bpm} BPM</span>
-            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(1)}>
-              +
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section className="panel status-compact" aria-live="polite">
-        <p className="current-rhythm-name">{currentRhythm?.name ?? 'No MusicXML loaded'}</p>
-        <div className="meta-row">
-          <span>Rhythm {hasRhythms ? `${currentRhythmIndex + 1}/${rhythms.length}` : '0/0'}</span>
-          <span>Rep {currentRep}/{repetitions}</span>
-          <span>Beat {currentBeat}</span>
-          <span>{timeSignatureLabel}</span>
-          <span>{transportState}</span>
-        </div>
-        {importStatus && <p className="import-success">{importStatus}</p>}
-        {importError && <p className="import-error">{importError}</p>}
-      </section>
+      <input
+        ref={fileInputRef}
+        className="file-input-hidden"
+        type="file"
+        accept=".xml,.musicxml,text/xml,application/xml"
+        onChange={handleRhythmFileChange}
+      />
 
       <section className="panel notation">
-        <h2>Drum Staff</h2>
         <svg className="staff-svg" viewBox="0 0 1150 180" role="img" aria-label="Snare drum sticking staff">
           {lineYs.map((y) => (
             <line key={y} x1={staffXStart} y1={y} x2={staffXEnd} y2={y} className="staff-line" />
@@ -863,7 +847,16 @@ function App() {
           ))}
 
           <line x1={staffXStart} y1="24" x2={staffXStart} y2="145" className="bar-line" />
-          <line x1={staffXEnd} y1="24" x2={staffXEnd} y2="145" className="bar-line" />
+          {currentRhythm ? (
+            <g className="repeat-ending" aria-hidden="true">
+              <line x1={staffXEnd - 9} y1="24" x2={staffXEnd - 9} y2="145" className="repeat-bar-thin" />
+              <line x1={staffXEnd} y1="24" x2={staffXEnd} y2="145" className="repeat-bar-thick" />
+              <circle cx={staffXEnd - 15} cy="66" r="2.8" className="repeat-dot" />
+              <circle cx={staffXEnd - 15} cy="82" r="2.8" className="repeat-dot" />
+            </g>
+          ) : (
+            <line x1={staffXEnd} y1="24" x2={staffXEnd} y2="145" className="bar-line" />
+          )}
 
           {currentRhythm ? (
             <>
@@ -939,22 +932,95 @@ function App() {
         </svg>
       </section>
 
+      <section className="panel transport-panel transport-under-staff">
+        <div className="status-compact transport-status" aria-live="polite">
+          <p className="current-rhythm-name">{currentRhythm?.name ?? 'No MusicXML loaded'}</p>
+          <div className="meta-row">
+            <span>Rhythm {hasRhythms ? `${currentRhythmIndex + 1}/${rhythms.length}` : '0/0'}</span>
+            <span>Rep {currentRep}/{repetitions}</span>
+            <span>Beat {currentBeat}</span>
+            <span>{timeSignatureLabel}</span>
+            <span>{transportState}</span>
+          </div>
+          {importStatus && <p className="import-success">{importStatus}</p>}
+          {importError && <p className="import-error">{importError}</p>}
+        </div>
+        <div className="transport-row" aria-label="Playback controls">
+          <button
+            type="button"
+            className="transport-icon-button"
+            disabled={!hasRhythms}
+            onClick={handlePreviousRhythm}
+            aria-label="Previous rhythm"
+          >
+            <span className="icon-skip icon-skip-left" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="play-button"
+            disabled={!hasRhythms}
+            onClick={isTransportRunning ? handlePause : handlePlay}
+            aria-label={playPauseLabel}
+          >
+            <span className={isTransportRunning ? 'icon-pause' : 'icon-play'} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="transport-icon-button"
+            disabled={!hasRhythms}
+            onClick={handleNextRhythm}
+            aria-label="Next rhythm"
+          >
+            <span className="icon-skip icon-skip-right" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="transport-icon-button"
+            onClick={() => setShowUploadModal(true)}
+            aria-label="Open upload options"
+          >
+            <span className="icon-upload" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="transport-icon-button"
+            onClick={() => setShowMetronomeModal(true)}
+            aria-label="Open metronome settings"
+          >
+            <span className="icon-metronome" aria-hidden="true" />
+          </button>
+          <div className="tempo-control" aria-label="Tempo control">
+            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
+              -
+            </button>
+            <input
+              type="text"
+              className="tempo-input"
+              inputMode="numeric"
+              aria-label="Tempo BPM"
+              value={tempoInput}
+              disabled={controlsDisabled}
+              onChange={(event) => setTempoInput(event.target.value)}
+              onBlur={commitTempoInput}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault()
+                  commitTempoInput()
+                }
+              }}
+            />
+            <span>BPM</span>
+            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(1)} aria-label="Increase tempo">
+              +
+            </button>
+          </div>
+        </div>
+      </section>
+
       <section className="panel advanced-panel">
         <details>
           <summary>Practice settings</summary>
           <div className="advanced-grid">
-            <div className="control-row">
-              <label htmlFor="bpm">BPM (exact)</label>
-              <input
-                id="bpm"
-                type="number"
-                min="30"
-                max="260"
-                value={bpm}
-                disabled={controlsDisabled}
-                onChange={(event) => setBpm(Math.max(30, Math.min(260, Number(event.target.value) || 90)))}
-              />
-            </div>
             <div className="control-row">
               <label htmlFor="repetitions">Repetitions per rhythm</label>
               <input
@@ -966,33 +1032,6 @@ function App() {
                 disabled={controlsDisabled}
                 onChange={(event) => setRepetitions(Math.max(1, Math.min(200, Number(event.target.value) || 20)))}
               />
-            </div>
-            <div className="control-row">
-              <label htmlFor="countInBars">Count-in bars</label>
-              <input
-                id="countInBars"
-                type="number"
-                min="1"
-                max="4"
-                value={countInBars}
-                disabled={controlsDisabled}
-                onChange={(event) => setCountInBars(Math.max(1, Math.min(4, Number(event.target.value) || 1)))}
-              />
-            </div>
-            <div className="control-row">
-              <label htmlFor="metSubdivision">Metronome subdivision</label>
-              <select
-                id="metSubdivision"
-                value={metSubdivision}
-                disabled={controlsDisabled}
-                onChange={(event) => setMetSubdivision(Number(event.target.value))}
-              >
-                {SUBDIVISIONS.map((subdivision) => (
-                  <option key={subdivision.value} value={subdivision.value}>
-                    {subdivision.label}
-                  </option>
-                ))}
-              </select>
             </div>
             <div className="control-row">
               <label htmlFor="rhythm">Rhythm (measure)</label>
@@ -1010,9 +1049,115 @@ function App() {
               </select>
             </div>
           </div>
-          <p className="hint">Use settings when stopped; quick transport controls stay visible above.</p>
+          <div className="button-row">
+            <button type="button" onClick={handleReset}>
+              Reset
+            </button>
+          </div>
+          <p className="hint">Use settings when stopped; upload and metronome options live under their transport buttons.</p>
         </details>
       </section>
+
+      {showUploadModal && (
+        <div className="modal-backdrop" role="presentation">
+          <div className="modal-card upload-modal" role="dialog" aria-modal="true" aria-label="Upload options">
+            <h3 className="modal-title">Load MusicXML</h3>
+            <p className="modal-note">Choose a MusicXML file or load the bundled sample rhythm.</p>
+            <div className="button-row">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowUploadModal(false)
+                  handleOpenFilePicker()
+                }}
+              >
+                Upload file
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowUploadModal(false)
+                  handleLoadSample()
+                }}
+              >
+                Load sample
+              </button>
+            </div>
+            <div className="button-row">
+              <button type="button" onClick={() => setShowUploadModal(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showMetronomeModal && (
+        <div className="modal-backdrop" role="presentation">
+          <div className="modal-card metronome-modal" role="dialog" aria-modal="true" aria-label="Metronome settings">
+            <h3 className="modal-title">Metronome settings</h3>
+            <div className="modal-grid">
+              <div className="control-row">
+                <label htmlFor="metronomeMode">Click pattern</label>
+                <select
+                  id="metronomeMode"
+                  value={metronomeMode}
+                  onChange={(event) => setMetronomeMode(event.target.value)}
+                >
+                  <option value="off">Off</option>
+                  <option value="beats">Beats only</option>
+                  <option value="subdivision">Beats + subdivision</option>
+                </select>
+              </div>
+              {metronomeMode === 'subdivision' && (
+                <div className="control-row">
+                  <label htmlFor="metSubdivision">Subdivision note value</label>
+                  <select
+                    id="metSubdivision"
+                    value={metSubdivision}
+                    onChange={(event) => setMetSubdivision(Number(event.target.value))}
+                  >
+                    {SUBDIVISIONS.map((subdivision) => (
+                      <option key={subdivision.value} value={subdivision.value}>
+                        {subdivision.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              <div className="control-row">
+                <label className="toggle-row" htmlFor="countInEnabled">
+                  <input
+                    id="countInEnabled"
+                    type="checkbox"
+                    checked={countInEnabled}
+                    onChange={(event) => setCountInEnabled(event.target.checked)}
+                  />
+                  Enable count-in
+                </label>
+              </div>
+              {countInEnabled && (
+                <div className="control-row">
+                  <label htmlFor="countInBars">Count-in bars</label>
+                  <input
+                    id="countInBars"
+                    type="number"
+                    min="1"
+                    max="4"
+                    value={countInBars}
+                    onChange={(event) => setCountInBars(Math.max(1, Math.min(4, Number(event.target.value) || 1)))}
+                  />
+                </div>
+              )}
+            </div>
+            <div className="button-row">
+              <button type="button" onClick={() => setShowMetronomeModal(false)}>
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showNextModal && (
         <div className="modal-backdrop" role="presentation">

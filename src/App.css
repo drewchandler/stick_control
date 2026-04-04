@@ -28,6 +28,12 @@
   gap: 10px;
 }
 
+.notation-controls {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
 .source-row {
   display: flex;
   gap: 8px;
@@ -39,10 +45,64 @@
   gap: 8px;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
 }
 
 .play-button {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.play-icon {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid #111;
+  margin-left: 3px;
+}
+
+.pause-icon {
+  width: 16px;
+  height: 18px;
+  position: relative;
+}
+
+.pause-icon::before,
+.pause-icon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 5px;
+  height: 100%;
+  background: #111;
+  border-radius: 1px;
+}
+
+.pause-icon::before {
+  left: 0;
+}
+
+.pause-icon::after {
+  right: 0;
+}
+
+.icon-button {
   min-width: 88px;
+}
+
+.icon-button.square {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+  font-size: 1.2rem;
+  display: grid;
+  place-items: center;
 }
 
 .tempo-control {
@@ -269,12 +329,11 @@ button:disabled {
 
 @media (max-width: 720px) {
   .transport-row {
-    flex-direction: column;
-    align-items: stretch;
+    gap: 10px;
   }
 
   .tempo-control {
-    margin-left: 0;
+    margin-left: 4px;
     justify-content: center;
   }
 }

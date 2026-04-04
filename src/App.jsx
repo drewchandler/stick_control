@@ -796,47 +796,13 @@ function App() {
         <p className="subtitle">Notation-first practice for clean, focused reps.</p>
       </header>
 
-      <section className="panel transport-panel">
-        <input
-          ref={fileInputRef}
-          className="file-input-hidden"
-          type="file"
-          accept=".xml,.musicxml,text/xml,application/xml"
-          onChange={handleRhythmFileChange}
-        />
-        <div className="source-row">
-          <button type="button" onClick={handleOpenFilePicker}>
-            Load exercise
-          </button>
-          <button type="button" onClick={handleLoadSample}>
-            Load sample
-          </button>
-        </div>
-
-        <div className="transport-row">
-          <button type="button" disabled={!hasRhythms} onClick={handlePreviousRhythm}>
-            Previous
-          </button>
-          <button type="button" className="play-button" disabled={!hasRhythms} onClick={isTransportRunning ? handlePause : handlePlay}>
-            {playPauseLabel}
-          </button>
-          <button type="button" disabled={!hasRhythms} onClick={handleNextRhythm}>
-            Next
-          </button>
-          <button type="button" onClick={handleReset}>
-            Reset
-          </button>
-          <div className="tempo-control" aria-label="Tempo control">
-            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)}>
-              -
-            </button>
-            <span>{bpm} BPM</span>
-            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(1)}>
-              +
-            </button>
-          </div>
-        </div>
-      </section>
+      <input
+        ref={fileInputRef}
+        className="file-input-hidden"
+        type="file"
+        accept=".xml,.musicxml,text/xml,application/xml"
+        onChange={handleRhythmFileChange}
+      />
 
       <section className="panel status-compact" aria-live="polite">
         <p className="current-rhythm-name">{currentRhythm?.name ?? 'No MusicXML loaded'}</p>
@@ -939,9 +905,61 @@ function App() {
         </svg>
       </section>
 
+      <section className="panel transport-panel transport-under-staff">
+        <div className="transport-row" aria-label="Playback controls">
+          <button
+            type="button"
+            className="transport-icon-button"
+            disabled={!hasRhythms}
+            onClick={handlePreviousRhythm}
+            aria-label="Previous rhythm"
+          >
+            <span className="icon-skip icon-skip-left" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="play-button"
+            disabled={!hasRhythms}
+            onClick={isTransportRunning ? handlePause : handlePlay}
+            aria-label={playPauseLabel}
+          >
+            <span className={isTransportRunning ? 'icon-pause' : 'icon-play'} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="transport-icon-button"
+            disabled={!hasRhythms}
+            onClick={handleNextRhythm}
+            aria-label="Next rhythm"
+          >
+            <span className="icon-skip icon-skip-right" aria-hidden="true" />
+          </button>
+          <div className="tempo-control" aria-label="Tempo control">
+            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
+              -
+            </button>
+            <span>{bpm} BPM</span>
+            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(1)} aria-label="Increase tempo">
+              +
+            </button>
+          </div>
+        </div>
+      </section>
+
       <section className="panel advanced-panel">
         <details>
           <summary>Practice settings</summary>
+          <div className="source-row">
+            <button type="button" onClick={handleOpenFilePicker}>
+              Load exercise
+            </button>
+            <button type="button" onClick={handleLoadSample}>
+              Load sample
+            </button>
+            <button type="button" onClick={handleReset}>
+              Reset
+            </button>
+          </div>
           <div className="advanced-grid">
             <div className="control-row">
               <label htmlFor="bpm">BPM (exact)</label>

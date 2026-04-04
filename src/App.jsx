@@ -992,18 +992,6 @@ function App() {
           </div>
           <div className="advanced-grid">
             <div className="control-row">
-              <label htmlFor="bpm">BPM (exact)</label>
-              <input
-                id="bpm"
-                type="number"
-                min="30"
-                max="260"
-                value={bpm}
-                disabled={controlsDisabled}
-                onChange={(event) => setBpm(Math.max(30, Math.min(260, Number(event.target.value) || 90)))}
-              />
-            </div>
-            <div className="control-row">
               <label htmlFor="repetitions">Repetitions per rhythm</label>
               <input
                 id="repetitions"

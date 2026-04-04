@@ -12,7 +12,7 @@
 
 .subtitle {
   margin-top: 6px;
-  color: #444;
+  color: #2f2f2f;
 }
 
 .panel {
@@ -49,24 +49,33 @@
 .tempo-control {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   margin-left: auto;
   border: 1px solid #d0d0d0;
   border-radius: 10px;
-  padding: 4px;
+  padding: 3px 4px;
 }
 
 .tempo-control span {
-  min-width: 76px;
+  min-width: 44px;
   text-align: center;
   font-weight: 600;
+  color: #242424;
+}
+
+.tempo-control button {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  padding: 0;
+  line-height: 1;
 }
 
 .tempo-input {
-  width: 66px;
+  width: 56px;
   text-align: center;
   font-weight: 600;
-  padding: 7px 8px;
+  padding: 6px 6px;
 }
 
 .controls {
@@ -93,7 +102,7 @@
 }
 
 label {
-  color: #3f3f3f;
+  color: #272727;
   font-size: 0.9rem;
 }
 
@@ -157,7 +166,7 @@ button:disabled {
 .label {
   display: block;
   font-size: 0.8rem;
-  color: #6a6a6a;
+  color: #444;
 }
 
 .status-grid span:last-child {
@@ -279,7 +288,7 @@ button:disabled {
 
 .hint {
   margin: 10px 0 0;
-  color: #5d5d5d;
+  color: #3f3f3f;
 }
 
 .import-error {

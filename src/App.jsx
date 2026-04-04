@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Pause, Play, Settings, SkipBack, SkipForward, Upload } from 'lucide-react'
+import { ChevronDown, Pause, Play, Settings, SkipBack, SkipForward, Upload } from 'lucide-react'
 import './App.css'
 
 const PULSES_PER_QUARTER = 24
@@ -567,15 +567,17 @@ function App() {
   const [activeNoteIndex, setActiveNoteIndex] = useState(null)
   const [currentBeat, setCurrentBeat] = useState('-')
   const [phase, setPhase] = useState('stopped')
-  const [transportState, setTransportState] = useState('Stopped')
+  const [transportState, setTransportState] = useState('')
   const [showNextModal, setShowNextModal] = useState(false)
   const [showUploadModal, setShowUploadModal] = useState(false)
   const [showMetronomeModal, setShowMetronomeModal] = useState(false)
   const [modalText, setModalText] = useState('')
   const [importStatus, setImportStatus] = useState('Loading bundled sample MusicXML...')
   const [importError, setImportError] = useState('')
+  const [showExerciseDropdown, setShowExerciseDropdown] = useState(false)
 
   const fileInputRef = useRef(null)
+  const exerciseDropdownRef = useRef(null)
   const hasAutoLoadedSampleRef = useRef(false)
   const audioContextRef = useRef(null)
   const audioUnlockedRef = useRef(false)
@@ -613,6 +615,40 @@ function App() {
   useEffect(() => {
     runtimeRef.current.rhythmIndex = currentRhythmIndex
   }, [currentRhythmIndex])
+
+  useEffect(() => {
+    if (!showExerciseDropdown) {
+      return undefined
+    }
+    function handleDocumentClick(event) {
+      if (!exerciseDropdownRef.current?.contains(event.target)) {
+        setShowExerciseDropdown(false)
+      }
+    }
+    function handleEscape(event) {
+      if (event.key === 'Escape') {
+        setShowExerciseDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleDocumentClick)
+    document.addEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('mousedown', handleDocumentClick)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [showExerciseDropdown])
+
+  useEffect(() => {
+    if (!importStatus) {
+      return undefined
+    }
+    const timeoutId = window.setTimeout(() => {
+      setImportStatus('')
+    }, 3600)
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
+  }, [importStatus])
 
   useEffect(() => {
     rhythmsRef.current = rhythms
@@ -695,10 +731,6 @@ function App() {
 
   function secondsPerPulse() {
     return 60 / settingsRef.current.bpm / PULSES_PER_QUARTER
-  }
-
-  function getRhythmTiming(rhythm) {
-    return timingFromSignature(rhythm.beats, rhythm.beatType)
   }
 
   function playClick(time, frequency, gainAmount, durationSeconds) {
@@ -871,7 +903,7 @@ function App() {
     setCurrentRep(0)
     setActiveNoteIndex(null)
     setCurrentBeat('-')
-    setTransportState('Stopped')
+    setTransportState('')
     setShowNextModal(false)
   }
 
@@ -951,14 +983,14 @@ function App() {
     runtimeRef.current.rhythmIndex = previousIndex
   }
 
-  function handleRhythmSelect(event) {
-    const newIndex = Number(event.target.value)
+  function handleRhythmSelect(newIndex) {
     if (!Number.isInteger(newIndex) || newIndex < 0 || newIndex >= rhythms.length) {
       return
     }
     handleReset()
     setCurrentRhythmIndex(newIndex)
     runtimeRef.current.rhythmIndex = newIndex
+    setShowExerciseDropdown(false)
   }
 
   async function handleRhythmFileChange(event) {
@@ -1034,9 +1066,6 @@ function App() {
   }
 
   function adjustBpm(delta) {
-    if (controlsDisabled) {
-      return
-    }
     setBpm((previous) => Math.max(30, Math.min(260, previous + delta)))
   }
 
@@ -1124,6 +1153,15 @@ function App() {
       ? 'Cut Time'
       : `${rhythmMeasures[0].beats}/${rhythmMeasures[0].beatType}`
     : '-'
+  const currentExerciseLabel = hasRhythms ? currentRhythm?.name ?? `Exercise ${currentRhythmIndex + 1}` : 'No exercises loaded'
+  const measureStartNoteInset = 12
+  const noteXInsetForPulse = (pulseInExercise) => {
+    if (!currentRhythm) {
+      return 0
+    }
+    const measure = measureForPulse(currentRhythm, pulseInExercise)
+    return measure.startPulse > 0 && pulseInExercise === measure.startPulse ? measureStartNoteInset : 0
+  }
 
   return (
     <main className="app">
@@ -1196,8 +1234,15 @@ function App() {
               </g>
               {beamSegments.map((segment) => {
                 const startX =
-                  noteAreaStart + (segment.startPulse / totalRhythmPulses) * noteAreaWidth + 10
-                const endX = noteAreaStart + (segment.endPulse / totalRhythmPulses) * noteAreaWidth + 10
+                  noteAreaStart +
+                  (segment.startPulse / totalRhythmPulses) * noteAreaWidth +
+                  noteXInsetForPulse(segment.startPulse) +
+                  10
+                const endX =
+                  noteAreaStart +
+                  (segment.endPulse / totalRhythmPulses) * noteAreaWidth +
+                  noteXInsetForPulse(segment.endPulse) +
+                  10
                 const y = 28 + (segment.level - 1) * 6
                 return (
                   <line
@@ -1211,7 +1256,8 @@ function App() {
                 )
               })}
               {currentRhythm.notes.map((note, index) => {
-                const x = noteAreaStart + (note.startPulse / totalRhythmPulses) * noteAreaWidth
+                const x =
+                  noteAreaStart + (note.startPulse / totalRhythmPulses) * noteAreaWidth + noteXInsetForPulse(note.startPulse)
                 const y = staffYForOffset(note.staffOffset ?? DEFAULT_SNARE_STAFF_OFFSET)
                 const isActive = index === activeNoteIndex
                 return (
@@ -1247,9 +1293,8 @@ function App() {
             <span>Rep {currentRep}/{repetitions}</span>
             <span>Beat {currentBeat}</span>
             <span>{timeSignatureLabel}</span>
-            <span>{transportState}</span>
+            {transportState && <span>{transportState}</span>}
           </div>
-          {importStatus && <p className="import-success">{importStatus}</p>}
           {importError && <p className="import-error">{importError}</p>}
         </div>
         <div className="transport-row" aria-label="Playback controls">
@@ -1284,8 +1329,39 @@ function App() {
           >
             <SkipForward size={18} className="transport-icon" aria-hidden="true" />
           </button>
+          <div className="exercise-dropdown" ref={exerciseDropdownRef}>
+            <button
+              type="button"
+              className="exercise-trigger"
+              disabled={controlsDisabled || !hasRhythms}
+              onClick={() => setShowExerciseDropdown((open) => !open)}
+              aria-expanded={showExerciseDropdown}
+              aria-haspopup="listbox"
+              aria-label="Select exercise"
+            >
+              <span className="exercise-trigger-label">{currentExerciseLabel}</span>
+              <ChevronDown size={16} className="transport-icon" aria-hidden="true" />
+            </button>
+            {showExerciseDropdown && hasRhythms && (
+              <div className="exercise-dropdown-menu" role="listbox" aria-label="Exercises">
+                {rhythms.map((rhythm, index) => (
+                  <button
+                    key={`${rhythm.name}-${index}`}
+                    type="button"
+                    className={`exercise-option ${index === currentRhythmIndex ? 'active' : ''}`}
+                    role="option"
+                    aria-selected={index === currentRhythmIndex}
+                    onClick={() => handleRhythmSelect(index)}
+                  >
+                    <span className="exercise-option-index">{index + 1}.</span>
+                    <span>{rhythm.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <div className="tempo-control" aria-label="Tempo control">
-            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
+            <button type="button" onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
               -
             </button>
             <input
@@ -1294,7 +1370,6 @@ function App() {
               inputMode="numeric"
               aria-label="Tempo BPM"
               value={tempoInput}
-              disabled={controlsDisabled}
               onChange={(event) => setTempoInput(event.target.value)}
               onBlur={commitTempoInput}
               onKeyDown={(event) => {
@@ -1305,7 +1380,7 @@ function App() {
               }}
             />
             <span>BPM</span>
-            <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(1)} aria-label="Increase tempo">
+            <button type="button" onClick={() => adjustBpm(1)} aria-label="Increase tempo">
               +
             </button>
           </div>
@@ -1378,21 +1453,6 @@ function App() {
                   disabled={controlsDisabled}
                   onChange={(event) => setRepetitions(Math.max(1, Math.min(200, Number(event.target.value) || 20)))}
                 />
-              </div>
-              <div className="control-row">
-                <label htmlFor="rhythm">Rhythm (exercise)</label>
-                <select
-                  id="rhythm"
-                  value={currentRhythmIndex}
-                  disabled={controlsDisabled || !hasRhythms}
-                  onChange={handleRhythmSelect}
-                >
-                  {rhythms.map((rhythm, index) => (
-                    <option key={`${rhythm.name}-${index}`} value={index}>
-                      {rhythm.name}
-                    </option>
-                  ))}
-                </select>
               </div>
               <div className="control-row">
                 <label htmlFor="metronomeMode">Click pattern</label>
@@ -1472,6 +1532,11 @@ function App() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+      {importStatus && (
+        <div className="toast toast-success" role="status" aria-live="polite">
+          {importStatus}
         </div>
       )}
     </main>

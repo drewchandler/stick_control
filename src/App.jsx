@@ -328,6 +328,7 @@ function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythm
 
 function App() {
   const [bpm, setBpm] = useState(90)
+  const [tempoInput, setTempoInput] = useState('90')
   const [repetitions, setRepetitions] = useState(20)
   const [countInBars, setCountInBars] = useState(1)
   const [metSubdivision, setMetSubdivision] = useState(16)
@@ -369,6 +370,10 @@ function App() {
   useEffect(() => {
     settingsRef.current = { bpm, repetitions, countInBars, metSubdivision }
   }, [bpm, repetitions, countInBars, metSubdivision])
+
+  useEffect(() => {
+    setTempoInput(String(bpm))
+  }, [bpm])
 
   useEffect(() => {
     runtimeRef.current.rhythmIndex = currentRhythmIndex
@@ -748,6 +753,17 @@ function App() {
     setBpm((previous) => Math.max(30, Math.min(260, previous + delta)))
   }
 
+  function commitTempoInput() {
+    const parsed = Number(tempoInput)
+    if (!Number.isFinite(parsed)) {
+      setTempoInput(String(bpm))
+      return
+    }
+    const clamped = Math.max(30, Math.min(260, Math.round(parsed)))
+    setBpm(clamped)
+    setTempoInput(String(clamped))
+  }
+
   useEffect(
     () => () => {
       stopScheduler()
@@ -936,7 +952,23 @@ function App() {
             <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
               -
             </button>
-            <span>{bpm} BPM</span>
+            <input
+              type="text"
+              className="tempo-input"
+              inputMode="numeric"
+              aria-label="Tempo BPM"
+              value={tempoInput}
+              disabled={controlsDisabled}
+              onChange={(event) => setTempoInput(event.target.value)}
+              onBlur={commitTempoInput}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault()
+                  commitTempoInput()
+                }
+              }}
+            />
+            <span>BPM</span>
             <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(1)} aria-label="Increase tempo">
               +
             </button>

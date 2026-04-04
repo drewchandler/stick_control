@@ -154,6 +154,13 @@
   font-weight: 600;
 }
 
+.tempo-input {
+  width: 66px;
+  text-align: center;
+  font-weight: 600;
+  padding: 7px 8px;
+}
+
 .file-input-hidden {
   display: none;
 }

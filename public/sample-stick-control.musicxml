@@ -36,6 +36,9 @@
           </metronome>
         </direction-type>
       </direction>
+      <grouping type="start" number="1">
+        <feature type="exercise">Exercise 1</feature>
+      </grouping>
       <note>
         <unpitched>
           <display-step>C</display-step>
@@ -186,6 +189,7 @@
       <attributes>
         <divisions>4</divisions>
       </attributes>
+      <grouping type="stop" number="1"/>
       <note>
         <unpitched>
           <display-step>C</display-step>

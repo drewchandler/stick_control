@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { FileMusic, Pause, Play, RotateCcw, Settings, SkipBack, SkipForward, Upload, X } from 'lucide-react'
+import { Pause, Play, Settings, SkipBack, SkipForward, Upload } from 'lucide-react'
 import './App.css'
 
 const PULSES_PER_QUARTER = 24
@@ -954,7 +954,7 @@ function App() {
             onClick={handlePreviousRhythm}
             aria-label="Previous rhythm"
           >
-            <span className="icon-skip icon-skip-left" aria-hidden="true" />
+            <SkipBack size={18} className="transport-icon" aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -963,7 +963,11 @@ function App() {
             onClick={isTransportRunning ? handlePause : handlePlay}
             aria-label={playPauseLabel}
           >
-            <span className={isTransportRunning ? 'icon-pause' : 'icon-play'} aria-hidden="true" />
+            {isTransportRunning ? (
+              <Pause size={24} className="transport-icon" aria-hidden="true" />
+            ) : (
+              <Play size={24} className="transport-icon" aria-hidden="true" />
+            )}
           </button>
           <button
             type="button"
@@ -972,7 +976,7 @@ function App() {
             onClick={handleNextRhythm}
             aria-label="Next rhythm"
           >
-            <span className="icon-skip icon-skip-right" aria-hidden="true" />
+            <SkipForward size={18} className="transport-icon" aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -980,15 +984,15 @@ function App() {
             onClick={() => setShowUploadModal(true)}
             aria-label="Open upload options"
           >
-            <span className="icon-upload" aria-hidden="true" />
+            <Upload size={18} className="transport-icon" aria-hidden="true" />
           </button>
           <button
             type="button"
             className="transport-icon-button"
             onClick={() => setShowMetronomeModal(true)}
-            aria-label="Open metronome settings"
+            aria-label="Open settings"
           >
-            <span className="icon-metronome" aria-hidden="true" />
+            <Settings size={18} className="transport-icon" aria-hidden="true" />
           </button>
           <div className="tempo-control" aria-label="Tempo control">
             <button type="button" disabled={controlsDisabled} onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
@@ -1016,47 +1020,6 @@ function App() {
             </button>
           </div>
         </div>
-      </section>
-
-      <section className="panel advanced-panel">
-        <details>
-          <summary>Practice settings</summary>
-          <div className="advanced-grid">
-            <div className="control-row">
-              <label htmlFor="repetitions">Repetitions per rhythm</label>
-              <input
-                id="repetitions"
-                type="number"
-                min="1"
-                max="200"
-                value={repetitions}
-                disabled={controlsDisabled}
-                onChange={(event) => setRepetitions(Math.max(1, Math.min(200, Number(event.target.value) || 20)))}
-              />
-            </div>
-            <div className="control-row">
-              <label htmlFor="rhythm">Rhythm (measure)</label>
-              <select
-                id="rhythm"
-                value={currentRhythmIndex}
-                disabled={controlsDisabled || !hasRhythms}
-                onChange={handleRhythmSelect}
-              >
-                {rhythms.map((rhythm, index) => (
-                  <option key={`${rhythm.name}-${index}`} value={index}>
-                    {rhythm.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="button-row">
-            <button type="button" onClick={handleReset}>
-              Reset
-            </button>
-          </div>
-          <p className="hint">Use settings when stopped; upload and metronome options live under their transport buttons.</p>
-        </details>
       </section>
 
       {showUploadModal && (
@@ -1095,9 +1058,36 @@ function App() {
 
       {showMetronomeModal && (
         <div className="modal-backdrop" role="presentation">
-          <div className="modal-card metronome-modal" role="dialog" aria-modal="true" aria-label="Metronome settings">
-            <h3 className="modal-title">Metronome settings</h3>
+          <div className="modal-card metronome-modal" role="dialog" aria-modal="true" aria-label="Practice settings">
+            <h3 className="modal-title">Practice settings</h3>
             <div className="modal-grid">
+              <div className="control-row">
+                <label htmlFor="repetitions">Repetitions per rhythm</label>
+                <input
+                  id="repetitions"
+                  type="number"
+                  min="1"
+                  max="200"
+                  value={repetitions}
+                  disabled={controlsDisabled}
+                  onChange={(event) => setRepetitions(Math.max(1, Math.min(200, Number(event.target.value) || 20)))}
+                />
+              </div>
+              <div className="control-row">
+                <label htmlFor="rhythm">Rhythm (measure)</label>
+                <select
+                  id="rhythm"
+                  value={currentRhythmIndex}
+                  disabled={controlsDisabled || !hasRhythms}
+                  onChange={handleRhythmSelect}
+                >
+                  {rhythms.map((rhythm, index) => (
+                    <option key={`${rhythm.name}-${index}`} value={index}>
+                      {rhythm.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="control-row">
                 <label htmlFor="metronomeMode">Click pattern</label>
                 <select
@@ -1152,6 +1142,9 @@ function App() {
               )}
             </div>
             <div className="button-row">
+              <button type="button" onClick={handleReset}>
+                Reset
+              </button>
               <button type="button" onClick={() => setShowMetronomeModal(false)}>
                 Done
               </button>

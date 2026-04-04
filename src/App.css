@@ -400,6 +400,10 @@ button:disabled {
   max-width: 520px;
 }
 
+.upload-modal {
+  max-width: 460px;
+}
+
 .modal-title {
   margin: 0 0 12px;
 }

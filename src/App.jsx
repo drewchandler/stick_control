@@ -342,6 +342,7 @@ function App() {
   const [phase, setPhase] = useState('stopped')
   const [transportState, setTransportState] = useState('Stopped')
   const [showNextModal, setShowNextModal] = useState(false)
+  const [showUploadModal, setShowUploadModal] = useState(false)
   const [showMetronomeModal, setShowMetronomeModal] = useState(false)
   const [modalText, setModalText] = useState('')
   const [importStatus, setImportStatus] = useState('Load a MusicXML file to begin.')
@@ -966,6 +967,14 @@ function App() {
           <button
             type="button"
             className="transport-icon-button"
+            onClick={() => setShowUploadModal(true)}
+            aria-label="Open upload options"
+          >
+            <span className="icon-upload" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="transport-icon-button"
             onClick={() => setShowMetronomeModal(true)}
             aria-label="Open metronome settings"
           >
@@ -1002,17 +1011,6 @@ function App() {
       <section className="panel advanced-panel">
         <details>
           <summary>Practice settings</summary>
-          <div className="source-row">
-            <button type="button" onClick={handleOpenFilePicker}>
-              Load exercise
-            </button>
-            <button type="button" onClick={handleLoadSample}>
-              Load sample
-            </button>
-            <button type="button" onClick={handleReset}>
-              Reset
-            </button>
-          </div>
           <div className="advanced-grid">
             <div className="control-row">
               <label htmlFor="repetitions">Repetitions per rhythm</label>
@@ -1042,9 +1040,48 @@ function App() {
               </select>
             </div>
           </div>
-          <p className="hint">Use settings when stopped; metronome and count-in live under the metronome button.</p>
+          <div className="button-row">
+            <button type="button" onClick={handleReset}>
+              Reset
+            </button>
+          </div>
+          <p className="hint">Use settings when stopped; upload and metronome options live under their transport buttons.</p>
         </details>
       </section>
+
+      {showUploadModal && (
+        <div className="modal-backdrop" role="presentation">
+          <div className="modal-card upload-modal" role="dialog" aria-modal="true" aria-label="Upload options">
+            <h3 className="modal-title">Load MusicXML</h3>
+            <p className="modal-note">Choose a MusicXML file or load the bundled sample rhythm.</p>
+            <div className="button-row">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowUploadModal(false)
+                  handleOpenFilePicker()
+                }}
+              >
+                Upload file
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowUploadModal(false)
+                  handleLoadSample()
+                }}
+              >
+                Load sample
+              </button>
+            </div>
+            <div className="button-row">
+              <button type="button" onClick={() => setShowUploadModal(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showMetronomeModal && (
         <div className="modal-backdrop" role="presentation">

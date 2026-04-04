@@ -7,26 +7,62 @@
 .top-bar h1 {
   margin: 0;
   font-size: 2rem;
+  color: #0f0f0f;
 }
 
 .subtitle {
   margin-top: 6px;
-  color: #b2bdd3;
+  color: #444;
 }
 
 .panel {
-  background: #171b24;
-  border: 1px solid #2a3244;
+  background: #fff;
+  border: 1px solid #d8d8d8;
   border-radius: 12px;
-  padding: 16px;
+  padding: 14px;
   margin-top: 14px;
 }
 
-.controls {
+.transport-panel {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-  align-items: end;
+  gap: 10px;
+}
+
+.source-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.transport-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.play-button {
+  min-width: 88px;
+}
+
+.tempo-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  border: 1px solid #d0d0d0;
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.tempo-control span {
+  min-width: 76px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.file-input-hidden {
+  display: none;
 }
 
 .control-row {
@@ -35,36 +71,42 @@
   gap: 6px;
 }
 
+.advanced-grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
 label {
-  color: #b9c3d6;
-  font-size: 0.93rem;
+  color: #3f3f3f;
+  font-size: 0.9rem;
 }
 
 input[type='number'],
-input[type='file'],
 select,
 button {
-  border: 1px solid #3a4560;
-  background: #101523;
-  color: #edf2ff;
+  border: 1px solid #c8c8c8;
+  background: #fff;
+  color: #111;
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 9px 12px;
   font-size: 0.95rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: #8f8f8f;
 }
 
 input[type='number']:focus,
 select:focus,
 button:focus {
-  outline: 2px solid #5a9cff;
+  outline: 2px solid #242424;
   outline-offset: 1px;
-}
-
-input[type='file'] {
-  padding: 8px;
-}
-
-button {
-  cursor: pointer;
 }
 
 button:disabled {
@@ -78,58 +120,60 @@ button:disabled {
   flex-wrap: wrap;
 }
 
-.status-grid {
+.status-compact {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 10px;
+  gap: 7px;
 }
 
-.label {
-  display: block;
-  font-size: 0.8rem;
-  color: #a8b3cb;
+.current-rhythm-name {
+  margin: 0;
+  color: #1d1d1d;
+  font-weight: 600;
 }
 
-.status-grid span:last-child {
-  font-size: 1.05rem;
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: #4a4a4a;
+  font-size: 0.95rem;
 }
 
-.notation h2,
-.import-panel h2 {
-  margin-top: 0;
+.notation h2 {
+  margin: 0 0 8px;
 }
 
 .staff-svg {
   width: 100%;
   min-height: 190px;
-  background: #fefefe;
-  border: 1px solid #36425a;
+  background: #fff;
+  border: 1px solid #bdbdbd;
   border-radius: 10px;
 }
 
 .staff-line {
-  stroke: #2d2d2d;
+  stroke: #171717;
   stroke-width: 1.3;
 }
 
 .bar-line {
-  stroke: #525252;
+  stroke: #212121;
   stroke-width: 1.1;
 }
 
 .beat-separator {
-  stroke: #bbbbbb;
+  stroke: #cbcbcb;
   stroke-width: 0.8;
   stroke-dasharray: 4 5;
 }
 
 .note-stem {
-  stroke: #101010;
+  stroke: #111;
   stroke-width: 1.5;
 }
 
 .note-beam {
-  stroke: #101010;
+  stroke: #111;
   stroke-width: 3.2;
   stroke-linecap: round;
 }
@@ -140,8 +184,8 @@ button:disabled {
 }
 
 .note-head.active {
-  fill: #d92f2f;
-  stroke: #d92f2f;
+  fill: #d52a2a;
+  stroke: #d52a2a;
 }
 
 .sticking-mark {
@@ -183,47 +227,54 @@ button:disabled {
   fill: #6b6b6b;
 }
 
+.advanced-panel summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
 .hint {
-  margin-top: 0;
-  color: #bac5da;
+  margin: 10px 0 0;
+  color: #5d5d5d;
 }
 
 .import-success,
 .import-error {
-  margin: 8px 0 0;
+  margin: 0;
 }
 
 .import-success {
-  color: #98e79f;
+  color: #1f7a2f;
 }
 
 .import-error {
-  color: #ff8787;
-}
-
-.import-actions {
-  margin-top: 8px;
+  color: #b22525;
 }
 
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.2);
   display: grid;
   place-items: center;
   padding: 16px;
 }
 
 .modal-card {
-  background: #171b24;
-  border: 1px solid #34405a;
+  background: #fff;
+  border: 1px solid #cfcfcf;
   border-radius: 12px;
   padding: 18px;
   max-width: 520px;
 }
 
 @media (max-width: 720px) {
-  .controls {
-    grid-template-columns: 1fr;
+  .transport-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tempo-control {
+    margin-left: 0;
+    justify-content: center;
   }
 }

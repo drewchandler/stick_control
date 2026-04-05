@@ -319,102 +319,37 @@ button:disabled {
   color: #2a2a2a;
 }
 
-.staff-svg {
-  width: 100%;
-  min-height: 190px;
+.notation-surface {
   background: #fff;
   border: 1px solid #bdbdbd;
   border-radius: 10px;
+  min-height: 190px;
 }
 
-.staff-line {
-  stroke: #171717;
-  stroke-width: 1.3;
+.notation-empty {
+  display: grid;
+  place-items: center;
 }
 
-.bar-line {
-  stroke: #212121;
-  stroke-width: 1.1;
+.staff-empty-message {
+  margin: 0;
+  color: #6b6b6b;
+  font-size: 1rem;
 }
 
-.beat-separator {
-  stroke: #cbcbcb;
-  stroke-width: 0.8;
-  stroke-dasharray: 4 5;
+.vexflow-scroll {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 10px;
 }
 
-.note-stem {
-  stroke: #111;
-  stroke-width: 1.5;
+.vexflow-host {
+  min-width: 100%;
 }
 
-.note-beam {
-  stroke: #111;
-  stroke-width: 3.2;
-  stroke-linecap: round;
-}
-
-.note-head {
-  fill: #111;
-  stroke: #111;
-}
-
-.note-head.active {
-  fill: #d52a2a;
-  stroke: #d52a2a;
-}
-
-.sticking-mark {
-  font-size: 20px;
-  text-anchor: middle;
-  fill: #222;
-  font-weight: 700;
-}
-
-.percussion-clef-bar {
-  fill: #222;
-}
-
-.cut-time-glyph {
-  font-size: 38px;
-  font-weight: 600;
-  text-anchor: middle;
-  dominant-baseline: middle;
-  fill: #222;
-}
-
-.cut-time-slasher {
-  stroke: #222;
-  stroke-width: 2.6;
-  stroke-linecap: round;
-}
-
-.time-signature-top,
-.time-signature-bottom {
-  font-size: 24px;
-  font-weight: 700;
-  text-anchor: middle;
-  fill: #222;
-}
-
-.staff-empty {
-  font-size: 17px;
-  text-anchor: middle;
-  fill: #6b6b6b;
-}
-
-.repeat-bar-thin {
-  stroke: #1a1a1a;
-  stroke-width: 1.4;
-}
-
-.repeat-bar-thick {
-  stroke: #111;
-  stroke-width: 3;
-}
-
-.repeat-dot {
-  fill: #111;
+.vexflow-host svg {
+  display: block;
 }
 
 .hint {

@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ChevronDown, Pause, Play, Settings, SkipBack, SkipForward, Upload } from 'lucide-react'
 import './App.css'
+import VexflowStaff from './VexflowStaff'
 
 const PULSES_PER_QUARTER = 24
 const SCHEDULE_AHEAD_SECONDS = 0.12
@@ -91,12 +92,6 @@ function staffOffsetFromPitch(position) {
   return diatonic - MIDDLE_LINE_DIATONIC
 }
 
-function staffYForOffset(staffOffset) {
-  const middleLineY = 74
-  const halfStepY = 8
-  return middleLineY - staffOffset * halfStepY
-}
-
 function parseTempo(xmlDocument) {
   const soundTempo = Number(xmlDocument.querySelector('sound[tempo]')?.getAttribute('tempo'))
   if (Number.isFinite(soundTempo) && soundTempo > 0) {
@@ -116,11 +111,6 @@ function timingFromSignature(beats, beatType) {
     pulsesPerBeat,
     pulsesPerBar: Math.max(1, beats * pulsesPerBeat),
   }
-}
-
-function isCutTimeSignature(beats, beatType, timeSymbol) {
-  const normalized = String(timeSymbol || '').toLowerCase()
-  return normalized === 'cut' || normalized === 'cut-time' || (beats === 2 && beatType === 2)
 }
 
 function beamCountForNote(noteElement, durationDivisions, currentDivisions) {
@@ -146,82 +136,6 @@ function beamCountForNote(noteElement, durationDivisions, currentDivisions) {
     return 1
   }
   return 0
-}
-
-function buildMeasureBeamSegments(notes, pulsesPerBeat, pulseOffset = 0) {
-  const segments = []
-  if (!notes.length) {
-    return segments
-  }
-
-  function flushRun(level, run) {
-    if (run.length < 2) {
-      return
-    }
-    segments.push({
-      level,
-      startPulse: pulseOffset + run[0].startPulse,
-      endPulse: pulseOffset + run[run.length - 1].startPulse,
-    })
-  }
-
-  for (let level = 1; level <= 3; level += 1) {
-    let run = []
-    for (const note of notes) {
-      if (note.beamCount < level) {
-        flushRun(level, run)
-        run = []
-        continue
-      }
-
-      if (!run.length) {
-        run = [note]
-        continue
-      }
-
-      const previous = run[run.length - 1]
-      const sameBeat = Math.floor(previous.startPulse / pulsesPerBeat) === Math.floor(note.startPulse / pulsesPerBeat)
-      const contiguous = note.startPulse <= previous.startPulse + Math.max(1, previous.durationPulses) + 1
-      if (sameBeat && contiguous) {
-        run.push(note)
-      } else {
-        flushRun(level, run)
-        run = [note]
-      }
-    }
-    flushRun(level, run)
-  }
-
-  return segments
-}
-
-function buildBeamSegmentsForRhythm(rhythm) {
-  if (!rhythm?.notes?.length) {
-    return []
-  }
-
-  const measures = rhythm.measures?.length
-    ? rhythm.measures
-    : [
-        {
-          startPulse: 0,
-          pulsesPerBar: rhythm.pulsesPerExercise ?? rhythm.pulsesPerBar ?? 1,
-          beats: rhythm.beats,
-          beatType: rhythm.beatType,
-        },
-      ]
-
-  const segments = []
-  for (const measure of measures) {
-    const measureStart = measure.startPulse
-    const measureEnd = measureStart + measure.pulsesPerBar
-    const localNotes = rhythm.notes
-      .filter((note) => note.startPulse >= measureStart && note.startPulse < measureEnd)
-      .map((note) => ({ ...note, startPulse: note.startPulse - measureStart }))
-    const timing = timingFromSignature(measure.beats, measure.beatType)
-    segments.push(...buildMeasureBeamSegments(localNotes, timing.pulsesPerBeat, measureStart))
-  }
-  return segments
 }
 
 function totalPulsesForRhythm(rhythm) {
@@ -897,7 +811,7 @@ function App() {
     return true
   }
 
-  function handleReset() {
+  const handleReset = useCallback(() => {
     setRuntimePhase('stopped')
     runtimeRef.current.completedReps = 0
     runtimeRef.current.noteCursor = 0
@@ -909,7 +823,7 @@ function App() {
     setCurrentBeat('-')
     setTransportState('')
     setShowNextModal(false)
-  }
+  }, [])
 
   async function startPracticeFromBeginning() {
     if (!currentRhythm) {
@@ -1031,7 +945,7 @@ function App() {
     }
   }
 
-  async function handleLoadSample() {
+  const handleLoadSample = useCallback(async () => {
     try {
       const response = await fetch('./stick-control-page-5.musicxml')
       if (!response.ok) {
@@ -1055,7 +969,7 @@ function App() {
       setImportError(message)
       setImportStatus('')
     }
-  }
+  }, [handleReset])
 
   useEffect(() => {
     if (hasAutoLoadedSampleRef.current) {
@@ -1063,7 +977,7 @@ function App() {
     }
     hasAutoLoadedSampleRef.current = true
     handleLoadSample()
-  }, [])
+  }, [handleLoadSample])
 
   function handleOpenFilePicker() {
     fileInputRef.current?.click()
@@ -1098,59 +1012,6 @@ function App() {
   const controlsDisabled = phase === 'playing' || phase === 'countIn'
   const isTransportRunning = phase === 'playing' || phase === 'countIn'
   const hasRhythms = rhythms.length > 0
-  const lineYs = [42, 58, 74, 90, 106]
-  const staffXStart = 40
-  const staffXEnd = 1110
-  const noteAreaStart = staffXStart + 110
-  const noteAreaWidth = staffXEnd - noteAreaStart
-  const staffPrefixCenterX = staffXStart + 52
-  const totalRhythmPulses = currentRhythm == null ? 1 : totalPulsesForRhythm(currentRhythm)
-  const rhythmMeasures =
-    currentRhythm?.measures?.length
-      ? currentRhythm.measures
-      : currentRhythm
-        ? [
-            {
-              startPulse: 0,
-              pulsesPerBar: totalRhythmPulses,
-              beats: currentRhythm.beats,
-              beatType: currentRhythm.beatType,
-              timeSymbol: currentRhythm.timeSymbol,
-            },
-          ]
-        : []
-  const hasMixedSignatures =
-    rhythmMeasures.length > 1 &&
-    rhythmMeasures.some(
-      (measure) =>
-        measure.beats !== rhythmMeasures[0].beats ||
-        measure.beatType !== rhythmMeasures[0].beatType ||
-        String(measure.timeSymbol ?? '').toLowerCase() !== String(rhythmMeasures[0].timeSymbol ?? '').toLowerCase(),
-    )
-  const showCutTime =
-    currentRhythm != null &&
-    !hasMixedSignatures &&
-    isCutTimeSignature(rhythmMeasures[0].beats, rhythmMeasures[0].beatType, rhythmMeasures[0].timeSymbol)
-  const beatSeparators =
-    currentRhythm == null
-      ? []
-      : rhythmMeasures.flatMap((measure) => {
-          const timing = timingFromSignature(measure.beats, measure.beatType)
-          return Array.from({ length: Math.max(0, measure.beats - 1) }, (_, idx) => {
-            const pulse = measure.startPulse + (idx + 1) * timing.pulsesPerBeat
-            return noteAreaStart + (pulse / totalRhythmPulses) * noteAreaWidth
-          })
-        })
-  const barSeparators =
-    currentRhythm == null
-      ? []
-      : rhythmMeasures
-          .slice(1)
-          .map((measure) => noteAreaStart + (measure.startPulse / totalRhythmPulses) * noteAreaWidth - 2)
-  const beamSegments =
-    currentRhythm == null
-      ? []
-      : buildBeamSegmentsForRhythm(currentRhythm)
   const playPauseLabel = isTransportRunning ? 'Pause' : phase === 'paused' ? 'Resume' : 'Play'
   const currentExerciseLabel = hasRhythms ? currentRhythm?.name ?? `Exercise ${currentRhythmIndex + 1}` : 'No exercises loaded'
 
@@ -1169,101 +1030,7 @@ function App() {
       />
 
       <section className="panel notation">
-        <svg className="staff-svg" viewBox="0 0 1150 180" role="img" aria-label="Snare drum sticking staff">
-          {lineYs.map((y) => (
-            <line key={y} x1={staffXStart} y1={y} x2={staffXEnd} y2={y} className="staff-line" />
-          ))}
-
-          {beatSeparators.map((x) => (
-            <line key={x} x1={x} y1="24" x2={x} y2="145" className="beat-separator" />
-          ))}
-          {barSeparators.map((x) => (
-            <line key={`bar-${x}`} x1={x} y1="24" x2={x} y2="145" className="bar-line" />
-          ))}
-
-          <line x1={staffXStart} y1="24" x2={staffXStart} y2="145" className="bar-line" />
-          {currentRhythm ? (
-            <g className="repeat-ending" aria-hidden="true">
-              <line x1={staffXEnd - 9} y1="24" x2={staffXEnd - 9} y2="145" className="repeat-bar-thin" />
-              <line x1={staffXEnd} y1="24" x2={staffXEnd} y2="145" className="repeat-bar-thick" />
-              <circle cx={staffXEnd - 15} cy="66" r="2.8" className="repeat-dot" />
-              <circle cx={staffXEnd - 15} cy="82" r="2.8" className="repeat-dot" />
-            </g>
-          ) : (
-            <line x1={staffXEnd} y1="24" x2={staffXEnd} y2="145" className="bar-line" />
-          )}
-
-          {currentRhythm ? (
-            <>
-              <g className="staff-prefix" aria-hidden="true">
-                <rect x={staffXStart + 12} y="53" width="6" height="42" className="percussion-clef-bar" />
-                <rect x={staffXStart + 24} y="53" width="6" height="42" className="percussion-clef-bar" />
-                {showCutTime ? (
-                  <>
-                    <text x={staffPrefixCenterX} y="74" className="cut-time-glyph">
-                      C
-                    </text>
-                    <line
-                      x1={staffPrefixCenterX + 6}
-                      y1="50"
-                      x2={staffPrefixCenterX + 6}
-                      y2="98"
-                      className="cut-time-slasher"
-                    />
-                  </>
-                ) : (
-                  <>
-                    <text x={staffPrefixCenterX + 7} y="64" className="time-signature-top">
-                      {rhythmMeasures[0].beats}
-                    </text>
-                    <text x={staffPrefixCenterX + 7} y="98" className="time-signature-bottom">
-                      {rhythmMeasures[0].beatType}
-                    </text>
-                  </>
-                )}
-              </g>
-              {beamSegments.map((segment) => {
-                const startX = noteAreaStart + (segment.startPulse / totalRhythmPulses) * noteAreaWidth + 10
-                const endX = noteAreaStart + (segment.endPulse / totalRhythmPulses) * noteAreaWidth + 10
-                const y = 28 + (segment.level - 1) * 6
-                return (
-                  <line
-                    key={`beam-${segment.level}-${segment.startPulse}-${segment.endPulse}`}
-                    x1={startX}
-                    y1={y}
-                    x2={endX}
-                    y2={y}
-                    className="note-beam"
-                  />
-                )
-              })}
-              {currentRhythm.notes.map((note, index) => {
-                const x = noteAreaStart + (note.startPulse / totalRhythmPulses) * noteAreaWidth
-                const y = staffYForOffset(note.staffOffset ?? DEFAULT_SNARE_STAFF_OFFSET)
-                const isActive = index === activeNoteIndex
-                return (
-                  <g key={note.id}>
-                    <line x1={x + 10} y1={y} x2={x + 10} y2="28" className="note-stem" />
-                    <ellipse
-                      cx={x}
-                      cy={y}
-                      rx="10"
-                      ry="7"
-                      className={`note-head ${isActive ? 'active' : ''}`}
-                    />
-                    <text x={x} y="162" className="sticking-mark">
-                      {note.stick}
-                    </text>
-                  </g>
-                )
-              })}
-            </>
-          ) : (
-            <text x="575" y="85" className="staff-empty">
-              Load a MusicXML file to display notation.
-            </text>
-          )}
-        </svg>
+        <VexflowStaff rhythm={currentRhythm} activeNoteIndex={activeNoteIndex} />
       </section>
 
       <section className="panel transport-panel transport-under-staff">

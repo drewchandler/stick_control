@@ -32,7 +32,7 @@
           <line>2</line>
         </clef>
       </attributes>
-      <grouping type="single" number="1">
+      <grouping type="start" number="1">
         <feature type="exercise">Exercise 1</feature>
       </grouping>
       <note>
@@ -40,8 +40,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -51,8 +51,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -62,8 +62,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -73,8 +73,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -84,8 +84,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -95,8 +95,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -106,8 +106,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -117,103 +117,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
     <measure number="2">
-      <grouping type="single" number="1">
+      <grouping type="stop" number="1"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="3">
+      <grouping type="start" number="2">
         <feature type="exercise">Exercise 2</feature>
       </grouping>
       <note>
@@ -221,8 +224,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -232,8 +235,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -243,8 +246,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -254,8 +257,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -265,8 +268,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -276,8 +279,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -287,8 +290,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -298,103 +301,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
     </measure>
-    <measure number="3">
-      <grouping type="single" number="1">
+    <measure number="4">
+      <grouping type="stop" number="2"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="5">
+      <grouping type="start" number="3">
         <feature type="exercise">Exercise 3</feature>
       </grouping>
       <note>
@@ -402,8 +408,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -413,8 +419,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -424,8 +430,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -435,8 +441,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -446,8 +452,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -457,8 +463,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -468,8 +474,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -479,103 +485,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="4">
-      <grouping type="single" number="1">
+    <measure number="6">
+      <grouping type="stop" number="3"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="7">
+      <grouping type="start" number="4">
         <feature type="exercise">Exercise 4</feature>
       </grouping>
       <note>
@@ -583,8 +592,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -594,8 +603,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -605,8 +614,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -616,8 +625,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -627,8 +636,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -638,8 +647,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -649,8 +658,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -660,103 +669,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
     </measure>
-    <measure number="5">
-      <grouping type="single" number="1">
+    <measure number="8">
+      <grouping type="stop" number="4"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="9">
+      <grouping type="start" number="5">
         <feature type="exercise">Exercise 5</feature>
       </grouping>
       <note>
@@ -764,8 +776,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -775,8 +787,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -786,8 +798,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -797,8 +809,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -808,8 +820,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -819,8 +831,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -830,8 +842,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -841,103 +853,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="6">
-      <grouping type="single" number="1">
+    <measure number="10">
+      <grouping type="stop" number="5"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="11">
+      <grouping type="start" number="6">
         <feature type="exercise">Exercise 6</feature>
       </grouping>
       <note>
@@ -945,8 +960,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -956,8 +971,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -967,8 +982,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -978,8 +993,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -989,8 +1004,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1000,8 +1015,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1011,8 +1026,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1022,103 +1037,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="7">
-      <grouping type="single" number="1">
+    <measure number="12">
+      <grouping type="stop" number="6"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="13">
+      <grouping type="start" number="7">
         <feature type="exercise">Exercise 7</feature>
       </grouping>
       <note>
@@ -1126,8 +1144,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1137,8 +1155,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1148,8 +1166,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1159,8 +1177,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1170,8 +1188,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1181,8 +1199,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1192,8 +1210,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1203,103 +1221,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="8">
-      <grouping type="single" number="1">
+    <measure number="14">
+      <grouping type="stop" number="7"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="15">
+      <grouping type="start" number="8">
         <feature type="exercise">Exercise 8</feature>
       </grouping>
       <note>
@@ -1307,8 +1328,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1318,8 +1339,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1329,8 +1350,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1340,8 +1361,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1351,8 +1372,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1362,8 +1383,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1373,8 +1394,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1384,103 +1405,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
     </measure>
-    <measure number="9">
-      <grouping type="single" number="1">
+    <measure number="16">
+      <grouping type="stop" number="8"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="17">
+      <grouping type="start" number="9">
         <feature type="exercise">Exercise 9</feature>
       </grouping>
       <note>
@@ -1488,8 +1512,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1499,8 +1523,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1510,8 +1534,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1521,8 +1545,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1532,8 +1556,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1543,8 +1567,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1554,8 +1578,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1565,103 +1589,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="10">
-      <grouping type="single" number="1">
+    <measure number="18">
+      <grouping type="stop" number="9"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="19">
+      <grouping type="start" number="10">
         <feature type="exercise">Exercise 10</feature>
       </grouping>
       <note>
@@ -1669,8 +1696,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1680,8 +1707,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1691,8 +1718,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1702,8 +1729,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1713,8 +1740,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1724,8 +1751,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1735,8 +1762,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1746,103 +1773,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
     </measure>
-    <measure number="11">
-      <grouping type="single" number="1">
+    <measure number="20">
+      <grouping type="stop" number="10"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="21">
+      <grouping type="start" number="11">
         <feature type="exercise">Exercise 11</feature>
       </grouping>
       <note>
@@ -1850,8 +1880,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1861,8 +1891,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1872,8 +1902,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1883,8 +1913,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1894,8 +1924,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -1905,8 +1935,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1916,8 +1946,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -1927,103 +1957,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="12">
-      <grouping type="single" number="1">
+    <measure number="22">
+      <grouping type="stop" number="11"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="23">
+      <grouping type="start" number="12">
         <feature type="exercise">Exercise 12</feature>
       </grouping>
       <note>
@@ -2031,8 +2064,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2042,8 +2075,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2053,8 +2086,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2064,8 +2097,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2075,8 +2108,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2086,8 +2119,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2097,8 +2130,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2108,103 +2141,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
     </measure>
-    <measure number="13">
-      <grouping type="single" number="1">
+    <measure number="24">
+      <grouping type="stop" number="12"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="25">
+      <grouping type="start" number="13">
         <feature type="exercise">Exercise 13</feature>
       </grouping>
       <note>
@@ -2212,8 +2248,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2223,8 +2259,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2234,8 +2270,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2245,8 +2281,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2256,8 +2292,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2267,8 +2303,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2278,8 +2314,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2289,103 +2325,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="14">
-      <grouping type="single" number="1">
+    <measure number="26">
+      <grouping type="stop" number="13"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="27">
+      <grouping type="start" number="14">
         <feature type="exercise">Exercise 14</feature>
       </grouping>
       <note>
@@ -2393,8 +2432,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2404,8 +2443,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2415,8 +2454,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2426,8 +2465,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2437,8 +2476,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2448,8 +2487,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2459,8 +2498,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2470,103 +2509,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="15">
-      <grouping type="single" number="1">
+    <measure number="28">
+      <grouping type="stop" number="14"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="29">
+      <grouping type="start" number="15">
         <feature type="exercise">Exercise 15</feature>
       </grouping>
       <note>
@@ -2574,8 +2616,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2585,8 +2627,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2596,8 +2638,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2607,8 +2649,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2618,8 +2660,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2629,8 +2671,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2640,8 +2682,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2651,103 +2693,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
     </measure>
-    <measure number="16">
-      <grouping type="single" number="1">
+    <measure number="30">
+      <grouping type="stop" number="15"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="31">
+      <grouping type="start" number="16">
         <feature type="exercise">Exercise 16</feature>
       </grouping>
       <note>
@@ -2755,8 +2800,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2766,8 +2811,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2777,8 +2822,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2788,8 +2833,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2799,8 +2844,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2810,8 +2855,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2821,8 +2866,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2832,19 +2877,22 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
+    </measure>
+    <measure number="32">
+      <grouping type="stop" number="16"/>
       <note>
         <unpitched>
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2854,8 +2902,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2865,8 +2913,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2876,8 +2924,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2887,8 +2935,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2898,8 +2946,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2909,8 +2957,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2920,15 +2968,15 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="17">
-      <grouping type="single" number="1">
+    <measure number="33">
+      <grouping type="start" number="17">
         <feature type="exercise">Exercise 17</feature>
       </grouping>
       <note>
@@ -2936,8 +2984,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2947,8 +2995,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2958,8 +3006,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2969,8 +3017,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -2980,8 +3028,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -2991,8 +3039,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3002,8 +3050,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3013,19 +3061,22 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
+    </measure>
+    <measure number="34">
+      <grouping type="stop" number="17"/>
       <note>
         <unpitched>
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3035,8 +3086,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3046,8 +3097,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3057,8 +3108,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3068,8 +3119,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3079,8 +3130,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3090,8 +3141,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3101,15 +3152,15 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="18">
-      <grouping type="single" number="1">
+    <measure number="35">
+      <grouping type="start" number="18">
         <feature type="exercise">Exercise 18</feature>
       </grouping>
       <note>
@@ -3117,8 +3168,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3128,8 +3179,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3139,8 +3190,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3150,8 +3201,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3161,8 +3212,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3172,8 +3223,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3183,8 +3234,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3194,19 +3245,22 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
+    </measure>
+    <measure number="36">
+      <grouping type="stop" number="18"/>
       <note>
         <unpitched>
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3216,8 +3270,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3227,8 +3281,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3238,8 +3292,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3249,8 +3303,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3260,8 +3314,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3271,8 +3325,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3282,15 +3336,15 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="19">
-      <grouping type="single" number="1">
+    <measure number="37">
+      <grouping type="start" number="19">
         <feature type="exercise">Exercise 19</feature>
       </grouping>
       <note>
@@ -3298,8 +3352,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3309,8 +3363,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3320,8 +3374,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3331,8 +3385,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3342,8 +3396,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3353,8 +3407,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3364,8 +3418,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3375,103 +3429,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="20">
-      <grouping type="single" number="1">
+    <measure number="38">
+      <grouping type="stop" number="19"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="39">
+      <grouping type="start" number="20">
         <feature type="exercise">Exercise 20</feature>
       </grouping>
       <note>
@@ -3479,8 +3536,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3490,8 +3547,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3501,8 +3558,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3512,8 +3569,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3523,8 +3580,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3534,8 +3591,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3545,8 +3602,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3556,103 +3613,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
     </measure>
-    <measure number="21">
-      <grouping type="single" number="1">
+    <measure number="40">
+      <grouping type="stop" number="20"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="41">
+      <grouping type="start" number="21">
         <feature type="exercise">Exercise 21</feature>
       </grouping>
       <note>
@@ -3660,8 +3720,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3671,8 +3731,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3682,8 +3742,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3693,8 +3753,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3704,8 +3764,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3715,8 +3775,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3726,8 +3786,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3737,103 +3797,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="22">
-      <grouping type="single" number="1">
+    <measure number="42">
+      <grouping type="stop" number="21"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="43">
+      <grouping type="start" number="22">
         <feature type="exercise">Exercise 22</feature>
       </grouping>
       <note>
@@ -3841,8 +3904,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3852,8 +3915,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3863,8 +3926,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3874,8 +3937,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3885,8 +3948,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -3896,8 +3959,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3907,8 +3970,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -3918,103 +3981,106 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>L</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
-        <lyric>
-          <text>R</text>
-        </lyric>
-      </note>
-      <note>
-        <unpitched>
-          <display-step>C</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
     </measure>
-    <measure number="23">
-      <grouping type="single" number="1">
+    <measure number="44">
+      <grouping type="stop" number="22"/>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>L</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+      <note>
+        <unpitched>
+          <display-step>C</display-step>
+          <display-octave>5</display-octave>
+        </unpitched>
+        <duration>2</duration>
+        <type>eighth</type>
+        <lyric>
+          <text>R</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="45">
+      <grouping type="start" number="23">
         <feature type="exercise">Exercise 23</feature>
       </grouping>
       <note>
@@ -4022,8 +4088,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4033,8 +4099,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4044,8 +4110,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4055,8 +4121,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4066,8 +4132,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4077,8 +4143,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4088,8 +4154,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4099,19 +4165,22 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
+    </measure>
+    <measure number="46">
+      <grouping type="stop" number="23"/>
       <note>
         <unpitched>
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4121,8 +4190,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4132,8 +4201,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4143,8 +4212,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4154,8 +4223,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4165,8 +4234,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4176,8 +4245,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4187,15 +4256,15 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
       </note>
     </measure>
-    <measure number="24">
-      <grouping type="single" number="1">
+    <measure number="47">
+      <grouping type="start" number="24">
         <feature type="exercise">Exercise 24</feature>
       </grouping>
       <note>
@@ -4203,8 +4272,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4214,8 +4283,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4225,8 +4294,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4236,8 +4305,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4247,8 +4316,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4258,8 +4327,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4269,8 +4338,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4280,19 +4349,22 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
       </note>
+    </measure>
+    <measure number="48">
+      <grouping type="stop" number="24"/>
       <note>
         <unpitched>
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4302,8 +4374,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4313,8 +4385,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4324,8 +4396,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4335,8 +4407,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4346,8 +4418,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>R</text>
         </lyric>
@@ -4357,8 +4429,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>
@@ -4368,8 +4440,8 @@
           <display-step>C</display-step>
           <display-octave>5</display-octave>
         </unpitched>
-        <duration>1</duration>
-        <type>16th</type>
+        <duration>2</duration>
+        <type>eighth</type>
         <lyric>
           <text>L</text>
         </lyric>

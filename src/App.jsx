@@ -729,8 +729,10 @@ function App() {
     return SUBDIVISIONS.find((entry) => entry.value === Number(subdivisionValue))?.pulses ?? 6
   }
 
-  function secondsPerPulse() {
-    return 60 / settingsRef.current.bpm / PULSES_PER_QUARTER
+  function secondsPerPulse(beatType = 4) {
+    const normalizedBeatType = Number.isFinite(beatType) && beatType > 0 ? beatType : 4
+    const pulsesPerBeat = Math.max(1, Math.round((PULSES_PER_QUARTER * 4) / normalizedBeatType))
+    return 60 / settingsRef.current.bpm / pulsesPerBeat
   }
 
   function playClick(time, frequency, gainAmount, durationSeconds) {
@@ -777,9 +779,9 @@ function App() {
     })
   }
 
-  function schedulePulse(pulseTime, pulseInBar, rhythm) {
+  function schedulePulse(pulseTime, pulseInBar, rhythm, knownMeasure = null) {
     const runtime = runtimeRef.current
-    const activeMeasure = measureForPulse(rhythm, pulseInBar)
+    const activeMeasure = knownMeasure ?? measureForPulse(rhythm, pulseInBar)
     const timing = timingFromSignature(activeMeasure.beats, activeMeasure.beatType)
     const pulseInMeasure = pulseInBar - activeMeasure.startPulse
     const subdivisionStep = subdivisionPulseStep(settingsRef.current.metSubdivision)
@@ -862,8 +864,10 @@ function App() {
         break
       }
 
-      schedulePulse(clockRef.current.nextPulseTime, clockRef.current.pulseInBar, rhythm)
-      clockRef.current.nextPulseTime += secondsPerPulse()
+      const pulseInBar = clockRef.current.pulseInBar
+      const activeMeasure = measureForPulse(rhythm, pulseInBar)
+      schedulePulse(clockRef.current.nextPulseTime, pulseInBar, rhythm, activeMeasure)
+      clockRef.current.nextPulseTime += secondsPerPulse(activeMeasure.beatType)
       clockRef.current.pulseInBar = (clockRef.current.pulseInBar + 1) % totalPulsesForRhythm(rhythm)
 
       if (runtimeRef.current.phase === 'stopped') {

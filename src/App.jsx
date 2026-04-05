@@ -572,7 +572,7 @@ function App() {
   const [showUploadModal, setShowUploadModal] = useState(false)
   const [showMetronomeModal, setShowMetronomeModal] = useState(false)
   const [modalText, setModalText] = useState('')
-  const [importStatus, setImportStatus] = useState('Loading bundled sample MusicXML...')
+  const [importStatus, setImportStatus] = useState('Loading bundled default MusicXML...')
   const [importError, setImportError] = useState('')
   const [showExerciseDropdown, setShowExerciseDropdown] = useState(false)
 
@@ -1029,15 +1029,15 @@ function App() {
 
   async function handleLoadSample() {
     try {
-      const response = await fetch('./sample-stick-control.musicxml')
+      const response = await fetch('./stick-control-page-5.musicxml')
       if (!response.ok) {
-        throw new Error('Could not load the bundled sample MusicXML file.')
+        throw new Error('Could not load the bundled default MusicXML file.')
       }
       const text = await response.text()
       const parsed = parseMusicXmlRhythms(text)
       applyParsedMusicXml(
         parsed,
-        'sample-stick-control.musicxml',
+        'stick-control-page-5.musicxml',
         setBpm,
         handleReset,
         setRhythms,
@@ -1047,7 +1047,7 @@ function App() {
         setImportError,
       )
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to load sample MusicXML file.'
+      const message = error instanceof Error ? error.message : 'Failed to load default MusicXML file.'
       setImportError(message)
       setImportStatus('')
     }
@@ -1392,7 +1392,7 @@ function App() {
         <div className="modal-backdrop" role="presentation">
           <div className="modal-card upload-modal" role="dialog" aria-modal="true" aria-label="Upload options">
             <h3 className="modal-title">Load MusicXML</h3>
-            <p className="modal-note">Choose a MusicXML file or load the bundled sample rhythm.</p>
+            <p className="modal-note">Choose a MusicXML file or load the bundled default rhythm.</p>
             <div className="button-row">
               <button
                 type="button"
@@ -1410,7 +1410,7 @@ function App() {
                   handleLoadSample()
                 }}
               >
-                Load sample
+                Load default
               </button>
             </div>
             <div className="button-row">

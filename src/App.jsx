@@ -1140,7 +1140,9 @@ function App() {
   const barSeparators =
     currentRhythm == null
       ? []
-      : rhythmMeasures.slice(1).map((measure) => noteAreaStart + (measure.startPulse / totalRhythmPulses) * noteAreaWidth)
+      : rhythmMeasures
+          .slice(1)
+          .map((measure) => noteAreaStart + (measure.startPulse / totalRhythmPulses) * noteAreaWidth - 10)
   const beamSegments =
     currentRhythm == null
       ? []
@@ -1154,14 +1156,6 @@ function App() {
       : `${rhythmMeasures[0].beats}/${rhythmMeasures[0].beatType}`
     : '-'
   const currentExerciseLabel = hasRhythms ? currentRhythm?.name ?? `Exercise ${currentRhythmIndex + 1}` : 'No exercises loaded'
-  const measureStartNoteInset = 12
-  const noteXInsetForPulse = (pulseInExercise) => {
-    if (!currentRhythm) {
-      return 0
-    }
-    const measure = measureForPulse(currentRhythm, pulseInExercise)
-    return measure.startPulse > 0 && pulseInExercise === measure.startPulse ? measureStartNoteInset : 0
-  }
 
   return (
     <main className="app">
@@ -1233,16 +1227,8 @@ function App() {
                 )}
               </g>
               {beamSegments.map((segment) => {
-                const startX =
-                  noteAreaStart +
-                  (segment.startPulse / totalRhythmPulses) * noteAreaWidth +
-                  noteXInsetForPulse(segment.startPulse) +
-                  10
-                const endX =
-                  noteAreaStart +
-                  (segment.endPulse / totalRhythmPulses) * noteAreaWidth +
-                  noteXInsetForPulse(segment.endPulse) +
-                  10
+                const startX = noteAreaStart + (segment.startPulse / totalRhythmPulses) * noteAreaWidth + 10
+                const endX = noteAreaStart + (segment.endPulse / totalRhythmPulses) * noteAreaWidth + 10
                 const y = 28 + (segment.level - 1) * 6
                 return (
                   <line
@@ -1256,8 +1242,7 @@ function App() {
                 )
               })}
               {currentRhythm.notes.map((note, index) => {
-                const x =
-                  noteAreaStart + (note.startPulse / totalRhythmPulses) * noteAreaWidth + noteXInsetForPulse(note.startPulse)
+                const x = noteAreaStart + (note.startPulse / totalRhythmPulses) * noteAreaWidth
                 const y = staffYForOffset(note.staffOffset ?? DEFAULT_SNARE_STAFF_OFFSET)
                 const isActive = index === activeNoteIndex
                 return (

@@ -100,6 +100,32 @@
   white-space: nowrap;
 }
 
+.status-exercise-selector {
+  max-width: 100%;
+}
+
+.status-exercise-trigger {
+  min-width: 0;
+  max-width: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  justify-content: flex-start;
+  gap: 6px;
+  color: #1d1d1d;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.status-exercise-trigger:hover:not(:disabled) {
+  border-color: transparent;
+}
+
+.status-exercise-trigger .exercise-trigger-label {
+  max-width: min(100%, 760px);
+}
+
 .exercise-dropdown-menu {
   position: absolute;
   top: calc(100% + 6px);

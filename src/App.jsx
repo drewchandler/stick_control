@@ -559,7 +559,7 @@ function App() {
   const [repetitions, setRepetitions] = useState(20)
   const [countInBars, setCountInBars] = useState(1)
   const [countInEnabled, setCountInEnabled] = useState(true)
-  const [metSubdivision, setMetSubdivision] = useState(16)
+  const [metSubdivision, setMetSubdivision] = useState(8)
   const [metronomeMode, setMetronomeMode] = useState('subdivision')
   const [rhythms, setRhythms] = useState([])
   const [currentRhythmIndex, setCurrentRhythmIndex] = useState(0)
@@ -1146,26 +1146,18 @@ function App() {
       ? []
       : rhythmMeasures
           .slice(1)
-          .map((measure) => noteAreaStart + (measure.startPulse / totalRhythmPulses) * noteAreaWidth - 10)
+          .map((measure) => noteAreaStart + (measure.startPulse / totalRhythmPulses) * noteAreaWidth - 2)
   const beamSegments =
     currentRhythm == null
       ? []
       : buildBeamSegmentsForRhythm(currentRhythm)
   const playPauseLabel = isTransportRunning ? 'Pause' : phase === 'paused' ? 'Resume' : 'Play'
-  const timeSignatureLabel = currentRhythm
-    ? hasMixedSignatures
-      ? 'Mixed'
-      : showCutTime
-      ? 'Cut Time'
-      : `${rhythmMeasures[0].beats}/${rhythmMeasures[0].beatType}`
-    : '-'
   const currentExerciseLabel = hasRhythms ? currentRhythm?.name ?? `Exercise ${currentRhythmIndex + 1}` : 'No exercises loaded'
 
   return (
     <main className="app">
       <header className="top-bar">
         <h1>Stick Control Practice</h1>
-        <p className="subtitle">Notation-first practice for clean, focused reps.</p>
       </header>
 
       <input
@@ -1276,12 +1268,41 @@ function App() {
 
       <section className="panel transport-panel transport-under-staff">
         <div className="status-compact transport-status" aria-live="polite">
-          <p className="current-rhythm-name">{currentRhythm?.name ?? 'No MusicXML loaded'}</p>
+          <div className="exercise-dropdown status-exercise-selector" ref={exerciseDropdownRef}>
+            <button
+              type="button"
+              className="exercise-trigger status-exercise-trigger"
+              disabled={controlsDisabled || !hasRhythms}
+              onClick={() => setShowExerciseDropdown((open) => !open)}
+              aria-expanded={showExerciseDropdown}
+              aria-haspopup="listbox"
+              aria-label="Select exercise"
+            >
+              <span className="exercise-trigger-label">{currentExerciseLabel}</span>
+              <ChevronDown size={16} className="transport-icon" aria-hidden="true" />
+            </button>
+            {showExerciseDropdown && hasRhythms && (
+              <div className="exercise-dropdown-menu" role="listbox" aria-label="Exercises">
+                {rhythms.map((rhythm, index) => (
+                  <button
+                    key={`${rhythm.name}-${index}`}
+                    type="button"
+                    className={`exercise-option ${index === currentRhythmIndex ? 'active' : ''}`}
+                    role="option"
+                    aria-selected={index === currentRhythmIndex}
+                    onClick={() => handleRhythmSelect(index)}
+                  >
+                    <span className="exercise-option-index">{index + 1}.</span>
+                    <span>{rhythm.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <div className="meta-row">
             <span>Rhythm {hasRhythms ? `${currentRhythmIndex + 1}/${rhythms.length}` : '0/0'}</span>
             <span>Rep {currentRep}/{repetitions}</span>
             <span>Beat {currentBeat}</span>
-            <span>{timeSignatureLabel}</span>
             {transportState && <span>{transportState}</span>}
           </div>
           {importError && <p className="import-error">{importError}</p>}
@@ -1318,37 +1339,6 @@ function App() {
           >
             <SkipForward size={18} className="transport-icon" aria-hidden="true" />
           </button>
-          <div className="exercise-dropdown" ref={exerciseDropdownRef}>
-            <button
-              type="button"
-              className="exercise-trigger"
-              disabled={controlsDisabled || !hasRhythms}
-              onClick={() => setShowExerciseDropdown((open) => !open)}
-              aria-expanded={showExerciseDropdown}
-              aria-haspopup="listbox"
-              aria-label="Select exercise"
-            >
-              <span className="exercise-trigger-label">{currentExerciseLabel}</span>
-              <ChevronDown size={16} className="transport-icon" aria-hidden="true" />
-            </button>
-            {showExerciseDropdown && hasRhythms && (
-              <div className="exercise-dropdown-menu" role="listbox" aria-label="Exercises">
-                {rhythms.map((rhythm, index) => (
-                  <button
-                    key={`${rhythm.name}-${index}`}
-                    type="button"
-                    className={`exercise-option ${index === currentRhythmIndex ? 'active' : ''}`}
-                    role="option"
-                    aria-selected={index === currentRhythmIndex}
-                    onClick={() => handleRhythmSelect(index)}
-                  >
-                    <span className="exercise-option-index">{index + 1}.</span>
-                    <span>{rhythm.name}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
           <div className="tempo-control" aria-label="Tempo control">
             <button type="button" onClick={() => adjustBpm(-1)} aria-label="Decrease tempo">
               -

@@ -4,7 +4,7 @@ React + Vite web app for practicing Stick Control-style snare exercises with a M
 
 ## Features
 
-- Drum staff rendering with sticking labels (`R` / `L`)
+- Drum staff rendering with sticking labels (`R` / `L`) via VexFlow (SVG)
 - Active-note highlighting as playback advances
 - Time signature and measure timing imported from MusicXML
 - Adjustable BPM (auto-seeded from MusicXML tempo when present)
@@ -36,6 +36,10 @@ npm run dev
 ```
 
 Then open the local Vite URL shown in the terminal.
+
+## Notation engine
+
+This app uses [VexFlow](https://www.vexflow.com/) to engrave percussion notation as SVG in the browser.
 
 ## Build
 

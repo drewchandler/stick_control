@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ChevronDown, Pause, Play, Settings, SkipBack, SkipForward, Upload } from 'lucide-react'
 import './App.css'
 import VexflowStaff from './VexflowStaff'
+import usePracticeSession from './hooks/usePracticeSession'
 
 const PULSES_PER_QUARTER = 24
 const SCHEDULE_AHEAD_SECONDS = 0.12
@@ -453,11 +454,10 @@ function parseMusicXmlRhythms(fileText) {
   return { rhythms: rhythms.slice(0, 256), tempo }
 }
 
-function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythms, runtimeRef, setCurrentRhythmIndex, setImportToast, setImportError) {
+function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythms, setCurrentRhythmIndex, setImportToast, setImportError) {
   handleReset()
   setRhythms(parsed.rhythms)
   setCurrentRhythmIndex(0)
-  runtimeRef.current.rhythmIndex = 0
   if (parsed.tempo) {
     setBpm(Math.max(30, Math.min(260, Math.round(parsed.tempo))))
   }
@@ -468,26 +468,50 @@ function applyParsedMusicXml(parsed, sourceLabel, setBpm, handleReset, setRhythm
 }
 
 function App() {
-  const [bpm, setBpm] = useState(90)
+  const {
+    state: practiceSession,
+    actions: {
+      setBpm,
+      setRepetitions,
+      setCountInBars,
+      setCountInEnabled,
+      setMetSubdivision,
+      setMetronomeMode,
+      setRhythms,
+      setCurrentRhythmIndex,
+      setCurrentRep,
+      setActiveNoteIndex,
+      setCurrentBeat,
+      setPhase,
+      setTransportState,
+      setShowNextModal,
+      setModalText,
+      setImportStatus,
+      setImportError,
+    },
+  } = usePracticeSession()
+  const {
+    bpm,
+    repetitions,
+    countInBars,
+    countInEnabled,
+    metSubdivision,
+    metronomeMode,
+    rhythms,
+    currentRhythmIndex,
+    currentRep,
+    activeNoteIndex,
+    currentBeat,
+    phase,
+    transportState,
+    showNextModal,
+    modalText,
+    importStatus,
+    importError,
+  } = practiceSession
   const [tempoInput, setTempoInput] = useState('90')
-  const [repetitions, setRepetitions] = useState(20)
-  const [countInBars, setCountInBars] = useState(1)
-  const [countInEnabled, setCountInEnabled] = useState(true)
-  const [metSubdivision, setMetSubdivision] = useState(8)
-  const [metronomeMode, setMetronomeMode] = useState('subdivision')
-  const [rhythms, setRhythms] = useState([])
-  const [currentRhythmIndex, setCurrentRhythmIndex] = useState(0)
-  const [currentRep, setCurrentRep] = useState(0)
-  const [activeNoteIndex, setActiveNoteIndex] = useState(null)
-  const [currentBeat, setCurrentBeat] = useState('-')
-  const [phase, setPhase] = useState('stopped')
-  const [transportState, setTransportState] = useState('')
-  const [showNextModal, setShowNextModal] = useState(false)
   const [showUploadModal, setShowUploadModal] = useState(false)
   const [showMetronomeModal, setShowMetronomeModal] = useState(false)
-  const [modalText, setModalText] = useState('')
-  const [importStatus, setImportStatus] = useState('Loading bundled default MusicXML...')
-  const [importError, setImportError] = useState('')
   const [showExerciseDropdown, setShowExerciseDropdown] = useState(false)
 
   const fileInputRef = useRef(null)
@@ -497,39 +521,25 @@ function App() {
   const audioUnlockedRef = useRef(false)
   const schedulerIdRef = useRef(null)
   const scheduledUiTimeoutsRef = useRef([])
-  const rhythmsRef = useRef(rhythms)
+  const latestSessionRef = useRef(practiceSession)
   const clockRef = useRef({
     nextPulseTime: 0,
     pulseInBar: 0,
     countInPulse: 0,
   })
-  const runtimeRef = useRef({
-    phase: 'stopped',
+  const transportRef = useRef({
     countInPulsesRemaining: 0,
     completedReps: 0,
-    rhythmIndex: 0,
     noteCursor: 0,
-  })
-  const settingsRef = useRef({
-    bpm,
-    repetitions,
-    countInBars,
-    countInEnabled,
-    metSubdivision,
-    metronomeMode,
   })
 
   useEffect(() => {
-    settingsRef.current = { bpm, repetitions, countInBars, countInEnabled, metSubdivision, metronomeMode }
-  }, [bpm, repetitions, countInBars, countInEnabled, metSubdivision, metronomeMode])
+    latestSessionRef.current = practiceSession
+  }, [practiceSession])
 
   useEffect(() => {
     setTempoInput(String(bpm))
   }, [bpm])
-
-  useEffect(() => {
-    runtimeRef.current.rhythmIndex = currentRhythmIndex
-  }, [currentRhythmIndex])
 
   useEffect(() => {
     if (!showExerciseDropdown) {
@@ -563,20 +573,7 @@ function App() {
     return () => {
       window.clearTimeout(timeoutId)
     }
-  }, [importStatus])
-
-  useEffect(() => {
-    rhythmsRef.current = rhythms
-    if (!rhythms.length) {
-      setCurrentRhythmIndex(0)
-      runtimeRef.current.rhythmIndex = 0
-      return
-    }
-    if (currentRhythmIndex >= rhythms.length) {
-      setCurrentRhythmIndex(0)
-      runtimeRef.current.rhythmIndex = 0
-    }
-  }, [rhythms, currentRhythmIndex])
+  }, [importStatus, setImportStatus])
 
   const currentRhythm = useMemo(() => rhythms[currentRhythmIndex] ?? null, [rhythms, currentRhythmIndex])
 
@@ -635,10 +632,12 @@ function App() {
     }
   }
 
-  function setRuntimePhase(nextPhase) {
-    runtimeRef.current.phase = nextPhase
-    setPhase(nextPhase)
-  }
+  const setRuntimePhase = useCallback(
+    (nextPhase) => {
+      setPhase(nextPhase)
+    },
+    [setPhase],
+  )
 
   function subdivisionPulseStep(subdivisionValue) {
     return SUBDIVISIONS.find((entry) => entry.value === Number(subdivisionValue))?.pulses ?? 6
@@ -647,7 +646,7 @@ function App() {
   function secondsPerPulse(beatType = 4) {
     const normalizedBeatType = Number.isFinite(beatType) && beatType > 0 ? beatType : 4
     const pulsesPerBeat = Math.max(1, Math.round((PULSES_PER_QUARTER * 4) / normalizedBeatType))
-    return 60 / settingsRef.current.bpm / pulsesPerBeat
+    return 60 / latestSessionRef.current.bpm / pulsesPerBeat
   }
 
   function playClick(time, frequency, gainAmount, durationSeconds) {
@@ -668,18 +667,19 @@ function App() {
   }
 
   function completeRhythm(audioTime) {
-    const rhythmCount = rhythmsRef.current.length
+    const session = latestSessionRef.current
+    const rhythmCount = session.rhythms.length
     if (!rhythmCount) {
       return
     }
 
     setRuntimePhase('stopped')
     stopScheduler()
-    runtimeRef.current.completedReps = 0
-    runtimeRef.current.noteCursor = 0
+    transportRef.current.completedReps = 0
+    transportRef.current.noteCursor = 0
+    transportRef.current.countInPulsesRemaining = 0
 
-    const nextIndex = (runtimeRef.current.rhythmIndex + 1) % rhythmCount
-    runtimeRef.current.rhythmIndex = nextIndex
+    const nextIndex = (session.currentRhythmIndex + 1) % rhythmCount
 
     scheduleUiAtAudioTime(audioTime, () => {
       setCurrentRhythmIndex(nextIndex)
@@ -688,19 +688,20 @@ function App() {
       setCurrentBeat('-')
       setTransportState('Ready for next rhythm')
       setModalText(
-        `Completed ${settingsRef.current.repetitions} reps. Next: ${rhythmsRef.current[nextIndex].name}`,
+        `Completed ${latestSessionRef.current.repetitions} reps. Next: ${latestSessionRef.current.rhythms[nextIndex].name}`,
       )
       setShowNextModal(true)
     })
   }
 
   function schedulePulse(pulseTime, pulseInBar, rhythm, knownMeasure = null) {
-    const runtime = runtimeRef.current
+    const transport = transportRef.current
+    const session = latestSessionRef.current
     const activeMeasure = knownMeasure ?? measureForPulse(rhythm, pulseInBar)
     const timing = timingFromSignature(activeMeasure.beats, activeMeasure.beatType)
     const pulseInMeasure = pulseInBar - activeMeasure.startPulse
-    const subdivisionStep = subdivisionPulseStep(settingsRef.current.metSubdivision)
-    const clickMode = settingsRef.current.metronomeMode
+    const subdivisionStep = subdivisionPulseStep(session.metSubdivision)
+    const clickMode = session.metronomeMode
     const clickStep = clickMode === 'subdivision' ? subdivisionStep : timing.pulsesPerBeat
 
     if (clickMode !== 'off' && pulseInMeasure % clickStep === 0) {
@@ -717,11 +718,10 @@ function App() {
       }
     }
 
-    if (runtime.phase === 'countIn') {
-      runtime.countInPulsesRemaining -= 1
-      if (runtime.countInPulsesRemaining <= 0) {
-        runtime.phase = 'playing'
-        runtime.noteCursor = 0
+    if (session.phase === 'countIn') {
+      transport.countInPulsesRemaining -= 1
+      if (transport.countInPulsesRemaining <= 0) {
+        transport.noteCursor = 0
         const firstAtZero = rhythm.notes.findIndex((note) => note.startPulse === 0)
         scheduleUiAtAudioTime(pulseTime, () => {
           setRuntimePhase('playing')
@@ -733,32 +733,32 @@ function App() {
       return
     }
 
-    if (runtime.phase !== 'playing') {
+    if (session.phase !== 'playing') {
       return
     }
 
     while (
-      runtime.noteCursor < rhythm.notes.length &&
-      rhythm.notes[runtime.noteCursor].startPulse <= pulseInBar
+      transport.noteCursor < rhythm.notes.length &&
+      rhythm.notes[transport.noteCursor].startPulse <= pulseInBar
     ) {
-      if (rhythm.notes[runtime.noteCursor].startPulse === pulseInBar) {
-        const noteIndex = runtime.noteCursor
+      if (rhythm.notes[transport.noteCursor].startPulse === pulseInBar) {
+        const noteIndex = transport.noteCursor
         scheduleUiAtAudioTime(pulseTime, () => {
           setActiveNoteIndex(noteIndex)
         })
       }
-      runtime.noteCursor += 1
+      transport.noteCursor += 1
     }
 
     if (pulseInBar === totalPulsesForRhythm(rhythm) - 1) {
-      runtime.completedReps += 1
-      runtime.noteCursor = 0
-      const justCompleted = runtime.completedReps
+      transport.completedReps += 1
+      transport.noteCursor = 0
+      const justCompleted = transport.completedReps
       scheduleUiAtAudioTime(pulseTime, () => {
         setCurrentRep(justCompleted)
       })
 
-      if (justCompleted >= settingsRef.current.repetitions) {
+      if (justCompleted >= session.repetitions) {
         completeRhythm(pulseTime + 0.02)
       }
     }
@@ -771,7 +771,8 @@ function App() {
     const context = audioContextRef.current
 
     while (clockRef.current.nextPulseTime < context.currentTime + SCHEDULE_AHEAD_SECONDS) {
-      const rhythm = rhythmsRef.current[runtimeRef.current.rhythmIndex]
+      const session = latestSessionRef.current
+      const rhythm = session.rhythms[session.currentRhythmIndex]
       if (!rhythm) {
         setRuntimePhase('stopped')
         stopScheduler()
@@ -781,7 +782,7 @@ function App() {
 
       let activeMeasure
       let scheduledPulse
-      if (runtimeRef.current.phase === 'countIn') {
+      if (session.phase === 'countIn') {
         const firstMeasure = rhythm.measures?.[0] ?? measureForPulse(rhythm, 0)
         const countInPulse = clockRef.current.countInPulse
         activeMeasure = {
@@ -799,7 +800,7 @@ function App() {
       }
       clockRef.current.nextPulseTime += secondsPerPulse(activeMeasure.beatType)
 
-      if (runtimeRef.current.phase === 'stopped') {
+      if (latestSessionRef.current.phase === 'stopped') {
         break
       }
     }
@@ -828,8 +829,9 @@ function App() {
 
   const handleReset = useCallback(() => {
     setRuntimePhase('stopped')
-    runtimeRef.current.completedReps = 0
-    runtimeRef.current.noteCursor = 0
+    transportRef.current.completedReps = 0
+    transportRef.current.noteCursor = 0
+    transportRef.current.countInPulsesRemaining = 0
     stopScheduler()
     clearScheduledUiUpdates()
     clockRef.current.pulseInBar = 0
@@ -839,7 +841,7 @@ function App() {
     setCurrentBeat('-')
     setTransportState('')
     setShowNextModal(false)
-  }, [])
+  }, [setActiveNoteIndex, setCurrentBeat, setCurrentRep, setRuntimePhase, setShowNextModal, setTransportState])
 
   async function startPracticeFromBeginning() {
     if (!currentRhythm) {
@@ -848,24 +850,23 @@ function App() {
     }
 
     clearScheduledUiUpdates()
-    runtimeRef.current.completedReps = 0
-    runtimeRef.current.rhythmIndex = currentRhythmIndex
-    runtimeRef.current.noteCursor = 0
+    transportRef.current.completedReps = 0
+    transportRef.current.noteCursor = 0
 
     clockRef.current.pulseInBar = 0
     clockRef.current.countInPulse = 0
     setCurrentRep(0)
     setCurrentBeat('-')
     setImportError('')
-    if (settingsRef.current.countInEnabled) {
+    if (countInEnabled) {
       setRuntimePhase('countIn')
       const countInPulses = currentRhythm.measures?.[0]?.pulsesPerBar ?? totalPulsesForRhythm(currentRhythm)
-      runtimeRef.current.countInPulsesRemaining = settingsRef.current.countInBars * countInPulses
+      transportRef.current.countInPulsesRemaining = countInBars * countInPulses
       setActiveNoteIndex(null)
       setTransportState('Count-in')
     } else {
       setRuntimePhase('playing')
-      runtimeRef.current.countInPulsesRemaining = 0
+      transportRef.current.countInPulsesRemaining = 0
       const firstAtZero = currentRhythm.notes.findIndex((note) => note.startPulse === 0)
       setActiveNoteIndex(firstAtZero >= 0 ? firstAtZero : null)
       setTransportState('Playing')
@@ -875,7 +876,7 @@ function App() {
 
   async function handlePlay() {
     setShowNextModal(false)
-    const currentPhase = runtimeRef.current.phase
+    const currentPhase = phase
     if (currentPhase === 'paused') {
       setRuntimePhase('playing')
       setTransportState('Playing')
@@ -889,7 +890,7 @@ function App() {
   }
 
   function handlePause() {
-    if (runtimeRef.current.phase !== 'playing' && runtimeRef.current.phase !== 'countIn') {
+    if (phase !== 'playing' && phase !== 'countIn') {
       return
     }
     setRuntimePhase('paused')
@@ -905,7 +906,6 @@ function App() {
     handleReset()
     const nextIndex = (currentRhythmIndex + 1) % rhythms.length
     setCurrentRhythmIndex(nextIndex)
-    runtimeRef.current.rhythmIndex = nextIndex
   }
 
   function handlePreviousRhythm() {
@@ -915,7 +915,6 @@ function App() {
     handleReset()
     const previousIndex = (currentRhythmIndex - 1 + rhythms.length) % rhythms.length
     setCurrentRhythmIndex(previousIndex)
-    runtimeRef.current.rhythmIndex = previousIndex
   }
 
   function handleRhythmSelect(newIndex) {
@@ -924,7 +923,6 @@ function App() {
     }
     handleReset()
     setCurrentRhythmIndex(newIndex)
-    runtimeRef.current.rhythmIndex = newIndex
     setShowExerciseDropdown(false)
   }
 
@@ -948,7 +946,6 @@ function App() {
         setBpm,
         handleReset,
         setRhythms,
-        runtimeRef,
         setCurrentRhythmIndex,
         setImportStatus,
         setImportError,
@@ -976,7 +973,6 @@ function App() {
         setBpm,
         handleReset,
         setRhythms,
-        runtimeRef,
         setCurrentRhythmIndex,
         setImportStatus,
         setImportError,
@@ -986,7 +982,7 @@ function App() {
       setImportError(message)
       setImportStatus('')
     }
-  }, [handleReset])
+  }, [handleReset, setBpm, setCurrentRhythmIndex, setImportError, setImportStatus, setRhythms])
 
   useEffect(() => {
     if (hasAutoLoadedSampleRef.current) {

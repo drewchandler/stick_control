@@ -1014,11 +1014,14 @@ function App() {
   const hasRhythms = rhythms.length > 0
   const playPauseLabel = isTransportRunning ? 'Pause' : phase === 'paused' ? 'Resume' : 'Play'
   const currentExerciseLabel = hasRhythms ? currentRhythm?.name ?? `Exercise ${currentRhythmIndex + 1}` : 'No exercises loaded'
+  const statusLabel = transportState || (hasRhythms ? 'Ready' : 'Load MusicXML')
 
   return (
     <main className="app">
       <header className="top-bar">
+        <p className="top-kicker">Practice Studio</p>
         <h1>Stick Control Practice</h1>
+        <p className="subtitle">Mobile-friendly rhythm trainer for focused daily reps.</p>
       </header>
 
       <input
@@ -1067,14 +1070,14 @@ function App() {
             )}
           </div>
           <div className="meta-row">
-            <span>Rhythm {hasRhythms ? `${currentRhythmIndex + 1}/${rhythms.length}` : '0/0'}</span>
-            <span>Rep {currentRep}/{repetitions}</span>
-            <span>Beat {currentBeat}</span>
-            {transportState && <span>{transportState}</span>}
+            <span className="meta-pill">Rhythm {hasRhythms ? `${currentRhythmIndex + 1}/${rhythms.length}` : '0/0'}</span>
+            <span className="meta-pill">Rep {currentRep}/{repetitions}</span>
+            <span className="meta-pill">Beat {currentBeat}</span>
+            <span className="meta-pill meta-pill-strong">{statusLabel}</span>
           </div>
           {importError && <p className="import-error">{importError}</p>}
         </div>
-        <div className="transport-row" aria-label="Playback controls">
+        <div className="transport-row transport-row-primary" aria-label="Playback controls">
           <button
             type="button"
             className="transport-icon-button"
@@ -1130,21 +1133,25 @@ function App() {
               +
             </button>
           </div>
+        </div>
+        <div className="transport-row transport-row-secondary" aria-label="Practice options">
           <button
             type="button"
-            className="transport-icon-button"
+            className="transport-option-button"
             onClick={() => setShowUploadModal(true)}
             aria-label="Open upload options"
           >
             <Upload size={18} className="transport-icon" aria-hidden="true" />
+            <span>Library</span>
           </button>
           <button
             type="button"
-            className="transport-icon-button"
+            className="transport-option-button"
             onClick={() => setShowMetronomeModal(true)}
             aria-label="Open settings"
           >
             <Settings size={18} className="transport-icon" aria-hidden="true" />
+            <span>Settings</span>
           </button>
         </div>
       </section>

@@ -366,6 +366,9 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
 
         if (entries.length) {
           const measureNotes = entries.map((entry) => entry.note)
+          // Generate beams before drawing notes so beamed notes do not render standalone flags.
+          const beams = generateBeamsForMeasure(measureNotes, measure)
+          const tuplets = buildTupletsForEntries(entries)
           const voice = new Voice({
             num_beats: Math.max(1, Number(measure.beats) || 4),
             beat_value: Math.max(1, Number(measure.beatType) || 4),
@@ -374,11 +377,9 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
           voice.addTickables(measureNotes)
           new Formatter().joinVoices([voice]).formatToStave([voice], stave)
           voice.draw(context, stave)
-          const beams = generateBeamsForMeasure(measureNotes, measure)
           for (const beam of beams) {
             beam.setContext(context).draw()
           }
-          const tuplets = buildTupletsForEntries(entries)
           for (const tuplet of tuplets) {
             tuplet.setContext(context).draw()
           }

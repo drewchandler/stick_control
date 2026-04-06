@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Annotation, BarlineType, Dot, Formatter, Renderer, Stave, StaveNote, Stem, Tuplet, Voice } from 'vexflow'
+import { Annotation, BarlineType, Beam, Dot, Formatter, Fraction, Renderer, Stave, StaveNote, Stem, Tuplet, Voice } from 'vexflow'
 
 const PULSES_PER_QUARTER = 24
 const STAFF_STEPS = ['c', 'd', 'e', 'f', 'g', 'a', 'b']
@@ -251,6 +251,18 @@ function buildTupletsForEntries(entries) {
   return tuplets
 }
 
+function generateBeamsForMeasure(notes, measure) {
+  if (!notes.length) {
+    return []
+  }
+  const beatType = Math.max(1, Number(measure.beatType) || 4)
+  return Beam.generateBeams(notes, {
+    groups: [new Fraction(1, beatType)],
+    beam_rests: false,
+    maintain_stem_directions: true,
+  })
+}
+
 function VexflowStaff({ rhythm, activeNoteIndex }) {
   const scrollRef = useRef(null)
   const hostRef = useRef(null)
@@ -322,7 +334,9 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
             : Math.max(170, Math.min(remainingWidth - (remainingMeasures - 1) * 170, proportionalWidth))
 
         const stave = new Stave(x, 28, measureWidth)
-        stave.setClef('percussion')
+        if (measureIndex === 0) {
+          stave.setClef('percussion')
+        }
         if (signatureChanged(previousMeasure, measure)) {
           stave.addTimeSignature(`${measure.beats}/${measure.beatType}`)
         }
@@ -358,8 +372,12 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
           })
           voice.setMode(Voice.Mode.SOFT)
           voice.addTickables(measureNotes)
-          new Formatter().joinVoices([voice]).format([voice], Math.max(72, measureWidth - 28))
+          new Formatter().joinVoices([voice]).formatToStave([voice], stave)
           voice.draw(context, stave)
+          const beams = generateBeamsForMeasure(measureNotes, measure)
+          for (const beam of beams) {
+            beam.setContext(context).draw()
+          }
           const tuplets = buildTupletsForEntries(entries)
           for (const tuplet of tuplets) {
             tuplet.setContext(context).draw()

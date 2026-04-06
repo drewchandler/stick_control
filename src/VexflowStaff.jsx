@@ -126,7 +126,6 @@ function createVexNote(note, isActive, durationToken) {
     clef: 'percussion',
     keys: [keyForStaffOffset(note.staffOffset)],
     duration,
-    stem_direction: Stem.UP,
   })
 
   for (let dotIndex = 0; dotIndex < dots; dotIndex += 1) {
@@ -158,7 +157,6 @@ function createRestNote(durationToken) {
     clef: 'percussion',
     keys: ['b/4'],
     duration: `${duration}r`,
-    stem_direction: Stem.UP,
   })
   for (let dotIndex = 0; dotIndex < dots; dotIndex += 1) {
     vexRest.addModifier(new Dot(), 0)
@@ -259,7 +257,6 @@ function generateBeamsForMeasure(notes, measure) {
   return Beam.generateBeams(notes, {
     groups: [new Fraction(1, beatType)],
     beam_rests: false,
-    maintain_stem_directions: true,
   })
 }
 

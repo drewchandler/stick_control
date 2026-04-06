@@ -501,6 +501,7 @@ function App() {
   const clockRef = useRef({
     nextPulseTime: 0,
     pulseInBar: 0,
+    countInPulse: 0,
   })
   const runtimeRef = useRef({
     phase: 'stopped',
@@ -721,10 +722,6 @@ function App() {
       if (runtime.countInPulsesRemaining <= 0) {
         runtime.phase = 'playing'
         runtime.noteCursor = 0
-        // Keep count-in pulses from advancing the exercise timeline.
-        // schedulerTick() increments pulseInBar after this call, so we park at
-        // the final pulse to make the next scheduled pulse start at 0 (beat 1).
-        clockRef.current.pulseInBar = totalPulsesForRhythm(rhythm) - 1
         const firstAtZero = rhythm.notes.findIndex((note) => note.startPulse === 0)
         scheduleUiAtAudioTime(pulseTime, () => {
           setRuntimePhase('playing')
@@ -782,11 +779,25 @@ function App() {
         break
       }
 
-      const pulseInBar = clockRef.current.pulseInBar
-      const activeMeasure = measureForPulse(rhythm, pulseInBar)
-      schedulePulse(clockRef.current.nextPulseTime, pulseInBar, rhythm, activeMeasure)
+      let activeMeasure
+      let scheduledPulse
+      if (runtimeRef.current.phase === 'countIn') {
+        const firstMeasure = rhythm.measures?.[0] ?? measureForPulse(rhythm, 0)
+        const countInPulse = clockRef.current.countInPulse
+        activeMeasure = {
+          ...firstMeasure,
+          startPulse: 0,
+        }
+        scheduledPulse = countInPulse % Math.max(1, firstMeasure.pulsesPerBar)
+        schedulePulse(clockRef.current.nextPulseTime, scheduledPulse, rhythm, activeMeasure)
+        clockRef.current.countInPulse = countInPulse + 1
+      } else {
+        scheduledPulse = clockRef.current.pulseInBar
+        activeMeasure = measureForPulse(rhythm, scheduledPulse)
+        schedulePulse(clockRef.current.nextPulseTime, scheduledPulse, rhythm, activeMeasure)
+        clockRef.current.pulseInBar = (clockRef.current.pulseInBar + 1) % totalPulsesForRhythm(rhythm)
+      }
       clockRef.current.nextPulseTime += secondsPerPulse(activeMeasure.beatType)
-      clockRef.current.pulseInBar = (clockRef.current.pulseInBar + 1) % totalPulsesForRhythm(rhythm)
 
       if (runtimeRef.current.phase === 'stopped') {
         break
@@ -822,6 +833,7 @@ function App() {
     stopScheduler()
     clearScheduledUiUpdates()
     clockRef.current.pulseInBar = 0
+    clockRef.current.countInPulse = 0
     setCurrentRep(0)
     setActiveNoteIndex(null)
     setCurrentBeat('-')
@@ -841,6 +853,7 @@ function App() {
     runtimeRef.current.noteCursor = 0
 
     clockRef.current.pulseInBar = 0
+    clockRef.current.countInPulse = 0
     setCurrentRep(0)
     setCurrentBeat('-')
     setImportError('')

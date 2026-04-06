@@ -260,9 +260,26 @@ function generateBeamsForMeasure(notes, measure) {
   })
 }
 
-function splitMeasuresIntoRows(measures, hostWidth) {
-  const availableWidth = Math.max(240, Math.round(hostWidth) - 40)
-  const minMeasureWidth = hostWidth < 560 ? 112 : hostWidth < 900 ? 132 : 154
+function clamp(value, minimum, maximum) {
+  return Math.max(minimum, Math.min(maximum, value))
+}
+
+function renderProfileForHostWidth(hostWidth) {
+  const safeWidth = Math.max(320, Math.round(Number(hostWidth) || 320))
+  const mobileScale = clamp(safeWidth / 420, 0.88, 1)
+  return {
+    scale: safeWidth <= 720 ? mobileScale : clamp(safeWidth / 940, 1, 1.08),
+    systemPaddingX: safeWidth < 560 ? 16 : safeWidth < 900 ? 20 : 24,
+    topPadding: safeWidth < 560 ? 18 : 22,
+    rowHeight: safeWidth < 560 ? 126 : safeWidth < 900 ? 134 : 140,
+    minMeasureWidth: safeWidth < 560 ? 98 : safeWidth < 900 ? 124 : 146,
+    fontSize: safeWidth < 560 ? 11 : 12,
+  }
+}
+
+function splitMeasuresIntoRows(measures, logicalWidth, profile) {
+  const availableWidth = Math.max(220, Math.round(logicalWidth) - profile.systemPaddingX * 2)
+  const minMeasureWidth = profile.minMeasureWidth
   const maxMeasuresPerRow = Math.max(1, Math.floor(availableWidth / minMeasureWidth))
   const rows = []
 
@@ -323,14 +340,17 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
     }
 
     try {
-      const measureRows = splitMeasuresIntoRows(measures, hostWidth)
+      const profile = renderProfileForHostWidth(hostWidth)
       const renderWidth = Math.max(320, hostWidth)
-      const rowHeight = 136
-      const renderHeight = Math.max(188, 22 + measureRows.length * rowHeight)
+      const logicalWidth = Math.max(280, Math.round(renderWidth / profile.scale))
+      const measureRows = splitMeasuresIntoRows(measures, logicalWidth, profile)
+      const logicalHeight = Math.max(176, profile.topPadding + measureRows.length * profile.rowHeight)
+      const renderHeight = Math.max(188, Math.ceil(logicalHeight * profile.scale))
       const renderer = new Renderer(hostElement, Renderer.Backends.SVG)
       renderer.resize(renderWidth, renderHeight)
       const context = renderer.getContext()
-      context.setFont('Arial', 12, '')
+      context.scale(profile.scale, profile.scale)
+      context.setFont('Arial', profile.fontSize, '')
 
       let noteCursor = 0
       let previousMeasure = null
@@ -338,16 +358,18 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
       for (const [rowIndex, row] of measureRows.entries()) {
         const rowMeasures = measures.slice(row.startIndex, row.endIndex)
         const rowPulses = Math.max(1, rowMeasures.reduce((sum, measure) => sum + measure.pulsesPerBar, 0))
-        const rowY = 22 + rowIndex * rowHeight
-        let x = 20
+        const rowY = profile.topPadding + rowIndex * profile.rowHeight
+        let x = profile.systemPaddingX
 
         for (let localMeasureIndex = 0; localMeasureIndex < rowMeasures.length; localMeasureIndex += 1) {
           const measure = rowMeasures[localMeasureIndex]
           const globalMeasureIndex = row.startIndex + localMeasureIndex
-          const remainingWidth = renderWidth - x - 20
+          const remainingWidth = logicalWidth - x - profile.systemPaddingX
           const remainingMeasures = rowMeasures.length - localMeasureIndex
-          const proportionalWidth = Math.round((measure.pulsesPerBar / rowPulses) * (renderWidth - 40))
-          const minimumMeasureWidth = hostWidth < 560 ? 102 : 120
+          const proportionalWidth = Math.round(
+            (measure.pulsesPerBar / rowPulses) * (logicalWidth - profile.systemPaddingX * 2),
+          )
+          const minimumMeasureWidth = profile.minMeasureWidth
           const measureWidth =
             localMeasureIndex === rowMeasures.length - 1
               ? Math.max(minimumMeasureWidth, remainingWidth)

@@ -260,6 +260,21 @@ function generateBeamsForMeasure(notes, measure) {
   })
 }
 
+function splitMeasuresIntoRows(measures, hostWidth) {
+  const availableWidth = Math.max(240, Math.round(hostWidth) - 40)
+  const minMeasureWidth = hostWidth < 560 ? 112 : hostWidth < 900 ? 132 : 154
+  const maxMeasuresPerRow = Math.max(1, Math.floor(availableWidth / minMeasureWidth))
+  const rows = []
+
+  for (let startIndex = 0; startIndex < measures.length; startIndex += maxMeasuresPerRow) {
+    rows.push({
+      startIndex,
+      endIndex: Math.min(measures.length, startIndex + maxMeasuresPerRow),
+    })
+  }
+  return rows
+}
+
 function VexflowStaff({ rhythm, activeNoteIndex }) {
   const scrollRef = useRef(null)
   const hostRef = useRef(null)
@@ -308,82 +323,94 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
     }
 
     try {
-      const totalPulses = Math.max(1, measures.reduce((sum, measure) => sum + measure.pulsesPerBar, 0))
-      const renderWidth = Math.max(hostWidth, measures.length * 250 + 72)
-      const renderHeight = 188
+      const measureRows = splitMeasuresIntoRows(measures, hostWidth)
+      const renderWidth = Math.max(320, hostWidth)
+      const rowHeight = 136
+      const renderHeight = Math.max(188, 22 + measureRows.length * rowHeight)
       const renderer = new Renderer(hostElement, Renderer.Backends.SVG)
       renderer.resize(renderWidth, renderHeight)
       const context = renderer.getContext()
       context.setFont('Arial', 12, '')
 
       let noteCursor = 0
-      let x = 28
       let previousMeasure = null
 
-      for (let measureIndex = 0; measureIndex < measures.length; measureIndex += 1) {
-        const measure = measures[measureIndex]
-        const remainingWidth = renderWidth - x - 28
-        const remainingMeasures = measures.length - measureIndex
-        const proportionalWidth = Math.round((measure.pulsesPerBar / totalPulses) * (renderWidth - 56))
-        const measureWidth =
-          measureIndex === measures.length - 1
-            ? Math.max(170, remainingWidth)
-            : Math.max(170, Math.min(remainingWidth - (remainingMeasures - 1) * 170, proportionalWidth))
+      for (const [rowIndex, row] of measureRows.entries()) {
+        const rowMeasures = measures.slice(row.startIndex, row.endIndex)
+        const rowPulses = Math.max(1, rowMeasures.reduce((sum, measure) => sum + measure.pulsesPerBar, 0))
+        const rowY = 22 + rowIndex * rowHeight
+        let x = 20
 
-        const stave = new Stave(x, 28, measureWidth)
-        if (measureIndex === 0) {
-          stave.setClef('percussion')
-        }
-        if (signatureChanged(previousMeasure, measure)) {
-          stave.addTimeSignature(`${measure.beats}/${measure.beatType}`)
-        }
-        stave.setEndBarType(measureIndex === measures.length - 1 ? BarlineType.END : BarlineType.SINGLE)
-        stave.setContext(context).draw()
+        for (let localMeasureIndex = 0; localMeasureIndex < rowMeasures.length; localMeasureIndex += 1) {
+          const measure = rowMeasures[localMeasureIndex]
+          const globalMeasureIndex = row.startIndex + localMeasureIndex
+          const remainingWidth = renderWidth - x - 20
+          const remainingMeasures = rowMeasures.length - localMeasureIndex
+          const proportionalWidth = Math.round((measure.pulsesPerBar / rowPulses) * (renderWidth - 40))
+          const minimumMeasureWidth = hostWidth < 560 ? 102 : 120
+          const measureWidth =
+            localMeasureIndex === rowMeasures.length - 1
+              ? Math.max(minimumMeasureWidth, remainingWidth)
+              : Math.max(
+                  minimumMeasureWidth,
+                  Math.min(remainingWidth - (remainingMeasures - 1) * minimumMeasureWidth, proportionalWidth),
+                )
 
-        const { nextCursor, segments } = buildMeasureSegments(measure, indexedNotes, noteCursor)
-        noteCursor = nextCursor
-        const entries = []
-        for (const segment of segments) {
-          if (segment.kind === 'note') {
-            const durationToken = closestDurationForPulses(segment.durationPulses)
-            entries.push({
-              note: createVexNote(segment.note, segment.note.globalIndex === activeNoteIndex, durationToken),
-              triplet: durationToken.triplet ?? null,
+          const stave = new Stave(x, rowY, measureWidth)
+          if (globalMeasureIndex === 0) {
+            stave.setClef('percussion')
+          }
+          if (signatureChanged(previousMeasure, measure)) {
+            stave.addTimeSignature(`${measure.beats}/${measure.beatType}`)
+          }
+          stave.setEndBarType(globalMeasureIndex === measures.length - 1 ? BarlineType.END : BarlineType.SINGLE)
+          stave.setContext(context).draw()
+
+          const { nextCursor, segments } = buildMeasureSegments(measure, indexedNotes, noteCursor)
+          noteCursor = nextCursor
+          const entries = []
+          for (const segment of segments) {
+            if (segment.kind === 'note') {
+              const durationToken = closestDurationForPulses(segment.durationPulses)
+              entries.push({
+                note: createVexNote(segment.note, segment.note.globalIndex === activeNoteIndex, durationToken),
+                triplet: durationToken.triplet ?? null,
+              })
+              continue
+            }
+            const restTokens = decomposeRestDuration(segment.durationPulses)
+            for (const restToken of restTokens) {
+              entries.push({
+                note: createRestNote(restToken),
+                triplet: restToken.triplet ?? null,
+              })
+            }
+          }
+
+          if (entries.length) {
+            const measureNotes = entries.map((entry) => entry.note)
+            // Generate beams before drawing notes so beamed notes do not render standalone flags.
+            const beams = generateBeamsForMeasure(measureNotes, measure)
+            const tuplets = buildTupletsForEntries(entries)
+            const voice = new Voice({
+              num_beats: Math.max(1, Number(measure.beats) || 4),
+              beat_value: Math.max(1, Number(measure.beatType) || 4),
             })
-            continue
+            voice.setMode(Voice.Mode.SOFT)
+            voice.addTickables(measureNotes)
+            new Formatter().joinVoices([voice]).formatToStave([voice], stave)
+            voice.draw(context, stave)
+            for (const beam of beams) {
+              beam.setContext(context).draw()
+            }
+            for (const tuplet of tuplets) {
+              tuplet.setContext(context).draw()
+            }
           }
-          const restTokens = decomposeRestDuration(segment.durationPulses)
-          for (const restToken of restTokens) {
-            entries.push({
-              note: createRestNote(restToken),
-              triplet: restToken.triplet ?? null,
-            })
-          }
-        }
 
-        if (entries.length) {
-          const measureNotes = entries.map((entry) => entry.note)
-          // Generate beams before drawing notes so beamed notes do not render standalone flags.
-          const beams = generateBeamsForMeasure(measureNotes, measure)
-          const tuplets = buildTupletsForEntries(entries)
-          const voice = new Voice({
-            num_beats: Math.max(1, Number(measure.beats) || 4),
-            beat_value: Math.max(1, Number(measure.beatType) || 4),
-          })
-          voice.setMode(Voice.Mode.SOFT)
-          voice.addTickables(measureNotes)
-          new Formatter().joinVoices([voice]).formatToStave([voice], stave)
-          voice.draw(context, stave)
-          for (const beam of beams) {
-            beam.setContext(context).draw()
-          }
-          for (const tuplet of tuplets) {
-            tuplet.setContext(context).draw()
-          }
+          previousMeasure = measure
+          x += measureWidth
         }
-
-        previousMeasure = measure
-        x += measureWidth
       }
     } catch (error) {
       // Rendering failures should not break transport controls or playback.

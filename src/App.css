@@ -375,6 +375,7 @@ button:disabled {
   display: grid;
   place-items: center;
   padding: 16px;
+  z-index: 80;
 }
 
 .modal-card {
@@ -753,7 +754,13 @@ button:disabled {
 
   .modal-card {
     width: 100%;
-    max-width: 640px;
+    max-width: none;
+    max-height: 100dvh;
+    height: 100dvh;
+    border-radius: 0;
+    border: 0;
+    padding: calc(16px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom));
+    overflow-y: auto;
   }
 
   .toast {

@@ -1077,7 +1077,10 @@ function App() {
           </div>
           {importError && <p className="import-error">{importError}</p>}
         </div>
-        <div className="transport-row transport-row-primary" aria-label="Playback controls">
+      </section>
+
+      <section className="transport-dock" aria-label="Playback controls">
+        <div className="transport-row transport-row-primary">
           <button
             type="button"
             className="transport-icon-button"

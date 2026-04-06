@@ -538,12 +538,22 @@ button:disabled {
 }
 
 .app {
-  padding-bottom: calc(188px + env(safe-area-inset-bottom));
+  padding-bottom: calc(228px + env(safe-area-inset-bottom));
 }
 
 .transport-panel {
   border-radius: 16px;
   border-color: #ccd3e2;
+}
+
+.transport-dock {
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+  border-radius: 16px;
+  border: 1px solid #ccd3e2;
+  background: #fff;
+  padding: 12px;
 }
 
 .status-compact {
@@ -656,7 +666,7 @@ button:disabled {
 
 @media (max-width: 720px) {
   .app {
-    padding: 16px 10px calc(212px + env(safe-area-inset-bottom));
+    padding: 16px 10px calc(236px + env(safe-area-inset-bottom));
   }
 
   .panel {
@@ -676,7 +686,7 @@ button:disabled {
     border-radius: 12px;
   }
 
-  .transport-panel {
+  .transport-dock {
     position: fixed;
     left: 0;
     right: 0;
@@ -700,8 +710,8 @@ button:disabled {
   }
 
   .exercise-dropdown-menu {
-    top: auto;
-    bottom: calc(100% + 8px);
+    top: calc(100% + 8px);
+    bottom: auto;
     left: 0;
     right: 0;
     min-width: 0;
@@ -768,7 +778,7 @@ button:disabled {
     padding-bottom: 40px;
   }
 
-  .transport-panel {
+  .transport-dock {
     position: static;
     box-shadow: none;
     backdrop-filter: none;

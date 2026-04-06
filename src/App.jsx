@@ -1019,7 +1019,6 @@ function App() {
   return (
     <main className="app">
       <header className="top-bar">
-        <p className="top-kicker">Practice Studio</p>
         <h1>Stick Control Practice</h1>
         <p className="subtitle">Mobile-friendly rhythm trainer for focused daily reps.</p>
       </header>

@@ -519,15 +519,6 @@ button:disabled {
   margin-bottom: 10px;
 }
 
-.top-kicker {
-  margin: 0 0 4px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #9aa8ce;
-}
-
 .top-bar h1 {
   font-size: clamp(1.4rem, 3.6vw, 2rem);
 }

@@ -721,6 +721,10 @@ function App() {
       if (runtime.countInPulsesRemaining <= 0) {
         runtime.phase = 'playing'
         runtime.noteCursor = 0
+        // Keep count-in pulses from advancing the exercise timeline.
+        // schedulerTick() increments pulseInBar after this call, so we park at
+        // the final pulse to make the next scheduled pulse start at 0 (beat 1).
+        clockRef.current.pulseInBar = totalPulsesForRhythm(rhythm) - 1
         const firstAtZero = rhythm.notes.findIndex((note) => note.startPulse === 0)
         scheduleUiAtAudioTime(pulseTime, () => {
           setRuntimePhase('playing')

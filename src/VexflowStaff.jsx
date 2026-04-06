@@ -264,16 +264,30 @@ function clamp(value, minimum, maximum) {
   return Math.max(minimum, Math.min(maximum, value))
 }
 
-function renderProfileForHostWidth(hostWidth) {
+function averageNotesPerMeasure(measures, indexedNotes) {
+  if (!measures.length) {
+    return 0
+  }
+  return indexedNotes.length / measures.length
+}
+
+function renderProfileForHostWidth(hostWidth, noteDensity) {
   const safeWidth = Math.max(320, Math.round(Number(hostWidth) || 320))
-  const mobileScale = clamp(safeWidth / 420, 0.88, 1)
+  const baseScale =
+    safeWidth <= 480 ? 0.9 : safeWidth <= 720 ? 0.96 : safeWidth <= 960 ? 1.02 : clamp(safeWidth / 960, 1.02, 1.08)
+  const densityTightening = noteDensity >= 10 ? 0.12 : noteDensity >= 7 ? 0.07 : noteDensity >= 5 ? 0.04 : 0
+  const scale = clamp(baseScale - densityTightening, 0.72, 1.08)
+  const minMeasureWidthBase = safeWidth < 560 ? 96 : safeWidth < 900 ? 120 : 144
+  const minMeasureWidth = Math.max(76, Math.round(minMeasureWidthBase * (1 - densityTightening * 0.95)))
+  const rowHeightBase = safeWidth < 560 ? 124 : safeWidth < 900 ? 132 : 140
+  const rowHeight = Math.round(rowHeightBase * (0.9 + scale * 0.14))
   return {
-    scale: safeWidth <= 720 ? mobileScale : clamp(safeWidth / 940, 1, 1.08),
+    scale,
     systemPaddingX: safeWidth < 560 ? 16 : safeWidth < 900 ? 20 : 24,
     topPadding: safeWidth < 560 ? 18 : 22,
-    rowHeight: safeWidth < 560 ? 126 : safeWidth < 900 ? 134 : 140,
-    minMeasureWidth: safeWidth < 560 ? 98 : safeWidth < 900 ? 124 : 146,
-    fontSize: safeWidth < 560 ? 11 : 12,
+    rowHeight,
+    minMeasureWidth,
+    fontSize: scale < 0.82 ? 10 : safeWidth < 560 ? 11 : 12,
   }
 }
 
@@ -340,7 +354,8 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
     }
 
     try {
-      const profile = renderProfileForHostWidth(hostWidth)
+      const noteDensity = averageNotesPerMeasure(measures, indexedNotes)
+      const profile = renderProfileForHostWidth(hostWidth, noteDensity)
       const renderWidth = Math.max(320, hostWidth)
       const logicalWidth = Math.max(280, Math.round(renderWidth / profile.scale))
       const measureRows = splitMeasuresIntoRows(measures, logicalWidth, profile)

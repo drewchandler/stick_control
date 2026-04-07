@@ -1,6 +1,6 @@
 import { HStack, VStack } from '../layout/Stack'
 import Pill from '../atoms/Pill'
-import SurfaceCard from '../atoms/SurfaceCard'
+import Card from '../atoms/Card'
 import { BodyText } from '../atoms/Typography'
 
 export default function StatusPanel({
@@ -15,7 +15,7 @@ export default function StatusPanel({
   importError,
 }) {
   return (
-    <SurfaceCard as={VStack} spacing={3}>
+    <Card as={VStack} spacing={3} variant="surface">
       {exerciseSelector}
       <HStack className="flex-wrap gap-2">
         <Pill>Rhythm {hasRhythms ? `${exerciseIndex + 1}/${exerciseCount}` : '0/0'}</Pill>
@@ -26,6 +26,6 @@ export default function StatusPanel({
         <Pill strong>{statusLabel}</Pill>
       </HStack>
       {importError ? <BodyText tone="danger">{importError}</BodyText> : null}
-    </SurfaceCard>
+    </Card>
   )
 }

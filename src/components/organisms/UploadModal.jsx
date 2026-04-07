@@ -1,8 +1,8 @@
-import Backdrop from '../atoms/Backdrop'
-import ModalCard from '../atoms/ModalCard'
 import Button from '../atoms/Button'
+import Card from '../atoms/Card'
 import { BodyText } from '../atoms/Typography'
 import { HStack, VStack } from '../layout/Stack'
+import Modal from '../molecules/Modal'
 
 export default function UploadModal({ open, onClose, onUploadFile, onLoadDefault }) {
   if (!open) {
@@ -10,8 +10,8 @@ export default function UploadModal({ open, onClose, onUploadFile, onLoadDefault
   }
 
   return (
-    <Backdrop>
-      <ModalCard title="Load MusicXML">
+    <Modal onClose={onClose}>
+      <Card variant="modal" title="Load MusicXML">
         <VStack spacing={4}>
           <BodyText>Choose a MusicXML file or load the bundled default rhythm.</BodyText>
           <HStack spacing={2} wrap>
@@ -38,7 +38,7 @@ export default function UploadModal({ open, onClose, onUploadFile, onLoadDefault
             </Button>
           </HStack>
         </VStack>
-      </ModalCard>
-    </Backdrop>
+      </Card>
+    </Modal>
   )
 }

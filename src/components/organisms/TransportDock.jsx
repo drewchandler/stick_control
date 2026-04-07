@@ -3,7 +3,7 @@ import { HStack, VStack } from '../layout/Stack'
 import Button from '../atoms/Button'
 import Container from '../atoms/Container'
 import TransportPrimaryControls from '../molecules/TransportPrimaryControls'
-import SurfaceCard from '../atoms/SurfaceCard'
+import Card from '../atoms/Card'
 import TempoControl from '../molecules/TempoControl'
 
 export default function TransportDock({
@@ -24,7 +24,7 @@ export default function TransportDock({
   const onPlayPause = isTransportRunning ? onPause : onPlay
 
   return (
-    <SurfaceCard className="mt-2 rounded-2xl p-3">
+    <Card variant="surface" className="mt-2">
       <VStack spacing={8}>
         <TransportPrimaryControls
           hasRhythms={hasRhythms}
@@ -51,6 +51,6 @@ export default function TransportDock({
           </Button>
         </Container>
       </VStack>
-    </SurfaceCard>
+    </Card>
   )
 }

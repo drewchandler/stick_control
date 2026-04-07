@@ -1,4 +1,4 @@
-import ModalCard from '../atoms/ModalCard'
+import Card from '../atoms/Card'
 import Button from '../atoms/Button'
 import TextInput from '../atoms/TextInput'
 import Checkbox from '../atoms/Checkbox'
@@ -24,7 +24,7 @@ export default function SettingsModal({
   onDone,
 }) {
   return (
-    <ModalCard container="modalWide">
+    <Card variant="modalWide">
       <VStack spacing={4}>
         <SectionTitle>Practice settings</SectionTitle>
         <Container variant="formGridTwoCol">
@@ -106,6 +106,6 @@ export default function SettingsModal({
           Settings updates apply to the current and next transport starts.
         </BodyText>
       </VStack>
-    </ModalCard>
+    </Card>
   )
 }

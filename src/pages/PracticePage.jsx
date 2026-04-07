@@ -8,10 +8,10 @@ import StatusPanel from '../components/organisms/StatusPanel'
 import TransportDock from '../components/organisms/TransportDock'
 import SettingsModal from '../components/organisms/SettingsModal'
 import UploadModal from '../components/organisms/UploadModal'
-import ModalCard from '../components/atoms/ModalCard'
+import Card from '../components/atoms/Card'
 import Button from '../components/atoms/Button'
 import Toast from '../components/atoms/Toast'
-import Backdrop from '../components/atoms/Backdrop'
+import Modal from '../components/molecules/Modal'
 import HiddenFileInput from '../components/atoms/HiddenFileInput'
 import { BodyText } from '../components/atoms/Typography'
 import { VStack, HStack } from '../components/layout/Stack'
@@ -269,7 +269,7 @@ export default function PracticePage() {
       />
 
       {showUploadModal && (
-        <Backdrop>
+        <Modal>
           <UploadModal
             onUploadFile={() => {
               setShowUploadModal(false)
@@ -281,11 +281,11 @@ export default function PracticePage() {
             }}
             onClose={() => setShowUploadModal(false)}
           />
-        </Backdrop>
+        </Modal>
       )}
 
       {showMetronomeModal && (
-        <Backdrop>
+        <Modal>
           <SettingsModal
             controlsDisabled={controlsDisabled}
             repetitions={repetitions}
@@ -301,12 +301,12 @@ export default function PracticePage() {
             onReset={handleReset}
             onDone={() => setShowMetronomeModal(false)}
           />
-        </Backdrop>
+        </Modal>
       )}
 
       {showNextModal && (
-        <Backdrop>
-          <ModalCard width="lg">
+        <Modal>
+          <Card variant="modal" width="lg">
             <VStack spacing={4}>
               <BodyText>{modalText}</BodyText>
               <HStack spacing={2}>
@@ -316,8 +316,8 @@ export default function PracticePage() {
                 </Button>
               </HStack>
             </VStack>
-          </ModalCard>
-        </Backdrop>
+          </Card>
+        </Modal>
       )}
 
       {importStatus && <Toast>{importStatus}</Toast>}

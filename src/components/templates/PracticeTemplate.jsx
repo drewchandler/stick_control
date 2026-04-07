@@ -1,5 +1,5 @@
 import { VStack } from '../layout/Stack'
-import SurfaceCard from '../atoms/SurfaceCard'
+import Card from '../atoms/Card'
 import { Title, Subtitle } from '../atoms/Typography'
 import Container from '../atoms/Container'
 
@@ -25,8 +25,8 @@ export default function PracticeTemplate({ title, subtitle, notation, statusPane
     <PageShell>
       <VStack gap={12}>
         <HeaderBlock title={title} subtitle={subtitle} />
-        <SurfaceCard>{notation}</SurfaceCard>
-        <SurfaceCard>{statusPanel}</SurfaceCard>
+        <Card>{notation}</Card>
+        <Card>{statusPanel}</Card>
         {transportDock}
       </VStack>
       {children}

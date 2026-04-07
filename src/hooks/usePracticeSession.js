@@ -163,6 +163,13 @@ export function practiceSessionReducer(state, action) {
       }
       return { ...state, showNextModal: nextShow, modalText: nextText }
     }
+    case 'transport/setModalText': {
+      const next = String(resolveNextValue(state.modalText, action.value))
+      if (next === state.modalText) {
+        return state
+      }
+      return { ...state, modalText: next }
+    }
     case 'import/setStatus': {
       const next = String(resolveNextValue(state.importStatus, action.value))
       if (next === state.importStatus) {
@@ -207,6 +214,7 @@ export default function usePracticeSession() {
       setActiveNoteIndex: (value) => dispatch({ type: 'transport/setActiveNoteIndex', value }),
       setTransportState: (value) => dispatch({ type: 'transport/setStatus', value }),
       setShowNextModal: (show, text) => dispatch({ type: 'transport/setNextModal', show, text }),
+      setModalText: (value) => dispatch({ type: 'transport/setModalText', value }),
       resetTransportDisplay: () => dispatch({ type: 'transport/resetDisplay' }),
       setImportStatus: (value) => dispatch({ type: 'import/setStatus', value }),
       setImportError: (value) => dispatch({ type: 'import/setError', value }),

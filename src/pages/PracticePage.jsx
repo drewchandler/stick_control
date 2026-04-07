@@ -15,7 +15,7 @@ import Modal from '../components/molecules/Modal'
 import HiddenFileInput from '../components/atoms/HiddenFileInput'
 import { BodyText } from '../components/atoms/Typography'
 import { VStack, HStack } from '../components/layout/Stack'
-import TextInput from '../components/atoms/TextInput'
+import ExerciseSelector from '../components/molecules/ExerciseSelector'
 
 export default function PracticePage() {
   const {
@@ -219,6 +219,13 @@ export default function PracticePage() {
   const playPauseLabel = isTransportRunning ? 'Pause' : phase === 'paused' ? 'Resume' : 'Play'
   const currentExerciseLabel = hasRhythms ? currentRhythm?.name ?? `Exercise ${currentRhythmIndex + 1}` : 'No exercises loaded'
   const statusLabel = transportState || (hasRhythms ? 'Ready' : 'Load MusicXML')
+  const metSubdivisionOptions = [
+    { value: 4, label: 'Quarter notes' },
+    { value: 8, label: 'Eighth notes' },
+    { value: 12, label: 'Eighth-note triplets' },
+    { value: 16, label: 'Sixteenth notes' },
+    { value: 32, label: 'Thirty-second notes' },
+  ]
 
   return (
     <PracticeTemplate
@@ -227,15 +234,22 @@ export default function PracticePage() {
       notation={<VexflowStaff rhythm={currentRhythm} activeNoteIndex={activeNoteIndex} />}
       statusPanel={
         <StatusPanel
-          exerciseDropdownRef={exerciseDropdownRef}
-          controlsDisabled={controlsDisabled}
           hasRhythms={hasRhythms}
-          showExerciseDropdown={showExerciseDropdown}
-          setShowExerciseDropdown={setShowExerciseDropdown}
-          currentExerciseLabel={currentExerciseLabel}
-          rhythms={rhythms}
-          currentRhythmIndex={currentRhythmIndex}
-          onRhythmSelect={handleRhythmSelect}
+          exerciseIndex={currentRhythmIndex}
+          exerciseCount={rhythms.length}
+          exerciseSelector={
+            <div ref={exerciseDropdownRef} className="max-w-full">
+              <ExerciseSelector
+                label={currentExerciseLabel}
+                options={rhythms}
+                selectedIndex={currentRhythmIndex}
+                open={showExerciseDropdown}
+                disabled={!hasRhythms || controlsDisabled}
+                onToggle={() => setShowExerciseDropdown((previous) => !previous)}
+                onSelect={handleRhythmSelect}
+              />
+            </div>
+          }
           currentRep={currentRep}
           repetitions={repetitions}
           currentBeat={currentBeat}
@@ -251,7 +265,7 @@ export default function PracticePage() {
           tempoInput={tempoInput}
           onTempoInputChange={setTempoInput}
           onTempoInputCommit={commitTempoInput}
-          onTempoDelta={adjustBpm}
+          onTempoAdjust={adjustBpm}
           onPrevious={handlePreviousRhythm}
           onNext={handleNextRhythm}
           onPlay={handlePlay}
@@ -268,57 +282,52 @@ export default function PracticePage() {
         onChange={handleRhythmFileChange}
       />
 
-      {showUploadModal && (
-        <Modal>
-          <UploadModal
-            onUploadFile={() => {
-              setShowUploadModal(false)
-              handleOpenFilePicker()
-            }}
-            onLoadDefault={() => {
-              setShowUploadModal(false)
-              loadSample()
-            }}
-            onClose={() => setShowUploadModal(false)}
-          />
-        </Modal>
-      )}
+      <Modal open={showUploadModal}>
+        <UploadModal
+          onUploadFile={() => {
+            setShowUploadModal(false)
+            handleOpenFilePicker()
+          }}
+          onLoadDefault={() => {
+            setShowUploadModal(false)
+            loadSample()
+          }}
+          onClose={() => setShowUploadModal(false)}
+        />
+      </Modal>
 
-      {showMetronomeModal && (
-        <Modal>
-          <SettingsModal
-            controlsDisabled={controlsDisabled}
-            repetitions={repetitions}
-            onRepetitionsChange={(event) => setRepetitions(Math.max(1, Math.min(200, Number(event.target.value) || 20)))}
-            metronomeMode={metronomeMode}
-            onMetronomeModeChange={(event) => setMetronomeMode(event.target.value)}
-            metSubdivision={metSubdivision}
-            onMetSubdivisionChange={(event) => setMetSubdivision(Number(event.target.value))}
-            countInEnabled={countInEnabled}
-            onCountInEnabledChange={(event) => setCountInEnabled(event.target.checked)}
-            countInBars={countInBars}
-            onCountInBarsChange={(event) => setCountInBars(Math.max(1, Math.min(4, Number(event.target.value) || 1)))}
-            onReset={handleReset}
-            onDone={() => setShowMetronomeModal(false)}
-          />
-        </Modal>
-      )}
+      <Modal open={showMetronomeModal} cardWidth="wide">
+        <SettingsModal
+          controlsDisabled={controlsDisabled}
+          repetitions={repetitions}
+          onRepetitionsChange={(value) => setRepetitions(Math.max(1, Math.min(200, Number(value) || 20)))}
+          metronomeMode={metronomeMode}
+          onMetronomeModeChange={setMetronomeMode}
+          metSubdivision={metSubdivision}
+          subdivisions={metSubdivisionOptions}
+          onMetSubdivisionChange={(value) => setMetSubdivision(Number(value))}
+          countInEnabled={countInEnabled}
+          onCountInEnabledChange={setCountInEnabled}
+          countInBars={countInBars}
+          onCountInBarsChange={(value) => setCountInBars(Math.max(1, Math.min(4, Number(value) || 1)))}
+          onReset={handleReset}
+          onDone={() => setShowMetronomeModal(false)}
+        />
+      </Modal>
 
-      {showNextModal && (
-        <Modal>
-          <Card variant="modal" width="lg">
-            <VStack spacing={4}>
-              <BodyText>{modalText}</BodyText>
-              <HStack spacing={2}>
-                <Button onClick={handlePlay}>Start next rhythm</Button>
-                <Button variant="ghost" onClick={() => setShowNextModal(false)}>
-                  Later
-                </Button>
-              </HStack>
-            </VStack>
-          </Card>
-        </Modal>
-      )}
+      <Modal open={showNextModal} cardWidth="lg">
+        <Card variant="surface">
+          <VStack spacing={4}>
+            <BodyText>{modalText}</BodyText>
+            <HStack spacing={2}>
+              <Button onClick={handlePlay}>Start next rhythm</Button>
+              <Button variant="ghost" onClick={() => setShowNextModal(false)}>
+                Later
+              </Button>
+            </HStack>
+          </VStack>
+        </Card>
+      </Modal>
 
       {importStatus && <Toast>{importStatus}</Toast>}
     </PracticeTemplate>

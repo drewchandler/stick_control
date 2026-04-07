@@ -1,10 +1,9 @@
 import { Settings, Upload } from 'lucide-react'
-import { HStack, VStack } from '../layout/Stack'
+import { VStack } from '../layout/Stack'
 import Button from '../atoms/Button'
 import Container from '../atoms/Container'
 import TransportPrimaryControls from '../molecules/TransportPrimaryControls'
 import Card from '../atoms/Card'
-import TempoControl from '../molecules/TempoControl'
 
 export default function TransportDock({
   hasRhythms,
@@ -33,8 +32,6 @@ export default function TransportDock({
           onPrevious={onPrevious}
           onPlayPause={onPlayPause}
           onNext={onNext}
-        />
-        <TempoControl
           tempoInput={tempoInput}
           onTempoInputChange={onTempoInputChange}
           onTempoInputCommit={onTempoInputCommit}

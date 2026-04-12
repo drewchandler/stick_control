@@ -232,7 +232,8 @@ export default function useTransportEngine({
       const timing = timingFromSignature(activeMeasure.beats, activeMeasure.beatType)
       const pulseInMeasure = pulseInBar - activeMeasure.startPulse
       const clickMode = session.metronomeMode
-      const clickStep = clickMode === 'subdivision' ? subdivisionPulseStep(session.metSubdivision) : timing.pulsesPerBeat
+      const clickStep =
+        clickMode === 'subdivision' ? subdivisionPulseStep(session.metronomeSubdivision) : timing.pulsesPerBeat
 
       if (clickMode !== 'off' && pulseInMeasure % clickStep === 0) {
         const isBeatBoundary = pulseInMeasure % timing.pulsesPerBeat === 0

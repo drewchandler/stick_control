@@ -9,14 +9,14 @@ export default function SettingsModal({
   controlsDisabled,
   repetitions,
   metronomeMode,
-  metSubdivision,
+  metronomeSubdivision,
   subdivisions,
   countInEnabled,
   countInBars,
   autoPlayNext,
   onRepetitionsChange,
   onMetronomeModeChange,
-  onMetSubdivisionChange,
+  onMetronomeSubdivisionChange,
   onCountInEnabledChange,
   onCountInBarsChange,
   onAutoPlayNextChange,
@@ -56,11 +56,11 @@ export default function SettingsModal({
 
         {metronomeMode === 'subdivision' && (
           <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
-            <LabelText htmlFor="metSubdivision">Subdivision note value</LabelText>
+            <LabelText htmlFor="metronomeSubdivision">Subdivision note value</LabelText>
             <NativeSelect
-              id="metSubdivision"
-              value={metSubdivision}
-              onChange={(event) => onMetSubdivisionChange(event.target.value)}
+              id="metronomeSubdivision"
+              value={metronomeSubdivision}
+              onChange={(event) => onMetronomeSubdivisionChange(event.target.value)}
             >
               {subdivisions.map((subdivision) => (
                 <option key={subdivision.value} value={subdivision.value}>

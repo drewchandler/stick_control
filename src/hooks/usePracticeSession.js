@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   autoplayNext: false,
   countInBars: 1,
   countInEnabled: true,
-  metSubdivision: 8,
+  metronomeSubdivision: 8,
   metronomeMode: 'subdivision',
   exercises: [],
   currentExerciseIndex: 0,
@@ -90,14 +90,14 @@ export function practiceSessionReducer(state, action) {
       }
       return { ...state, metronomeMode: next }
     }
-    case 'settings/setMetSubdivision': {
+    case 'settings/setMetronomeSubdivision': {
       const allowed = new Set([4, 8, 12, 16, 32])
-      const requested = Number(resolveNextValue(state.metSubdivision, action.value))
-      const next = allowed.has(requested) ? requested : state.metSubdivision
-      if (next === state.metSubdivision) {
+      const requested = Number(resolveNextValue(state.metronomeSubdivision, action.value))
+      const next = allowed.has(requested) ? requested : state.metronomeSubdivision
+      if (next === state.metronomeSubdivision) {
         return state
       }
-      return { ...state, metSubdivision: next }
+      return { ...state, metronomeSubdivision: next }
     }
     case 'library/setExercises': {
       const nextExercises = Array.isArray(action.exercises) ? action.exercises : []
@@ -222,7 +222,7 @@ export default function usePracticeSession() {
       setAutoplayNext: (value) => dispatch({ type: 'settings/setAutoplayNext', value }),
       setCountInBars: (value) => dispatch({ type: 'settings/setCountInBars', value }),
       setCountInEnabled: (value) => dispatch({ type: 'settings/setCountInEnabled', value }),
-      setMetSubdivision: (value) => dispatch({ type: 'settings/setMetSubdivision', value }),
+      setMetronomeSubdivision: (value) => dispatch({ type: 'settings/setMetronomeSubdivision', value }),
       setMetronomeMode: (value) => dispatch({ type: 'settings/setMetronomeMode', value }),
       setExercises: (exercises) => dispatch({ type: 'library/setExercises', exercises }),
       setCurrentExerciseIndex: (value) => dispatch({ type: 'library/setCurrentExerciseIndex', value }),

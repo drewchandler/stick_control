@@ -26,7 +26,7 @@ export default function PracticePage() {
       setCountInBars,
       setCountInEnabled,
       setAutoplayNext: setAutoPlayNext,
-      setMetSubdivision,
+      setMetronomeSubdivision,
       setMetronomeMode,
       setCurrentExerciseIndex,
       setPhase,
@@ -49,7 +49,7 @@ export default function PracticePage() {
     countInBars,
     countInEnabled,
     autoplayNext: autoPlayNext,
-    metSubdivision,
+    metronomeSubdivision,
     metronomeMode,
     exercises,
     currentExerciseIndex,
@@ -228,7 +228,7 @@ export default function PracticePage() {
     ? currentExercise?.name ?? `Exercise ${currentExerciseIndex + 1}`
     : 'No exercises loaded'
   const remainingReps = Math.max(0, repetitions - currentRep)
-  const metSubdivisionOptions = [
+  const metronomeSubdivisionOptions = [
     { value: 4, label: 'Quarter notes' },
     { value: 8, label: 'Eighth notes' },
     { value: 12, label: 'Eighth-note triplets' },
@@ -311,9 +311,9 @@ export default function PracticePage() {
           onAutoPlayNextChange={setAutoPlayNext}
           metronomeMode={metronomeMode}
           onMetronomeModeChange={setMetronomeMode}
-          metSubdivision={metSubdivision}
-          subdivisions={metSubdivisionOptions}
-          onMetSubdivisionChange={(value) => setMetSubdivision(Number(value))}
+          metronomeSubdivision={metronomeSubdivision}
+          subdivisions={metronomeSubdivisionOptions}
+          onMetronomeSubdivisionChange={(value) => setMetronomeSubdivision(Number(value))}
           countInEnabled={countInEnabled}
           onCountInEnabledChange={setCountInEnabled}
           countInBars={countInBars}

@@ -22,8 +22,8 @@ export default function TransportDock({
   const onPlayPause = isTransportRunning ? onPause : onPlay
 
   return (
-    <Card variant="surface" className="mt-2 overflow-x-auto">
-      <HStack gap={8} className="min-w-max">
+    <Card variant="surface">
+      <HStack gap={8} horizontalScroll>
         <TransportPrimaryControls
           hasRhythms={hasRhythms}
           isTransportRunning={isTransportRunning}
@@ -36,11 +36,11 @@ export default function TransportDock({
           onTempoInputCommit={onTempoInputCommit}
           onTempoAdjust={onTempoAdjust}
         />
-        <Button variant="muted" className="transport-action-button" onClick={onOpenLibrary} aria-label="Open upload options">
+        <Button variant="muted" size="sm" onClick={onOpenLibrary} aria-label="Open upload options">
           <Upload size={16} />
           <span>Library</span>
         </Button>
-        <Button variant="muted" className="transport-action-button" onClick={onOpenSettings} aria-label="Open settings">
+        <Button variant="muted" size="sm" onClick={onOpenSettings} aria-label="Open settings">
           <Settings size={16} />
           <span>Settings</span>
         </Button>

@@ -17,14 +17,14 @@ export default function TransportPrimaryControls({
   onTempoAdjust,
 }) {
   return (
-    <HStack gap={8} justify="justify-center" className="min-w-max">
+    <HStack gap={8} justify="center" intrinsicWidth>
       <IconButton disabled={!hasRhythms} onClick={onPrevious} aria-label="Previous rhythm">
         <SkipBack size={18} />
       </IconButton>
       <Button
         variant="dark"
         size="iconLg"
-        className="rounded-full"
+        radius="full"
         disabled={!hasRhythms}
         onClick={onPlayPause}
         aria-label={playPauseLabel}

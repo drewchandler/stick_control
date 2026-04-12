@@ -22,6 +22,22 @@ const PADDING_CLASS = {
   lg: 'p-4',
 }
 
+const FLEX_CLASS = {
+  none: '',
+  grow: 'flex-1',
+}
+
+const WIDTH_CLASS = {
+  auto: '',
+  full: 'w-full',
+  max: 'max-w-full',
+}
+
+const MIN_WIDTH_CLASS = {
+  auto: '',
+  zero: 'min-w-0',
+}
+
 export default function Container({
   as = 'div',
   className = '',
@@ -30,6 +46,9 @@ export default function Container({
   rounded = 'none',
   padding = 'none',
   border = false,
+  flex = 'none',
+  width = 'auto',
+  minWidth = 'auto',
   ...props
 }) {
   return createElement(
@@ -40,6 +59,9 @@ export default function Container({
         ROUNDING_CLASS[rounded] ?? ROUNDING_CLASS.none,
         PADDING_CLASS[padding] ?? PADDING_CLASS.none,
         border && 'border border-slate-200',
+        FLEX_CLASS[flex] ?? FLEX_CLASS.none,
+        WIDTH_CLASS[width] ?? WIDTH_CLASS.auto,
+        MIN_WIDTH_CLASS[minWidth] ?? MIN_WIDTH_CLASS.auto,
         className,
       ),
       ...props,

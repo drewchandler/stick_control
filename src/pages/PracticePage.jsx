@@ -13,8 +13,10 @@ import Toast from '../components/atoms/Toast'
 import Modal from '../components/molecules/Modal'
 import HiddenFileInput from '../components/atoms/HiddenFileInput'
 import { BodyText } from '../components/atoms/Typography'
+import ExerciseDropdown from '../components/atoms/ExerciseDropdown'
+import RepCountdownBadge from '../components/atoms/RepCountdownBadge'
+import Container from '../components/atoms/Container'
 import { VStack, HStack } from '../components/layout/Stack'
-import ExerciseSelector from '../components/molecules/ExerciseSelector'
 
 export default function PracticePage() {
   const {
@@ -229,9 +231,9 @@ export default function PracticePage() {
       title="Stick Control Practice"
       notation={
         <VStack gap={10}>
-          <HStack justify="justify-between" align="items-start" wrap className="gap-3">
-            <div ref={exerciseDropdownRef} className="min-w-0 max-w-full flex-1">
-              <ExerciseSelector
+          <HStack justify="between" align="start" wrap gap={12}>
+            <Container ref={exerciseDropdownRef} minWidth="zero" width="max" flex="grow">
+              <ExerciseDropdown
                 label={currentExerciseLabel}
                 options={rhythms}
                 selectedIndex={currentRhythmIndex}
@@ -239,17 +241,9 @@ export default function PracticePage() {
                 disabled={!hasRhythms || controlsDisabled}
                 onToggle={() => setShowExerciseDropdown((previous) => !previous)}
                 onSelect={handleRhythmSelect}
-                triggerClassName="rounded-md border border-slate-200 px-3 py-2 text-sm font-semibold"
-                labelClassName="text-sm"
               />
-            </div>
-            <span
-              className="inline-flex items-center rounded-full border border-slate-300 bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
-              aria-label={`${remainingReps} repetitions remaining`}
-              title={`${currentRep} completed of ${repetitions}`}
-            >
-              :| {remainingReps} |:
-            </span>
+            </Container>
+            <RepCountdownBadge remainingReps={remainingReps} currentRep={currentRep} repetitions={repetitions} />
           </HStack>
           {importError ? <BodyText tone="danger">{importError}</BodyText> : null}
           <VexflowStaff rhythm={currentRhythm} activeNoteIndex={activeNoteIndex} />

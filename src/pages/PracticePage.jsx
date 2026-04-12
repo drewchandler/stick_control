@@ -4,7 +4,6 @@ import usePracticeSession from '../hooks/usePracticeSession'
 import useTransportEngine from '../hooks/useTransportEngine'
 import useRhythmLibrary from '../hooks/useRhythmLibrary'
 import PracticeTemplate from '../components/templates/PracticeTemplate'
-import StatusPanel from '../components/organisms/StatusPanel'
 import TransportDock from '../components/organisms/TransportDock'
 import SettingsModal from '../components/organisms/SettingsModal'
 import UploadModal from '../components/organisms/UploadModal'
@@ -52,9 +51,7 @@ export default function PracticePage() {
     currentRhythmIndex,
     currentRep,
     activeNoteIndex,
-    currentBeat,
     phase,
-    transportState,
     showNextModal,
     modalText,
     importStatus,
@@ -218,7 +215,7 @@ export default function PracticePage() {
   const hasRhythms = rhythms.length > 0
   const playPauseLabel = isTransportRunning ? 'Pause' : phase === 'paused' ? 'Resume' : 'Play'
   const currentExerciseLabel = hasRhythms ? currentRhythm?.name ?? `Exercise ${currentRhythmIndex + 1}` : 'No exercises loaded'
-  const statusLabel = transportState || (hasRhythms ? 'Ready' : 'Load MusicXML')
+  const remainingReps = Math.max(0, repetitions - currentRep)
   const metSubdivisionOptions = [
     { value: 4, label: 'Quarter notes' },
     { value: 8, label: 'Eighth notes' },
@@ -230,15 +227,10 @@ export default function PracticePage() {
   return (
     <PracticeTemplate
       title="Stick Control Practice"
-      subtitle="Mobile-friendly rhythm trainer for focused daily reps."
-      notation={<VexflowStaff rhythm={currentRhythm} activeNoteIndex={activeNoteIndex} />}
-      statusPanel={
-        <StatusPanel
-          hasRhythms={hasRhythms}
-          exerciseIndex={currentRhythmIndex}
-          exerciseCount={rhythms.length}
-          exerciseSelector={
-            <div ref={exerciseDropdownRef} className="max-w-full">
+      notation={
+        <VStack gap={10}>
+          <HStack justify="justify-between" align="items-start" wrap className="gap-3">
+            <div ref={exerciseDropdownRef} className="min-w-0 max-w-full flex-1">
               <ExerciseSelector
                 label={currentExerciseLabel}
                 options={rhythms}
@@ -247,15 +239,21 @@ export default function PracticePage() {
                 disabled={!hasRhythms || controlsDisabled}
                 onToggle={() => setShowExerciseDropdown((previous) => !previous)}
                 onSelect={handleRhythmSelect}
+                triggerClassName="rounded-md border border-slate-200 px-3 py-2 text-sm font-semibold"
+                labelClassName="text-sm"
               />
             </div>
-          }
-          currentRep={currentRep}
-          repetitions={repetitions}
-          currentBeat={currentBeat}
-          statusLabel={statusLabel}
-          importError={importError}
-        />
+            <span
+              className="inline-flex items-center rounded-full border border-slate-300 bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
+              aria-label={`${remainingReps} repetitions remaining`}
+              title={`${currentRep} completed of ${repetitions}`}
+            >
+              :| {remainingReps} |:
+            </span>
+          </HStack>
+          {importError ? <BodyText tone="danger">{importError}</BodyText> : null}
+          <VexflowStaff rhythm={currentRhythm} activeNoteIndex={activeNoteIndex} />
+        </VStack>
       }
       transportDock={
         <TransportDock

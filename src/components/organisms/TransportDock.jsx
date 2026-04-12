@@ -1,7 +1,6 @@
 import { Settings, Upload } from 'lucide-react'
-import { VStack } from '../layout/Stack'
+import { HStack } from '../layout/Stack'
 import Button from '../atoms/Button'
-import Container from '../atoms/Container'
 import TransportPrimaryControls from '../molecules/TransportPrimaryControls'
 import Card from '../atoms/Card'
 
@@ -23,8 +22,8 @@ export default function TransportDock({
   const onPlayPause = isTransportRunning ? onPause : onPlay
 
   return (
-    <Card variant="surface" className="mt-2">
-      <VStack spacing={8}>
+    <Card variant="surface" className="mt-2 overflow-x-auto">
+      <HStack gap={8} className="min-w-max">
         <TransportPrimaryControls
           hasRhythms={hasRhythms}
           isTransportRunning={isTransportRunning}
@@ -37,17 +36,15 @@ export default function TransportDock({
           onTempoInputCommit={onTempoInputCommit}
           onTempoAdjust={onTempoAdjust}
         />
-        <Container columns={2} gap={8}>
-          <Button variant="muted" className="justify-start" onClick={onOpenLibrary} aria-label="Open upload options">
-            <Upload size={18} />
-            <span>Library</span>
-          </Button>
-          <Button variant="muted" className="justify-start" onClick={onOpenSettings} aria-label="Open settings">
-            <Settings size={18} />
-            <span>Settings</span>
-          </Button>
-        </Container>
-      </VStack>
+        <Button variant="muted" className="transport-action-button" onClick={onOpenLibrary} aria-label="Open upload options">
+          <Upload size={16} />
+          <span>Library</span>
+        </Button>
+        <Button variant="muted" className="transport-action-button" onClick={onOpenSettings} aria-label="Open settings">
+          <Settings size={16} />
+          <span>Settings</span>
+        </Button>
+      </HStack>
     </Card>
   )
 }

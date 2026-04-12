@@ -1,8 +1,6 @@
 import Button from '../atoms/Button'
 import TextInput from '../atoms/TextInput'
-import { BodyText } from '../atoms/Typography'
 import { HStack } from '../layout/Stack'
-import Container from '../atoms/Container'
 
 export default function TempoControl({
   tempoInput,
@@ -11,11 +9,18 @@ export default function TempoControl({
   onTempoAdjust,
 }) {
   return (
-    <Container variant="tempoControl" as={HStack} gap={2} align="center" aria-label="Tempo control">
-      <Button variant="ghost" size="icon-sm" aria-label="Decrease tempo" onClick={() => onTempoAdjust(-1)}>
+    <HStack gap={4} align="items-center" aria-label="Tempo control" className="rounded-xl border border-slate-200 bg-slate-50 px-2 py-1">
+      <Button
+        variant="ghost"
+        size="iconSm"
+        className="h-8 w-8 min-w-8 rounded-md"
+        aria-label="Decrease tempo"
+        onClick={() => onTempoAdjust(-1)}
+      >
         -
       </Button>
       <TextInput
+        className="h-8 w-14 min-w-14 px-2 py-1 text-center font-semibold"
         value={tempoInput}
         onChange={onTempoInputChange}
         onBlur={onTempoCommit}
@@ -25,16 +30,21 @@ export default function TempoControl({
             onTempoCommit()
           }
         }}
-        variant="tempo"
         inputMode="numeric"
         aria-label="Tempo BPM"
       />
-      <BodyText tone="mutedCenter">
+      <span className="text-xs font-semibold tracking-wide text-slate-600">
         BPM
-      </BodyText>
-      <Button variant="ghost" size="icon-sm" aria-label="Increase tempo" onClick={() => onTempoAdjust(1)}>
+      </span>
+      <Button
+        variant="ghost"
+        size="iconSm"
+        className="h-8 w-8 min-w-8 rounded-md"
+        aria-label="Increase tempo"
+        onClick={() => onTempoAdjust(1)}
+      >
         +
       </Button>
-    </Container>
+    </HStack>
   )
 }

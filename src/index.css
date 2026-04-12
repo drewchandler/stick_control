@@ -179,25 +179,20 @@ body {
   letter-spacing: -0.02em;
   color: var(--countin-overlay);
   text-shadow: 0 10px 28px var(--countin-shadow);
+  transform-origin: center;
 }
 
-.count-in-pulse-ring {
-  position: absolute;
-  width: clamp(6.8rem, 22vw, 15rem);
-  aspect-ratio: 1 / 1;
-  border: 3px solid var(--countin-ring);
-  border-radius: 9999px;
-  opacity: 0;
-  animation: count-in-ring-pulse 210ms ease-out;
+.count-in-value-throb {
+  animation: count-in-value-throb 210ms ease-out;
 }
 
-@keyframes count-in-ring-pulse {
+@keyframes count-in-value-throb {
   0% {
-    opacity: 0.9;
-    transform: scale(0.86);
+    transform: scale(0.84);
+    text-shadow: 0 16px 34px var(--countin-shadow);
   }
   100% {
-    opacity: 0;
-    transform: scale(1.2);
+    transform: scale(1);
+    text-shadow: 0 10px 28px var(--countin-shadow);
   }
 }

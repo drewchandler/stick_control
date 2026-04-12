@@ -263,7 +263,7 @@ export default function PracticePage() {
               onSelect={handleExerciseSelect}
             />
           </Container>
-          {shouldShowUpNextPreview ? <UpNextPreview label={nextExercise?.name ?? 'Next exercise'} /> : null}
+          {shouldShowUpNextPreview ? <UpNextPreview exercise={nextExercise} /> : null}
           {importError ? <BodyText tone="danger">{importError}</BodyText> : null}
           <VexflowStaff
             exercise={currentExercise}

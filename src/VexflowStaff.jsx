@@ -330,6 +330,7 @@ function VexflowStaff({
   phase = 'stopped',
   countInBlinkTick = 0,
   remainingReps = null,
+  previewMode = false,
 }) {
   const scrollRef = useRef(null)
   const hostRef = useRef(null)
@@ -400,7 +401,7 @@ function VexflowStaff({
       context.setFont('Arial', profile.fontSize, '')
       context.setFillStyle(staffColor)
       context.setStrokeStyle(staffColor)
-      if (Number.isFinite(remainingReps)) {
+      if (!previewMode && Number.isFinite(remainingReps)) {
         const repeatText = `|: ${Math.max(0, Math.round(remainingReps))} :|`
         context.save()
         context.setFont('Arial', Math.max(11, profile.fontSize), 'bold')
@@ -505,7 +506,7 @@ function VexflowStaff({
       // We keep the notation area empty and log details for debugging.
       console.error('VexFlow render failed:', error)
     }
-  }, [activeNoteIndex, exercise, hostWidth, indexedNotes, measures, remainingReps])
+  }, [activeNoteIndex, exercise, hostWidth, indexedNotes, measures, previewMode, remainingReps])
 
   if (!exercise) {
     return (
@@ -517,10 +518,11 @@ function VexflowStaff({
 
   return (
     <div className="notation-surface">
-      {phase === 'countIn' ? (
+      {!previewMode && phase === 'countIn' ? (
         <div className="count-in-overlay" aria-live="polite" aria-label={`Count-in beat ${currentBeat}`}>
-          <div key={`count-in-ring-${countInBlinkTick}`} className="count-in-pulse-ring" aria-hidden="true" />
-          <span className="count-in-value">{currentBeat}</span>
+          <span key={`count-in-value-${countInBlinkTick}`} className="count-in-value count-in-value-throb">
+            {currentBeat}
+          </span>
         </div>
       ) : null}
       <div ref={scrollRef} className="vexflow-scroll" aria-label="Snare drum sticking staff">

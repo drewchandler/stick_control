@@ -390,8 +390,9 @@ export default function useTransportEngine({
     resetTransportDisplay()
   }, [clearScheduledUiUpdates, resetTransportDisplay, setPhase, stopScheduler])
 
-  const startPracticeFromBeginning = useCallback(async (targetExerciseIndex = null) => {
+  const startPracticeFromBeginning = useCallback(async (targetExerciseIndex = null, options = {}) => {
     const session = getSessionSnapshot()
+    const { skipCountIn = false } = options
     const exerciseCount = session.exercises.length
     const resolvedExerciseIndex =
       Number.isInteger(targetExerciseIndex) && exerciseCount
@@ -416,7 +417,7 @@ export default function useTransportEngine({
     setCountInBlinkTick(0)
     setImportError('')
 
-    if (session.countInEnabled) {
+    if (session.countInEnabled && !skipCountIn) {
       setPhase('countIn')
       const countInPulses = currentExercise.measures?.[0]?.pulsesPerBar ?? totalPulsesForExercise(currentExercise)
       transportRef.current.countInPulsesRemaining = session.countInBars * countInPulses

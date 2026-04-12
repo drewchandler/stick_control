@@ -13,11 +13,13 @@ export default function SettingsModal({
   subdivisions,
   countInEnabled,
   countInBars,
+  autoPlayNext,
   onRepetitionsChange,
   onMetronomeModeChange,
   onMetSubdivisionChange,
   onCountInEnabledChange,
   onCountInBarsChange,
+  onAutoPlayNextChange,
   onReset,
   onDone,
 }) {
@@ -94,6 +96,18 @@ export default function SettingsModal({
             />
           </VStack>
         )}
+
+        <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
+          <LabelText htmlFor="autoPlayNext">Exercise flow</LabelText>
+          <HStack gap={8} align="center">
+            <Checkbox
+              id="autoPlayNext"
+              checked={autoPlayNext}
+              onChange={(event) => onAutoPlayNextChange(event.target.checked)}
+            />
+            <BodyText tone="muted">Autoplay next exercise</BodyText>
+          </HStack>
+        </VStack>
       </HStack>
 
       <HStack gap={8} wrap>

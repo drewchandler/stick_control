@@ -25,6 +25,7 @@ export default function PracticePage() {
       setRepetitions,
       setCountInBars,
       setCountInEnabled,
+      setAutoplayNext: setAutoPlayNext,
       setMetSubdivision,
       setMetronomeMode,
       setCurrentRhythmIndex,
@@ -46,6 +47,7 @@ export default function PracticePage() {
     repetitions,
     countInBars,
     countInEnabled,
+    autoplayNext: autoPlayNext,
     metSubdivision,
     metronomeMode,
     rhythms,
@@ -293,6 +295,8 @@ export default function PracticePage() {
           controlsDisabled={controlsDisabled}
           repetitions={repetitions}
           onRepetitionsChange={(value) => setRepetitions(Math.max(1, Math.min(200, Number(value) || 20)))}
+          autoPlayNext={autoPlayNext}
+          onAutoPlayNextChange={setAutoPlayNext}
           metronomeMode={metronomeMode}
           onMetronomeModeChange={setMetronomeMode}
           metSubdivision={metSubdivision}

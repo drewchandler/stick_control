@@ -24,11 +24,6 @@ export default function UploadModal({ onClose, onUploadFile, onLoadDefault }) {
           Load default
         </Button>
       </HStack>
-      <HStack spacing={2}>
-        <Button variant="ghost" onClick={onClose}>
-          Close
-        </Button>
-      </HStack>
     </VStack>
   )
 }

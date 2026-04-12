@@ -331,7 +331,6 @@ export default function PracticePage() {
           countInBars={countInBars}
           onCountInBarsChange={(value) => setCountInBars(Math.max(1, Math.min(4, Number(value) || 1)))}
           onReset={handleReset}
-          onDone={() => setShowMetronomeModal(false)}
         />
       </Modal>
 

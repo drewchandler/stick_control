@@ -21,7 +21,6 @@ export default function SettingsModal({
   onCountInBarsChange,
   onAutoPlayNextChange,
   onReset,
-  onDone,
 }) {
   return (
     <VStack gap={16}>
@@ -113,9 +112,6 @@ export default function SettingsModal({
       <HStack gap={8} wrap>
         <Button variant="ghost" onClick={onReset}>
           Reset
-        </Button>
-        <Button variant="secondary" onClick={onDone}>
-          Done
         </Button>
       </HStack>
     </VStack>

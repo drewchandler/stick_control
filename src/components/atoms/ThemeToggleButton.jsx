@@ -7,13 +7,13 @@ export default function ThemeToggleButton({ theme, onToggle }) {
   return (
     <Button
       variant="muted"
-      size="sm"
+      size="iconSm"
       onClick={onToggle}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      className="fixed right-4 top-4 z-40 shadow-md"
     >
       {isDark ? <Sun size={16} /> : <Moon size={16} />}
-      <span>{isDark ? 'Light mode' : 'Dark mode'}</span>
     </Button>
   )
 }

@@ -14,15 +14,15 @@ function PageShell({ children }) {
 function HeaderBlock({ title, subtitle, accessory }) {
   return (
     <VStack as="header" gap={6} width="full">
-      <Container className="flex w-full items-center justify-between gap-3">
+      <Container>
         <Title>{title}</Title>
-        {accessory}
       </Container>
       {subtitle ? (
         <Container>
           <Subtitle>{subtitle}</Subtitle>
         </Container>
       ) : null}
+      {accessory}
     </VStack>
   )
 }

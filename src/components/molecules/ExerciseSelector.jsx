@@ -1,6 +1,5 @@
 import { ChevronDown } from 'lucide-react'
 import Button from '../atoms/Button'
-import TextInput from '../atoms/TextInput'
 import { BodyText } from '../atoms/Typography'
 import { VStack } from '../layout/Stack'
 import { cn } from '../../lib/cn'
@@ -22,7 +21,7 @@ export default function ExerciseSelector({
   iconClassName = '',
 }) {
   return (
-    <TextInput.Container className={cn('relative max-w-full', rootClassName)}>
+    <div className={cn('relative max-w-full', rootClassName)}>
       <Button
         type="button"
         variant="ghost"
@@ -73,6 +72,6 @@ export default function ExerciseSelector({
           ))}
         </VStack>
       )}
-    </TextInput.Container>
+    </div>
   )
 }

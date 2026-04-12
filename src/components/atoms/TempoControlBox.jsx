@@ -16,6 +16,7 @@ export default function TempoControlBox({
       </Button>
       <TextInput
         size="tempo"
+        width="auto"
         value={tempoInput}
         onChange={onTempoInputChange}
         onBlur={onTempoCommit}

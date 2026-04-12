@@ -246,7 +246,6 @@ export default function PracticePage() {
             rhythm={currentRhythm}
             activeNoteIndex={activeNoteIndex}
             remainingReps={remainingReps}
-            repetitions={repetitions}
           />
         </VStack>
       }

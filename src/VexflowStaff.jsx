@@ -306,7 +306,7 @@ function splitMeasuresIntoRows(measures, logicalWidth, profile) {
   return rows
 }
 
-function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null, repetitions = null }) {
+function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
   const scrollRef = useRef(null)
   const hostRef = useRef(null)
   const [hostWidth, setHostWidth] = useState(1080)
@@ -462,7 +462,7 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null, repetitio
       // We keep the notation area empty and log details for debugging.
       console.error('VexFlow render failed:', error)
     }
-  }, [activeNoteIndex, hostWidth, indexedNotes, measures, remainingReps, repetitions, rhythm])
+  }, [activeNoteIndex, hostWidth, indexedNotes, measures, remainingReps, rhythm])
 
   if (!rhythm) {
     return (

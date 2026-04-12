@@ -14,19 +14,18 @@ function PageShell({ children }) {
 function HeaderBlock({ title, subtitle }) {
   return (
     <Container as="header" kind="pageHeader">
-          <Title>{title}</Title>
-          <Subtitle>{subtitle}</Subtitle>
+      <Title>{title}</Title>
+      {subtitle ? <Subtitle>{subtitle}</Subtitle> : null}
     </Container>
   )
 }
 
-export default function PracticeTemplate({ title, subtitle, notation, statusPanel, transportDock, modals, toast, children }) {
+export default function PracticeTemplate({ title, subtitle, notation, transportDock, modals, toast, children }) {
   return (
     <PageShell>
       <VStack gap={12}>
         <HeaderBlock title={title} subtitle={subtitle} />
-        <Card>{notation}</Card>
-        <Card>{statusPanel}</Card>
+        <Card inset>{notation}</Card>
         {transportDock}
       </VStack>
       {children}

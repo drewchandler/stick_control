@@ -21,6 +21,7 @@ const BODY_TONE_CLASSES = {
   danger: 'text-sm font-semibold text-red-700',
   subtleXs: 'text-xs text-slate-500',
   muted: 'text-sm text-slate-600',
+  labelXs: 'text-xs font-semibold tracking-wide text-slate-600',
 }
 
 export function BodyText({ className = '', tone = 'default', children, ...props }) {

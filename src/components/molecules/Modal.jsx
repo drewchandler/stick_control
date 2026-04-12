@@ -1,14 +1,18 @@
 import Card from '../atoms/Card'
+import ModalOverlay from '../atoms/ModalOverlay'
+import { SectionTitle } from '../atoms/Typography'
 
-export default function Modal({ open, cardWidth = 'md', title, children }) {
+export default function Modal({ open, cardWidth = 'md', title, children, onClose }) {
   if (!open) {
     return null
   }
 
   return (
-    <Card variant="modal" width={cardWidth}>
-      {title ? <h2 className="mb-3 text-lg font-semibold text-slate-900">{title}</h2> : null}
-      {children}
-    </Card>
+    <ModalOverlay onBackdropClick={onClose}>
+      <Card variant="modal" width={cardWidth}>
+        {title ? <SectionTitle>{title}</SectionTitle> : null}
+        {children}
+      </Card>
+    </ModalOverlay>
   )
 }

@@ -73,7 +73,22 @@ function signatureChanged(previousMeasure, measure) {
   if (!previousMeasure) {
     return true
   }
-  return previousMeasure.beats !== measure.beats || previousMeasure.beatType !== measure.beatType
+  return (
+    previousMeasure.beats !== measure.beats ||
+    previousMeasure.beatType !== measure.beatType ||
+    previousMeasure.timeSymbol !== measure.timeSymbol
+  )
+}
+
+function timeSignatureSpecForMeasure(measure) {
+  const symbol = String(measure?.timeSymbol ?? '').toLowerCase()
+  if (symbol === 'cut') {
+    return 'C|'
+  }
+  if (symbol === 'common') {
+    return 'C'
+  }
+  return `${measure.beats}/${measure.beatType}`
 }
 
 function decomposeRestDuration(totalPulses) {
@@ -306,7 +321,7 @@ function splitMeasuresIntoRows(measures, logicalWidth, profile) {
   return rows
 }
 
-function VexflowStaff({ rhythm, activeNoteIndex }) {
+function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
   const scrollRef = useRef(null)
   const hostRef = useRef(null)
   const [hostWidth, setHostWidth] = useState(1080)
@@ -366,6 +381,14 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
       const context = renderer.getContext()
       context.scale(profile.scale, profile.scale)
       context.setFont('Arial', profile.fontSize, '')
+      if (Number.isFinite(remainingReps)) {
+        const repeatText = `|: ${Math.max(0, Math.round(remainingReps))} :|`
+        context.save()
+        context.setFont('Arial', Math.max(11, profile.fontSize), 'bold')
+        context.setFillStyle('#334155')
+        context.fillText(repeatText, logicalWidth - profile.systemPaddingX - 64, profile.topPadding - 4)
+        context.restore()
+      }
 
       let noteCursor = 0
       let previousMeasure = null
@@ -395,12 +418,15 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
 
           const stave = new Stave(x, rowY, measureWidth)
           if (globalMeasureIndex === 0) {
+            stave.setBegBarType(BarlineType.REPEAT_BEGIN)
+          }
+          if (globalMeasureIndex === 0) {
             stave.setClef('percussion')
           }
           if (signatureChanged(previousMeasure, measure)) {
-            stave.addTimeSignature(`${measure.beats}/${measure.beatType}`)
+            stave.addTimeSignature(timeSignatureSpecForMeasure(measure))
           }
-          stave.setEndBarType(globalMeasureIndex === measures.length - 1 ? BarlineType.END : BarlineType.SINGLE)
+          stave.setEndBarType(globalMeasureIndex === measures.length - 1 ? BarlineType.REPEAT_END : BarlineType.SINGLE)
           stave.setContext(context).draw()
 
           const { nextCursor, segments } = buildMeasureSegments(measure, indexedNotes, noteCursor)
@@ -454,7 +480,7 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
       // We keep the notation area empty and log details for debugging.
       console.error('VexFlow render failed:', error)
     }
-  }, [activeNoteIndex, hostWidth, indexedNotes, measures, rhythm])
+  }, [activeNoteIndex, hostWidth, indexedNotes, measures, remainingReps, rhythm])
 
   if (!rhythm) {
     return (

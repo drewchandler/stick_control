@@ -3,6 +3,7 @@ import { useMemo, useReducer } from 'react'
 const INITIAL_STATE = {
   bpm: 90,
   repetitions: 20,
+  autoplayNext: false,
   countInBars: 1,
   countInEnabled: true,
   metSubdivision: 8,
@@ -57,6 +58,13 @@ export function practiceSessionReducer(state, action) {
         return state
       }
       return { ...state, repetitions: next }
+    }
+    case 'settings/setAutoplayNext': {
+      const next = Boolean(resolveNextValue(state.autoplayNext, action.value))
+      if (next === state.autoplayNext) {
+        return state
+      }
+      return { ...state, autoplayNext: next }
     }
     case 'settings/setCountInBars': {
       const next = Math.round(clampNumber(resolveNextValue(state.countInBars, action.value), 1, 4, state.countInBars))
@@ -202,6 +210,7 @@ export default function usePracticeSession() {
     () => ({
       setBpm: (value) => dispatch({ type: 'settings/setBpm', value }),
       setRepetitions: (value) => dispatch({ type: 'settings/setRepetitions', value }),
+      setAutoplayNext: (value) => dispatch({ type: 'settings/setAutoplayNext', value }),
       setCountInBars: (value) => dispatch({ type: 'settings/setCountInBars', value }),
       setCountInEnabled: (value) => dispatch({ type: 'settings/setCountInEnabled', value }),
       setMetSubdivision: (value) => dispatch({ type: 'settings/setMetSubdivision', value }),

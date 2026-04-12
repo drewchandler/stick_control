@@ -91,6 +91,7 @@ export default function useTransportEngine({
     completedReps: 0,
     noteCursor: 0,
   })
+  const startPracticeFromBeginningRef = useRef(async () => {})
 
   const clearScheduledUiUpdates = useCallback(() => {
     for (const timeoutId of scheduledUiTimeoutsRef.current) {
@@ -195,8 +196,15 @@ export default function useTransportEngine({
         setCurrentRep(0)
         setActiveNoteIndex(null)
         setCurrentBeat('-')
-        setTransportState('Ready for next rhythm')
-        setModalText(`Completed ${session.repetitions} reps. Next: ${session.rhythms[nextIndex].name}`)
+        const nextRhythmName = session.rhythms[nextIndex]?.name ?? 'Next exercise'
+        if (session.autoplayNext) {
+          setTransportState(`Autoplay: ${nextRhythmName}`)
+          setShowNextModal(false)
+          void startPracticeFromBeginningRef.current(nextIndex)
+          return
+        }
+        setTransportState('Ready for next exercise')
+        setModalText(`Completed ${session.repetitions} reps. Next: ${nextRhythmName}`)
         setShowNextModal(true)
       })
     },
@@ -372,12 +380,20 @@ export default function useTransportEngine({
     resetTransportDisplay()
   }, [clearScheduledUiUpdates, resetTransportDisplay, setPhase, stopScheduler])
 
-  const startPracticeFromBeginning = useCallback(async () => {
+  const startPracticeFromBeginning = useCallback(async (targetRhythmIndex = null) => {
     const session = getSessionSnapshot()
-    const currentRhythm = session.rhythms[session.currentRhythmIndex]
+    const rhythmCount = session.rhythms.length
+    const resolvedRhythmIndex =
+      Number.isInteger(targetRhythmIndex) && rhythmCount
+        ? Math.max(0, Math.min(rhythmCount - 1, targetRhythmIndex))
+        : session.currentRhythmIndex
+    const currentRhythm = session.rhythms[resolvedRhythmIndex]
     if (!currentRhythm) {
       setImportError('Load a MusicXML file before pressing Play.')
       return
+    }
+    if (resolvedRhythmIndex !== session.currentRhythmIndex) {
+      setCurrentRhythmIndex(resolvedRhythmIndex)
     }
 
     clearScheduledUiUpdates()
@@ -409,11 +425,16 @@ export default function useTransportEngine({
     setActiveNoteIndex,
     setCurrentBeat,
     setCurrentRep,
+    setCurrentRhythmIndex,
     setImportError,
     setPhase,
     setTransportState,
     startScheduler,
   ])
+
+  useEffect(() => {
+    startPracticeFromBeginningRef.current = startPracticeFromBeginning
+  }, [startPracticeFromBeginning])
 
   const play = useCallback(async () => {
     const session = getSessionSnapshot()

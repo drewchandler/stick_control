@@ -4,7 +4,6 @@ import usePracticeSession from '../hooks/usePracticeSession'
 import useTransportEngine from '../hooks/useTransportEngine'
 import useRhythmLibrary from '../hooks/useRhythmLibrary'
 import PracticeTemplate from '../components/templates/PracticeTemplate'
-import StatusPanel from '../components/organisms/StatusPanel'
 import TransportDock from '../components/organisms/TransportDock'
 import SettingsModal from '../components/organisms/SettingsModal'
 import UploadModal from '../components/organisms/UploadModal'
@@ -14,8 +13,9 @@ import Toast from '../components/atoms/Toast'
 import Modal from '../components/molecules/Modal'
 import HiddenFileInput from '../components/atoms/HiddenFileInput'
 import { BodyText } from '../components/atoms/Typography'
+import ExerciseDropdown from '../components/atoms/ExerciseDropdown'
+import Container from '../components/atoms/Container'
 import { VStack, HStack } from '../components/layout/Stack'
-import ExerciseSelector from '../components/molecules/ExerciseSelector'
 
 export default function PracticePage() {
   const {
@@ -25,6 +25,7 @@ export default function PracticePage() {
       setRepetitions,
       setCountInBars,
       setCountInEnabled,
+      setAutoplayNext: setAutoPlayNext,
       setMetSubdivision,
       setMetronomeMode,
       setCurrentRhythmIndex,
@@ -46,15 +47,14 @@ export default function PracticePage() {
     repetitions,
     countInBars,
     countInEnabled,
+    autoplayNext: autoPlayNext,
     metSubdivision,
     metronomeMode,
     rhythms,
     currentRhythmIndex,
     currentRep,
     activeNoteIndex,
-    currentBeat,
     phase,
-    transportState,
     showNextModal,
     modalText,
     importStatus,
@@ -218,7 +218,7 @@ export default function PracticePage() {
   const hasRhythms = rhythms.length > 0
   const playPauseLabel = isTransportRunning ? 'Pause' : phase === 'paused' ? 'Resume' : 'Play'
   const currentExerciseLabel = hasRhythms ? currentRhythm?.name ?? `Exercise ${currentRhythmIndex + 1}` : 'No exercises loaded'
-  const statusLabel = transportState || (hasRhythms ? 'Ready' : 'Load MusicXML')
+  const remainingReps = Math.max(0, repetitions - currentRep)
   const metSubdivisionOptions = [
     { value: 4, label: 'Quarter notes' },
     { value: 8, label: 'Eighth notes' },
@@ -230,32 +230,26 @@ export default function PracticePage() {
   return (
     <PracticeTemplate
       title="Stick Control Practice"
-      subtitle="Mobile-friendly rhythm trainer for focused daily reps."
-      notation={<VexflowStaff rhythm={currentRhythm} activeNoteIndex={activeNoteIndex} />}
-      statusPanel={
-        <StatusPanel
-          hasRhythms={hasRhythms}
-          exerciseIndex={currentRhythmIndex}
-          exerciseCount={rhythms.length}
-          exerciseSelector={
-            <div ref={exerciseDropdownRef} className="max-w-full">
-              <ExerciseSelector
-                label={currentExerciseLabel}
-                options={rhythms}
-                selectedIndex={currentRhythmIndex}
-                open={showExerciseDropdown}
-                disabled={!hasRhythms || controlsDisabled}
-                onToggle={() => setShowExerciseDropdown((previous) => !previous)}
-                onSelect={handleRhythmSelect}
-              />
-            </div>
-          }
-          currentRep={currentRep}
-          repetitions={repetitions}
-          currentBeat={currentBeat}
-          statusLabel={statusLabel}
-          importError={importError}
-        />
+      notation={
+        <VStack gap={10}>
+          <Container ref={exerciseDropdownRef} minWidth="zero" width="max" flex="grow">
+            <ExerciseDropdown
+              label={currentExerciseLabel}
+              options={rhythms}
+              selectedIndex={currentRhythmIndex}
+              open={showExerciseDropdown}
+              disabled={!hasRhythms || controlsDisabled}
+              onToggle={() => setShowExerciseDropdown((previous) => !previous)}
+              onSelect={handleRhythmSelect}
+            />
+          </Container>
+          {importError ? <BodyText tone="danger">{importError}</BodyText> : null}
+          <VexflowStaff
+            rhythm={currentRhythm}
+            activeNoteIndex={activeNoteIndex}
+            remainingReps={remainingReps}
+          />
+        </VStack>
       }
       transportDock={
         <TransportDock
@@ -282,7 +276,7 @@ export default function PracticePage() {
         onChange={handleRhythmFileChange}
       />
 
-      <Modal open={showUploadModal}>
+      <Modal open={showUploadModal} onClose={() => setShowUploadModal(false)}>
         <UploadModal
           onUploadFile={() => {
             setShowUploadModal(false)
@@ -296,11 +290,13 @@ export default function PracticePage() {
         />
       </Modal>
 
-      <Modal open={showMetronomeModal} cardWidth="wide">
+      <Modal open={showMetronomeModal} cardWidth="wide" onClose={() => setShowMetronomeModal(false)}>
         <SettingsModal
           controlsDisabled={controlsDisabled}
           repetitions={repetitions}
           onRepetitionsChange={(value) => setRepetitions(Math.max(1, Math.min(200, Number(value) || 20)))}
+          autoPlayNext={autoPlayNext}
+          onAutoPlayNextChange={setAutoPlayNext}
           metronomeMode={metronomeMode}
           onMetronomeModeChange={setMetronomeMode}
           metSubdivision={metSubdivision}
@@ -315,7 +311,7 @@ export default function PracticePage() {
         />
       </Modal>
 
-      <Modal open={showNextModal} cardWidth="lg">
+      <Modal open={showNextModal} cardWidth="lg" onClose={() => setShowNextModal(false)}>
         <Card variant="surface">
           <VStack spacing={4}>
             <BodyText>{modalText}</BodyText>

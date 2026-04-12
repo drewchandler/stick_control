@@ -73,7 +73,22 @@ function signatureChanged(previousMeasure, measure) {
   if (!previousMeasure) {
     return true
   }
-  return previousMeasure.beats !== measure.beats || previousMeasure.beatType !== measure.beatType
+  return (
+    previousMeasure.beats !== measure.beats ||
+    previousMeasure.beatType !== measure.beatType ||
+    previousMeasure.timeSymbol !== measure.timeSymbol
+  )
+}
+
+function timeSignatureSpecForMeasure(measure) {
+  const symbol = String(measure?.timeSymbol ?? '').toLowerCase()
+  if (symbol === 'cut') {
+    return 'C|'
+  }
+  if (symbol === 'common') {
+    return 'C'
+  }
+  return `${measure.beats}/${measure.beatType}`
 }
 
 function decomposeRestDuration(totalPulses) {
@@ -409,7 +424,7 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
             stave.setClef('percussion')
           }
           if (signatureChanged(previousMeasure, measure)) {
-            stave.addTimeSignature(`${measure.beats}/${measure.beatType}`)
+            stave.addTimeSignature(timeSignatureSpecForMeasure(measure))
           }
           stave.setEndBarType(globalMeasureIndex === measures.length - 1 ? BarlineType.REPEAT_END : BarlineType.SINGLE)
           stave.setContext(context).draw()

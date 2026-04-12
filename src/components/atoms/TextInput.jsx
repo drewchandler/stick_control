@@ -3,7 +3,8 @@ import { cn } from '../../lib/cn'
 
 const SIZE_CLASSES = {
   default: '',
-  tempo: 'h-8 w-14 min-w-14 px-2 py-1 text-center font-semibold',
+  // Important width utilities ensure compact BPM sizing wins over generic width classes.
+  tempo: 'h-8 !w-14 !min-w-14 px-2 py-1 text-center font-semibold',
 }
 
 const WIDTH_CLASSES = {

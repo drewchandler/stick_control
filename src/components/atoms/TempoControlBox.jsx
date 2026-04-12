@@ -10,7 +10,7 @@ export default function TempoControlBox({
   onTempoAdjust,
 }) {
   return (
-    <HStack gap={4} align="center" aria-label="Tempo control">
+    <HStack gap={4} align="center" intrinsicWidth aria-label="Tempo control">
       <Button variant="ghost" size="iconXs" aria-label="Decrease tempo" onClick={() => onTempoAdjust(-1)}>
         -
       </Button>

@@ -6,7 +6,8 @@ export default function Modal({ open, cardWidth = 'md', title, children }) {
   }
 
   return (
-    <Card variant="modal" width={cardWidth} title={title}>
+    <Card variant="modal" width={cardWidth}>
+      {title ? <h2 className="mb-3 text-lg font-semibold text-slate-900">{title}</h2> : null}
       {children}
     </Card>
   )

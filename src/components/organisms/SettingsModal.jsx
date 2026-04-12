@@ -3,7 +3,7 @@ import Button from '../atoms/Button'
 import TextInput from '../atoms/TextInput'
 import Checkbox from '../atoms/Checkbox'
 import NativeSelect from '../atoms/NativeSelect'
-import { BodyText, LabelText, SectionTitle } from '../atoms/Typography'
+import { LabelText, SectionTitle } from '../atoms/Typography'
 import { HStack, VStack } from '../layout/Stack'
 import Container from '../atoms/Container'
 
@@ -102,9 +102,6 @@ export default function SettingsModal({
             Done
           </Button>
         </HStack>
-        <BodyText tone="subtleXs">
-          Settings updates apply to the current and next transport starts.
-        </BodyText>
       </VStack>
     </Card>
   )

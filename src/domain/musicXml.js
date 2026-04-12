@@ -262,7 +262,7 @@ function buildExerciseFromMeasureRange(title, measureData, startMeasureIndex, en
   }
 }
 
-export function parseMusicXmlRhythms(fileText) {
+export function parseMusicXmlExercises(fileText) {
   const parser = new window.DOMParser()
   const xml = parser.parseFromString(fileText, 'application/xml')
   if (xml.querySelector('parsererror')) {
@@ -385,7 +385,7 @@ export function parseMusicXmlRhythms(fileText) {
   const exerciseRanges = groupedRanges.length
     ? groupedRanges
     : [{ startMeasureIndex: 0, endMeasureIndex: measureData.length - 1, label: null }]
-  const rhythms = exerciseRanges.map((range, index) =>
+  const exercises = exerciseRanges.map((range, index) =>
     buildExerciseFromMeasureRange(
       title,
       measureData,
@@ -396,5 +396,5 @@ export function parseMusicXmlRhythms(fileText) {
     ),
   )
 
-  return { rhythms: rhythms.slice(0, 256), tempo }
+  return { exercises: exercises.slice(0, 256), tempo }
 }

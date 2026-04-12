@@ -8,8 +8,8 @@ const INITIAL_STATE = {
   countInEnabled: true,
   metSubdivision: 8,
   metronomeMode: 'subdivision',
-  rhythms: [],
-  currentRhythmIndex: 0,
+  exercises: [],
+  currentExerciseIndex: 0,
   currentRep: 0,
   activeNoteIndex: null,
   currentBeat: '-',
@@ -98,22 +98,22 @@ export function practiceSessionReducer(state, action) {
       }
       return { ...state, metSubdivision: next }
     }
-    case 'library/setRhythms': {
-      const nextRhythms = Array.isArray(action.rhythms) ? action.rhythms : []
-      const nextIndex = clampIndex(state.currentRhythmIndex, nextRhythms.length)
+    case 'library/setExercises': {
+      const nextExercises = Array.isArray(action.exercises) ? action.exercises : []
+      const nextIndex = clampIndex(state.currentExerciseIndex, nextExercises.length)
       return {
         ...state,
-        rhythms: nextRhythms,
-        currentRhythmIndex: nextIndex,
+        exercises: nextExercises,
+        currentExerciseIndex: nextIndex,
       }
     }
-    case 'library/setCurrentRhythmIndex': {
-      const rawNext = resolveNextValue(state.currentRhythmIndex, action.value)
-      const nextIndex = clampIndex(rawNext, state.rhythms.length)
-      if (nextIndex === state.currentRhythmIndex) {
+    case 'library/setCurrentExerciseIndex': {
+      const rawNext = resolveNextValue(state.currentExerciseIndex, action.value)
+      const nextIndex = clampIndex(rawNext, state.exercises.length)
+      if (nextIndex === state.currentExerciseIndex) {
         return state
       }
-      return { ...state, currentRhythmIndex: nextIndex }
+      return { ...state, currentExerciseIndex: nextIndex }
     }
     case 'transport/resetDisplay': {
       return {
@@ -194,8 +194,8 @@ export function practiceSessionReducer(state, action) {
     }
     case 'session/applyPatch': {
       const next = { ...state, ...(action.patch ?? {}) }
-      if (next.currentRhythmIndex !== state.currentRhythmIndex || next.rhythms !== state.rhythms) {
-        next.currentRhythmIndex = clampIndex(next.currentRhythmIndex, next.rhythms?.length ?? 0)
+      if (next.currentExerciseIndex !== state.currentExerciseIndex || next.exercises !== state.exercises) {
+        next.currentExerciseIndex = clampIndex(next.currentExerciseIndex, next.exercises?.length ?? 0)
       }
       return next
     }
@@ -215,8 +215,8 @@ export default function usePracticeSession() {
       setCountInEnabled: (value) => dispatch({ type: 'settings/setCountInEnabled', value }),
       setMetSubdivision: (value) => dispatch({ type: 'settings/setMetSubdivision', value }),
       setMetronomeMode: (value) => dispatch({ type: 'settings/setMetronomeMode', value }),
-      setRhythms: (rhythms) => dispatch({ type: 'library/setRhythms', rhythms }),
-      setCurrentRhythmIndex: (value) => dispatch({ type: 'library/setCurrentRhythmIndex', value }),
+      setExercises: (exercises) => dispatch({ type: 'library/setExercises', exercises }),
+      setCurrentExerciseIndex: (value) => dispatch({ type: 'library/setCurrentExerciseIndex', value }),
       setPhase: (value) => dispatch({ type: 'transport/setPhase', value }),
       setCurrentRep: (value) => dispatch({ type: 'transport/setRep', value }),
       setCurrentBeat: (value) => dispatch({ type: 'transport/setBeat', value }),

@@ -31,19 +31,19 @@ const DURATION_TOKENS = [
 
 const FALLBACK_DURATION_TOKEN = DURATION_TOKENS[DURATION_TOKENS.length - 1]
 
-function rhythmMeasuresFromRhythm(rhythm) {
-  if (!rhythm) {
+function exerciseMeasuresFromExercise(exercise) {
+  if (!exercise) {
     return []
   }
-  if (rhythm.measures?.length) {
-    return rhythm.measures
+  if (exercise.measures?.length) {
+    return exercise.measures
   }
   return [
     {
       startPulse: 0,
-      pulsesPerBar: Math.max(1, rhythm.pulsesPerExercise ?? rhythm.pulsesPerBar ?? 1),
-      beats: rhythm.beats ?? 4,
-      beatType: rhythm.beatType ?? 4,
+      pulsesPerBar: Math.max(1, exercise.pulsesPerExercise ?? exercise.pulsesPerBar ?? 1),
+      beats: exercise.beats ?? 4,
+      beatType: exercise.beatType ?? 4,
     },
   ]
 }
@@ -321,15 +321,15 @@ function splitMeasuresIntoRows(measures, logicalWidth, profile) {
   return rows
 }
 
-function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
+function VexflowStaff({ exercise, activeNoteIndex, remainingReps = null }) {
   const scrollRef = useRef(null)
   const hostRef = useRef(null)
   const [hostWidth, setHostWidth] = useState(1080)
 
-  const measures = useMemo(() => rhythmMeasuresFromRhythm(rhythm), [rhythm])
+  const measures = useMemo(() => exerciseMeasuresFromExercise(exercise), [exercise])
   const indexedNotes = useMemo(
-    () => (rhythm?.notes ?? []).map((note, index) => ({ ...note, globalIndex: index })),
-    [rhythm],
+    () => (exercise?.notes ?? []).map((note, index) => ({ ...note, globalIndex: index })),
+    [exercise],
   )
 
   useEffect(() => {
@@ -364,7 +364,7 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
     }
     hostElement.innerHTML = ''
 
-    if (!rhythm || !measures.length) {
+    if (!exercise || !measures.length) {
       return
     }
 
@@ -480,9 +480,9 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
       // We keep the notation area empty and log details for debugging.
       console.error('VexFlow render failed:', error)
     }
-  }, [activeNoteIndex, hostWidth, indexedNotes, measures, remainingReps, rhythm])
+  }, [activeNoteIndex, exercise, hostWidth, indexedNotes, measures, remainingReps])
 
-  if (!rhythm) {
+  if (!exercise) {
     return (
       <div className="notation-surface notation-empty">
         <p className="staff-empty-message">Load a MusicXML file to display notation.</p>

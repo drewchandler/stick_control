@@ -4,8 +4,8 @@ const PULSES_PER_QUARTER = 24
 const SCHEDULE_AHEAD_SECONDS = 0.12
 const SCHEDULER_INTERVAL_MS = 25
 
-function totalPulsesForRhythm(rhythm) {
-  return Math.max(1, rhythm?.pulsesPerExercise ?? rhythm?.pulsesPerBar ?? 1)
+function totalPulsesForExercise(exercise) {
+  return Math.max(1, exercise?.pulsesPerExercise ?? exercise?.pulsesPerBar ?? 1)
 }
 
 function timingFromSignature(beats, beatType) {
@@ -17,15 +17,15 @@ function timingFromSignature(beats, beatType) {
   }
 }
 
-function measureForPulse(rhythm, pulseInExercise) {
-  const measures = rhythm?.measures ?? []
+function measureForPulse(exercise, pulseInExercise) {
+  const measures = exercise?.measures ?? []
   if (!measures.length) {
     return {
       startPulse: 0,
-      pulsesPerBar: totalPulsesForRhythm(rhythm),
-      beats: rhythm?.beats ?? 4,
-      beatType: rhythm?.beatType ?? 4,
-      timeSymbol: rhythm?.timeSymbol ?? '',
+      pulsesPerBar: totalPulsesForExercise(exercise),
+      beats: exercise?.beats ?? 4,
+      beatType: exercise?.beatType ?? 4,
+      timeSymbol: exercise?.timeSymbol ?? '',
     }
   }
   for (const measure of measures) {
@@ -74,7 +74,7 @@ export default function useTransportEngine({
   setShowNextModal,
   setModalText,
   setImportError,
-  setCurrentRhythmIndex,
+  setCurrentExerciseIndex,
   resetTransportDisplay,
 }) {
   const audioContextRef = useRef(null)
@@ -176,11 +176,11 @@ export default function useTransportEngine({
     [getSessionSnapshot],
   )
 
-  const completeRhythm = useCallback(
+  const completeExercise = useCallback(
     (audioTime) => {
       const session = getSessionSnapshot()
-      const rhythmCount = session.rhythms.length
-      if (!rhythmCount) {
+      const exerciseCount = session.exercises.length
+      if (!exerciseCount) {
         return
       }
 
@@ -190,21 +190,21 @@ export default function useTransportEngine({
       transportRef.current.noteCursor = 0
       transportRef.current.countInPulsesRemaining = 0
 
-      const nextIndex = (session.currentRhythmIndex + 1) % rhythmCount
+      const nextIndex = (session.currentExerciseIndex + 1) % exerciseCount
       scheduleUiAtAudioTime(audioTime, () => {
-        setCurrentRhythmIndex(nextIndex)
+        setCurrentExerciseIndex(nextIndex)
         setCurrentRep(0)
         setActiveNoteIndex(null)
         setCurrentBeat('-')
-        const nextRhythmName = session.rhythms[nextIndex]?.name ?? 'Next exercise'
+        const nextExerciseName = session.exercises[nextIndex]?.name ?? 'Next exercise'
         if (session.autoplayNext) {
-          setTransportState(`Autoplay: ${nextRhythmName}`)
+          setTransportState(`Autoplay: ${nextExerciseName}`)
           setShowNextModal(false)
           void startPracticeFromBeginningRef.current(nextIndex)
           return
         }
         setTransportState('Ready for next exercise')
-        setModalText(`Completed ${session.repetitions} reps. Next: ${nextRhythmName}`)
+        setModalText(`Completed ${session.repetitions} reps. Next: ${nextExerciseName}`)
         setShowNextModal(true)
       })
     },
@@ -214,7 +214,7 @@ export default function useTransportEngine({
       setActiveNoteIndex,
       setCurrentBeat,
       setCurrentRep,
-      setCurrentRhythmIndex,
+      setCurrentExerciseIndex,
       setModalText,
       setPhase,
       setShowNextModal,
@@ -224,10 +224,10 @@ export default function useTransportEngine({
   )
 
   const schedulePulse = useCallback(
-    (pulseTime, pulseInBar, rhythm, knownMeasure = null) => {
+    (pulseTime, pulseInBar, exercise, knownMeasure = null) => {
       const transport = transportRef.current
       const session = getSessionSnapshot()
-      const activeMeasure = knownMeasure ?? measureForPulse(rhythm, pulseInBar)
+      const activeMeasure = knownMeasure ?? measureForPulse(exercise, pulseInBar)
       const timing = timingFromSignature(activeMeasure.beats, activeMeasure.beatType)
       const pulseInMeasure = pulseInBar - activeMeasure.startPulse
       const clickMode = session.metronomeMode
@@ -251,7 +251,7 @@ export default function useTransportEngine({
         transport.countInPulsesRemaining -= 1
         if (transport.countInPulsesRemaining <= 0) {
           transport.noteCursor = 0
-          const firstAtZero = rhythm.notes.findIndex((note) => note.startPulse === 0)
+          const firstAtZero = exercise.notes.findIndex((note) => note.startPulse === 0)
           scheduleUiAtAudioTime(pulseTime, () => {
             setPhase('playing')
             setTransportState('Playing')
@@ -267,10 +267,10 @@ export default function useTransportEngine({
       }
 
       while (
-        transport.noteCursor < rhythm.notes.length &&
-        rhythm.notes[transport.noteCursor].startPulse <= pulseInBar
+        transport.noteCursor < exercise.notes.length &&
+        exercise.notes[transport.noteCursor].startPulse <= pulseInBar
       ) {
-        if (rhythm.notes[transport.noteCursor].startPulse === pulseInBar) {
+        if (exercise.notes[transport.noteCursor].startPulse === pulseInBar) {
           const noteIndex = transport.noteCursor
           scheduleUiAtAudioTime(pulseTime, () => {
             setActiveNoteIndex(noteIndex)
@@ -279,7 +279,7 @@ export default function useTransportEngine({
         transport.noteCursor += 1
       }
 
-      if (pulseInBar === totalPulsesForRhythm(rhythm) - 1) {
+      if (pulseInBar === totalPulsesForExercise(exercise) - 1) {
         transport.completedReps += 1
         transport.noteCursor = 0
         const justCompleted = transport.completedReps
@@ -288,12 +288,12 @@ export default function useTransportEngine({
         })
 
         if (justCompleted >= session.repetitions) {
-          completeRhythm(pulseTime + 0.02)
+          completeExercise(pulseTime + 0.02)
         }
       }
     },
     [
-      completeRhythm,
+      completeExercise,
       getSessionSnapshot,
       playClick,
       scheduleUiAtAudioTime,
@@ -313,8 +313,8 @@ export default function useTransportEngine({
 
     while (clockRef.current.nextPulseTime < context.currentTime + SCHEDULE_AHEAD_SECONDS) {
       const session = getSessionSnapshot()
-      const rhythm = session.rhythms[session.currentRhythmIndex]
-      if (!rhythm) {
+      const exercise = session.exercises[session.currentExerciseIndex]
+      if (!exercise) {
         setPhase('stopped')
         stopScheduler()
         setTransportState('Load MusicXML to start')
@@ -324,20 +324,20 @@ export default function useTransportEngine({
       let activeMeasure
       let scheduledPulse
       if (session.phase === 'countIn') {
-        const firstMeasure = rhythm.measures?.[0] ?? measureForPulse(rhythm, 0)
+        const firstMeasure = exercise.measures?.[0] ?? measureForPulse(exercise, 0)
         const countInPulse = clockRef.current.countInPulse
         activeMeasure = {
           ...firstMeasure,
           startPulse: 0,
         }
         scheduledPulse = countInPulse % Math.max(1, firstMeasure.pulsesPerBar)
-        schedulePulse(clockRef.current.nextPulseTime, scheduledPulse, rhythm, activeMeasure)
+        schedulePulse(clockRef.current.nextPulseTime, scheduledPulse, exercise, activeMeasure)
         clockRef.current.countInPulse = countInPulse + 1
       } else {
         scheduledPulse = clockRef.current.pulseInBar
-        activeMeasure = measureForPulse(rhythm, scheduledPulse)
-        schedulePulse(clockRef.current.nextPulseTime, scheduledPulse, rhythm, activeMeasure)
-        clockRef.current.pulseInBar = (clockRef.current.pulseInBar + 1) % totalPulsesForRhythm(rhythm)
+        activeMeasure = measureForPulse(exercise, scheduledPulse)
+        schedulePulse(clockRef.current.nextPulseTime, scheduledPulse, exercise, activeMeasure)
+        clockRef.current.pulseInBar = (clockRef.current.pulseInBar + 1) % totalPulsesForExercise(exercise)
       }
       clockRef.current.nextPulseTime += secondsPerPulse(activeMeasure.beatType)
 
@@ -380,20 +380,20 @@ export default function useTransportEngine({
     resetTransportDisplay()
   }, [clearScheduledUiUpdates, resetTransportDisplay, setPhase, stopScheduler])
 
-  const startPracticeFromBeginning = useCallback(async (targetRhythmIndex = null) => {
+  const startPracticeFromBeginning = useCallback(async (targetExerciseIndex = null) => {
     const session = getSessionSnapshot()
-    const rhythmCount = session.rhythms.length
-    const resolvedRhythmIndex =
-      Number.isInteger(targetRhythmIndex) && rhythmCount
-        ? Math.max(0, Math.min(rhythmCount - 1, targetRhythmIndex))
-        : session.currentRhythmIndex
-    const currentRhythm = session.rhythms[resolvedRhythmIndex]
-    if (!currentRhythm) {
+    const exerciseCount = session.exercises.length
+    const resolvedExerciseIndex =
+      Number.isInteger(targetExerciseIndex) && exerciseCount
+        ? Math.max(0, Math.min(exerciseCount - 1, targetExerciseIndex))
+        : session.currentExerciseIndex
+    const currentExercise = session.exercises[resolvedExerciseIndex]
+    if (!currentExercise) {
       setImportError('Load a MusicXML file before pressing Play.')
       return
     }
-    if (resolvedRhythmIndex !== session.currentRhythmIndex) {
-      setCurrentRhythmIndex(resolvedRhythmIndex)
+    if (resolvedExerciseIndex !== session.currentExerciseIndex) {
+      setCurrentExerciseIndex(resolvedExerciseIndex)
     }
 
     clearScheduledUiUpdates()
@@ -407,14 +407,14 @@ export default function useTransportEngine({
 
     if (session.countInEnabled) {
       setPhase('countIn')
-      const countInPulses = currentRhythm.measures?.[0]?.pulsesPerBar ?? totalPulsesForRhythm(currentRhythm)
+      const countInPulses = currentExercise.measures?.[0]?.pulsesPerBar ?? totalPulsesForExercise(currentExercise)
       transportRef.current.countInPulsesRemaining = session.countInBars * countInPulses
       setActiveNoteIndex(null)
       setTransportState('Count-in')
     } else {
       setPhase('playing')
       transportRef.current.countInPulsesRemaining = 0
-      const firstAtZero = currentRhythm.notes.findIndex((note) => note.startPulse === 0)
+      const firstAtZero = currentExercise.notes.findIndex((note) => note.startPulse === 0)
       setActiveNoteIndex(firstAtZero >= 0 ? firstAtZero : null)
       setTransportState('Playing')
     }
@@ -425,7 +425,7 @@ export default function useTransportEngine({
     setActiveNoteIndex,
     setCurrentBeat,
     setCurrentRep,
-    setCurrentRhythmIndex,
+    setCurrentExerciseIndex,
     setImportError,
     setPhase,
     setTransportState,

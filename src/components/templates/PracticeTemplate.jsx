@@ -23,10 +23,10 @@ function HeaderBlock({ title, subtitle }) {
 export default function PracticeTemplate({ title, subtitle, notation, transportDock, modals, toast, children }) {
   return (
     <PageShell>
-      <VStack gap={12}>
+      <VStack gap={12} align="center">
         <HeaderBlock title={title} subtitle={subtitle} />
-        <Card inset>{notation}</Card>
-        {transportDock}
+        <Card inset className="w-full">{notation}</Card>
+        <Container width="full">{transportDock}</Container>
       </VStack>
       {children}
       {modals}

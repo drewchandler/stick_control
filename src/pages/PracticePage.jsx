@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import VexflowStaff from '../VexflowStaff'
 import usePracticeSession from '../hooks/usePracticeSession'
 import useTransportEngine from '../hooks/useTransportEngine'
-import useRhythmLibrary from '../hooks/useRhythmLibrary'
+import useExerciseLibrary from '../hooks/useExerciseLibrary'
 import PracticeTemplate from '../components/templates/PracticeTemplate'
 import TransportDock from '../components/organisms/TransportDock'
 import SettingsModal from '../components/organisms/SettingsModal'
@@ -28,7 +28,7 @@ export default function PracticePage() {
       setAutoplayNext: setAutoPlayNext,
       setMetSubdivision,
       setMetronomeMode,
-      setCurrentRhythmIndex,
+      setCurrentExerciseIndex,
       setPhase,
       setCurrentRep,
       setCurrentBeat,
@@ -50,8 +50,8 @@ export default function PracticePage() {
     autoplayNext: autoPlayNext,
     metSubdivision,
     metronomeMode,
-    rhythms,
-    currentRhythmIndex,
+    exercises,
+    currentExerciseIndex,
     currentRep,
     activeNoteIndex,
     phase,
@@ -87,11 +87,11 @@ export default function PracticePage() {
     setShowNextModal,
     setModalText,
     setImportError,
-    setCurrentRhythmIndex,
+    setCurrentExerciseIndex,
     resetTransportDisplay,
   })
 
-  const { loadFromFile, loadSample } = useRhythmLibrary({
+  const { loadFromFile, loadSample } = useExerciseLibrary({
     applySessionPatch,
     resetTransport,
     setImportError,
@@ -144,7 +144,10 @@ export default function PracticePage() {
     loadSample()
   }, [loadSample])
 
-  const currentRhythm = useMemo(() => rhythms[currentRhythmIndex] ?? null, [rhythms, currentRhythmIndex])
+  const currentExercise = useMemo(
+    () => exercises[currentExerciseIndex] ?? null,
+    [exercises, currentExerciseIndex],
+  )
 
   function handleOpenFilePicker() {
     fileInputRef.current?.click()
@@ -177,34 +180,34 @@ export default function PracticePage() {
     resetTransport()
   }
 
-  function handleNextRhythm() {
-    if (!rhythms.length) {
+  function handleNextExercise() {
+    if (!exercises.length) {
       return
     }
     handleReset()
-    const nextIndex = (currentRhythmIndex + 1) % rhythms.length
-    setCurrentRhythmIndex(nextIndex)
+    const nextIndex = (currentExerciseIndex + 1) % exercises.length
+    setCurrentExerciseIndex(nextIndex)
   }
 
-  function handlePreviousRhythm() {
-    if (!rhythms.length) {
+  function handlePreviousExercise() {
+    if (!exercises.length) {
       return
     }
     handleReset()
-    const previousIndex = (currentRhythmIndex - 1 + rhythms.length) % rhythms.length
-    setCurrentRhythmIndex(previousIndex)
+    const previousIndex = (currentExerciseIndex - 1 + exercises.length) % exercises.length
+    setCurrentExerciseIndex(previousIndex)
   }
 
-  function handleRhythmSelect(newIndex) {
-    if (!Number.isInteger(newIndex) || newIndex < 0 || newIndex >= rhythms.length) {
+  function handleExerciseSelect(newIndex) {
+    if (!Number.isInteger(newIndex) || newIndex < 0 || newIndex >= exercises.length) {
       return
     }
     handleReset()
-    setCurrentRhythmIndex(newIndex)
+    setCurrentExerciseIndex(newIndex)
     setShowExerciseDropdown(false)
   }
 
-  async function handleRhythmFileChange(event) {
+  async function handleExerciseFileChange(event) {
     const file = event.target.files?.[0]
     try {
       await loadFromFile(file)
@@ -215,9 +218,11 @@ export default function PracticePage() {
 
   const controlsDisabled = phase === 'playing' || phase === 'countIn'
   const isTransportRunning = phase === 'playing' || phase === 'countIn'
-  const hasRhythms = rhythms.length > 0
+  const hasExercises = exercises.length > 0
   const playPauseLabel = isTransportRunning ? 'Pause' : phase === 'paused' ? 'Resume' : 'Play'
-  const currentExerciseLabel = hasRhythms ? currentRhythm?.name ?? `Exercise ${currentRhythmIndex + 1}` : 'No exercises loaded'
+  const currentExerciseLabel = hasExercises
+    ? currentExercise?.name ?? `Exercise ${currentExerciseIndex + 1}`
+    : 'No exercises loaded'
   const remainingReps = Math.max(0, repetitions - currentRep)
   const metSubdivisionOptions = [
     { value: 4, label: 'Quarter notes' },
@@ -235,17 +240,17 @@ export default function PracticePage() {
           <Container ref={exerciseDropdownRef} minWidth="zero" width="max" flex="grow">
             <ExerciseDropdown
               label={currentExerciseLabel}
-              options={rhythms}
-              selectedIndex={currentRhythmIndex}
+              options={exercises}
+              selectedIndex={currentExerciseIndex}
               open={showExerciseDropdown}
-              disabled={!hasRhythms || controlsDisabled}
+              disabled={!hasExercises || controlsDisabled}
               onToggle={() => setShowExerciseDropdown((previous) => !previous)}
-              onSelect={handleRhythmSelect}
+              onSelect={handleExerciseSelect}
             />
           </Container>
           {importError ? <BodyText tone="danger">{importError}</BodyText> : null}
           <VexflowStaff
-            rhythm={currentRhythm}
+            exercise={currentExercise}
             activeNoteIndex={activeNoteIndex}
             remainingReps={remainingReps}
           />
@@ -253,15 +258,15 @@ export default function PracticePage() {
       }
       transportDock={
         <TransportDock
-          hasRhythms={hasRhythms}
+          hasExercises={hasExercises}
           isTransportRunning={isTransportRunning}
           playPauseLabel={playPauseLabel}
           tempoInput={tempoInput}
           onTempoInputChange={setTempoInput}
           onTempoInputCommit={commitTempoInput}
           onTempoAdjust={adjustBpm}
-          onPrevious={handlePreviousRhythm}
-          onNext={handleNextRhythm}
+          onPrevious={handlePreviousExercise}
+          onNext={handleNextExercise}
           onPlay={handlePlay}
           onPause={handlePause}
           onOpenLibrary={() => setShowUploadModal(true)}
@@ -273,7 +278,7 @@ export default function PracticePage() {
         ref={fileInputRef}
         type="file"
         accept=".xml,.musicxml,text/xml,application/xml"
-        onChange={handleRhythmFileChange}
+        onChange={handleExerciseFileChange}
       />
 
       <Modal open={showUploadModal} onClose={() => setShowUploadModal(false)}>
@@ -316,7 +321,7 @@ export default function PracticePage() {
           <VStack spacing={4}>
             <BodyText>{modalText}</BodyText>
             <HStack spacing={2}>
-              <Button onClick={handlePlay}>Start next rhythm</Button>
+              <Button onClick={handlePlay}>Start next exercise</Button>
               <Button variant="ghost" onClick={() => setShowNextModal(false)}>
                 Later
               </Button>

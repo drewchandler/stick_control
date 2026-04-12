@@ -29,7 +29,7 @@ export default function SettingsModal({
 
       <HStack wrap gap={12} align="start">
         <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
-          <LabelText htmlFor="repetitions">Repetitions per rhythm</LabelText>
+          <LabelText htmlFor="repetitions">Repetitions per exercise</LabelText>
           <TextInput
             id="repetitions"
             type="number"

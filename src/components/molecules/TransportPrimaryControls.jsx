@@ -5,7 +5,7 @@ import Button from '../atoms/Button'
 import TempoControl from './TempoControl'
 
 export default function TransportPrimaryControls({
-  hasRhythms,
+  hasExercises,
   isTransportRunning,
   playPauseLabel,
   onPrevious,
@@ -24,20 +24,20 @@ export default function TransportPrimaryControls({
         onTempoCommit={onTempoInputCommit}
         onTempoAdjust={onTempoAdjust}
       />
-      <IconButton disabled={!hasRhythms} onClick={onPrevious} aria-label="Previous rhythm">
+      <IconButton disabled={!hasExercises} onClick={onPrevious} aria-label="Previous exercise">
         <SkipBack size={18} />
       </IconButton>
       <Button
         variant="dark"
         size="iconLg"
         radius="full"
-        disabled={!hasRhythms}
+        disabled={!hasExercises}
         onClick={onPlayPause}
         aria-label={playPauseLabel}
       >
         {isTransportRunning ? <Pause size={24} /> : <Play size={24} />}
       </Button>
-      <IconButton disabled={!hasRhythms} onClick={onNext} aria-label="Next rhythm">
+      <IconButton disabled={!hasExercises} onClick={onNext} aria-label="Next exercise">
         <SkipForward size={18} />
       </IconButton>
     </HStack>

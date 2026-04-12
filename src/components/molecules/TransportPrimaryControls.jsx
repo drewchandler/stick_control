@@ -18,6 +18,12 @@ export default function TransportPrimaryControls({
 }) {
   return (
     <HStack gap={8} justify="center" intrinsicWidth>
+      <TempoControl
+        tempoInput={tempoInput}
+        onTempoInputChange={onTempoInputChange}
+        onTempoCommit={onTempoInputCommit}
+        onTempoAdjust={onTempoAdjust}
+      />
       <IconButton disabled={!hasRhythms} onClick={onPrevious} aria-label="Previous rhythm">
         <SkipBack size={18} />
       </IconButton>
@@ -34,12 +40,6 @@ export default function TransportPrimaryControls({
       <IconButton disabled={!hasRhythms} onClick={onNext} aria-label="Next rhythm">
         <SkipForward size={18} />
       </IconButton>
-      <TempoControl
-        tempoInput={tempoInput}
-        onTempoInputChange={onTempoInputChange}
-        onTempoCommit={onTempoInputCommit}
-        onTempoAdjust={onTempoAdjust}
-      />
     </HStack>
   )
 }

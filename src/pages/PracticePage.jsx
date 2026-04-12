@@ -242,7 +242,12 @@ export default function PracticePage() {
             />
           </Container>
           {importError ? <BodyText tone="danger">{importError}</BodyText> : null}
-          <VexflowStaff rhythm={currentRhythm} activeNoteIndex={activeNoteIndex} remainingReps={remainingReps} />
+          <VexflowStaff
+            rhythm={currentRhythm}
+            activeNoteIndex={activeNoteIndex}
+            remainingReps={remainingReps}
+            repetitions={repetitions}
+          />
         </VStack>
       }
       transportDock={

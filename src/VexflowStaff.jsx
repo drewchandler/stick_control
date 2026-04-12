@@ -366,7 +366,7 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null, repetitio
       const context = renderer.getContext()
       context.scale(profile.scale, profile.scale)
       context.setFont('Arial', profile.fontSize, '')
-      if (Number.isFinite(remainingReps) && Number.isFinite(repetitions) && repetitions > 0) {
+      if (Number.isFinite(remainingReps)) {
         const repeatText = `:| ${Math.max(0, Math.round(remainingReps))} |:`
         context.save()
         context.setFont('Arial', Math.max(11, profile.fontSize), 'bold')

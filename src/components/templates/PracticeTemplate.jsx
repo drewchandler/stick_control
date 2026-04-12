@@ -11,22 +11,38 @@ function PageShell({ children }) {
   )
 }
 
-function HeaderBlock({ title, subtitle }) {
+function HeaderBlock({ title, subtitle, accessory }) {
   return (
-    <Container as="header" kind="pageHeader">
-      <Title>{title}</Title>
-      {subtitle ? <Subtitle>{subtitle}</Subtitle> : null}
-    </Container>
+    <VStack as="header" gap={6} width="full">
+      <Container>
+        <Title>{title}</Title>
+      </Container>
+      {subtitle ? (
+        <Container>
+          <Subtitle>{subtitle}</Subtitle>
+        </Container>
+      ) : null}
+      {accessory}
+    </VStack>
   )
 }
 
-export default function PracticeTemplate({ title, subtitle, notation, transportDock, modals, toast, children }) {
+export default function PracticeTemplate({
+  title,
+  subtitle,
+  headerAccessory = null,
+  notation,
+  transportDock,
+  modals,
+  toast,
+  children,
+}) {
   return (
     <PageShell>
-      <VStack gap={12}>
-        <HeaderBlock title={title} subtitle={subtitle} />
+      <VStack gap={12} align="center">
+        <HeaderBlock title={title} subtitle={subtitle} accessory={headerAccessory} />
         <Card inset>{notation}</Card>
-        {transportDock}
+        <Container width="full">{transportDock}</Container>
       </VStack>
       {children}
       {modals}

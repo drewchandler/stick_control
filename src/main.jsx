@@ -5,6 +5,8 @@ import PracticePage from './pages/PracticePage'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <PracticePage />
+    <div className="min-h-screen bg-app text-text">
+      <PracticePage />
+    </div>
   </StrictMode>,
 )

@@ -30,20 +30,21 @@ const DURATION_TOKENS = [
 ]
 
 const FALLBACK_DURATION_TOKEN = DURATION_TOKENS[DURATION_TOKENS.length - 1]
+const MAX_NOTATION_RENDER_WIDTH = 980
 
-function rhythmMeasuresFromRhythm(rhythm) {
-  if (!rhythm) {
+function exerciseMeasuresFromExercise(exercise) {
+  if (!exercise) {
     return []
   }
-  if (rhythm.measures?.length) {
-    return rhythm.measures
+  if (exercise.measures?.length) {
+    return exercise.measures
   }
   return [
     {
       startPulse: 0,
-      pulsesPerBar: Math.max(1, rhythm.pulsesPerExercise ?? rhythm.pulsesPerBar ?? 1),
-      beats: rhythm.beats ?? 4,
-      beatType: rhythm.beatType ?? 4,
+      pulsesPerBar: Math.max(1, exercise.pulsesPerExercise ?? exercise.pulsesPerBar ?? 1),
+      beats: exercise.beats ?? 4,
+      beatType: exercise.beatType ?? 4,
     },
   ]
 }
@@ -135,7 +136,13 @@ function decomposeRestDuration(totalPulses) {
   return fallback
 }
 
-function createVexNote(note, isActive, durationToken) {
+function applyNoteColor(vexNote, color) {
+  vexNote.setStyle({ fillStyle: color, strokeStyle: color })
+  vexNote.setStemStyle({ strokeStyle: color })
+  vexNote.setFlagStyle({ fillStyle: color, strokeStyle: color })
+}
+
+function createVexNote(note, isActive, durationToken, activeColor, baseColor) {
   const { duration, dots } = durationToken
   const vexNote = new StaveNote({
     clef: 'percussion',
@@ -156,17 +163,12 @@ function createVexNote(note, isActive, durationToken) {
     )
   }
 
-  if (isActive) {
-    const activeColor = '#d52a2a'
-    vexNote.setStyle({ fillStyle: activeColor, strokeStyle: activeColor })
-    vexNote.setStemStyle({ strokeStyle: activeColor })
-    vexNote.setFlagStyle({ fillStyle: activeColor, strokeStyle: activeColor })
-  }
+  applyNoteColor(vexNote, isActive ? activeColor : baseColor)
 
   return vexNote
 }
 
-function createRestNote(durationToken) {
+function createRestNote(durationToken, baseColor) {
   const { duration, dots } = durationToken
   const vexRest = new StaveNote({
     clef: 'percussion',
@@ -176,6 +178,7 @@ function createRestNote(durationToken) {
   for (let dotIndex = 0; dotIndex < dots; dotIndex += 1) {
     vexRest.addModifier(new Dot(), 0)
   }
+  applyNoteColor(vexRest, baseColor)
   return vexRest
 }
 
@@ -321,15 +324,23 @@ function splitMeasuresIntoRows(measures, logicalWidth, profile) {
   return rows
 }
 
-function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
+function VexflowStaff({
+  exercise,
+  activeNoteIndex,
+  currentBeat = '-',
+  phase = 'stopped',
+  countInBlinkTick = 0,
+  remainingReps = null,
+  previewMode = false,
+}) {
   const scrollRef = useRef(null)
   const hostRef = useRef(null)
   const [hostWidth, setHostWidth] = useState(1080)
 
-  const measures = useMemo(() => rhythmMeasuresFromRhythm(rhythm), [rhythm])
+  const measures = useMemo(() => exerciseMeasuresFromExercise(exercise), [exercise])
   const indexedNotes = useMemo(
-    () => (rhythm?.notes ?? []).map((note, index) => ({ ...note, globalIndex: index })),
-    [rhythm],
+    () => (exercise?.notes ?? []).map((note, index) => ({ ...note, globalIndex: index })),
+    [exercise],
   )
 
   useEffect(() => {
@@ -339,7 +350,8 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
     }
 
     const updateWidth = () => {
-      setHostWidth(Math.max(320, Math.floor(element.clientWidth || 1080)))
+      const measuredWidth = Math.floor(hostRef.current?.clientWidth || element.clientWidth || 1080)
+      setHostWidth(Math.max(320, measuredWidth))
     }
 
     updateWidth()
@@ -364,14 +376,14 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
     }
     hostElement.innerHTML = ''
 
-    if (!rhythm || !measures.length) {
+    if (!exercise || !measures.length) {
       return
     }
 
     try {
       const noteDensity = averageNotesPerMeasure(measures, indexedNotes)
       const profile = renderProfileForHostWidth(hostWidth, noteDensity)
-      const renderWidth = Math.max(320, hostWidth)
+      const renderWidth = Math.max(320, Math.min(hostWidth, MAX_NOTATION_RENDER_WIDTH))
       const logicalWidth = Math.max(280, Math.round(renderWidth / profile.scale))
       const measureRows = splitMeasuresIntoRows(measures, logicalWidth, profile)
       const logicalHeight = Math.max(176, profile.topPadding + measureRows.length * profile.rowHeight)
@@ -379,13 +391,23 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
       const renderer = new Renderer(hostElement, Renderer.Backends.SVG)
       renderer.resize(renderWidth, renderHeight)
       const context = renderer.getContext()
+      const computedStyle = window.getComputedStyle(document.documentElement)
+      const getThemeColor = (tokenName, fallback) => {
+        const resolved = computedStyle.getPropertyValue(tokenName)?.trim()
+        return resolved || fallback
+      }
+      const repeatColor = getThemeColor('--color-text-muted', '#334155')
+      const staffColor = getThemeColor('--color-notation-staff', '#0f172a')
+      const activeColor = getThemeColor('--color-notation-active', '#d52a2a')
       context.scale(profile.scale, profile.scale)
       context.setFont('Arial', profile.fontSize, '')
-      if (Number.isFinite(remainingReps)) {
+      context.setFillStyle(staffColor)
+      context.setStrokeStyle(staffColor)
+      if (!previewMode && Number.isFinite(remainingReps)) {
         const repeatText = `|: ${Math.max(0, Math.round(remainingReps))} :|`
         context.save()
         context.setFont('Arial', Math.max(11, profile.fontSize), 'bold')
-        context.setFillStyle('#334155')
+        context.setFillStyle(repeatColor)
         context.fillText(repeatText, logicalWidth - profile.systemPaddingX - 64, profile.topPadding - 4)
         context.restore()
       }
@@ -436,7 +458,13 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
             if (segment.kind === 'note') {
               const durationToken = closestDurationForPulses(segment.durationPulses)
               entries.push({
-                note: createVexNote(segment.note, segment.note.globalIndex === activeNoteIndex, durationToken),
+                note: createVexNote(
+                  segment.note,
+                  segment.note.globalIndex === activeNoteIndex,
+                  durationToken,
+                  activeColor,
+                  staffColor,
+                ),
                 triplet: durationToken.triplet ?? null,
               })
               continue
@@ -444,7 +472,7 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
             const restTokens = decomposeRestDuration(segment.durationPulses)
             for (const restToken of restTokens) {
               entries.push({
-                note: createRestNote(restToken),
+                note: createRestNote(restToken, staffColor),
                 triplet: restToken.triplet ?? null,
               })
             }
@@ -480,9 +508,9 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
       // We keep the notation area empty and log details for debugging.
       console.error('VexFlow render failed:', error)
     }
-  }, [activeNoteIndex, hostWidth, indexedNotes, measures, remainingReps, rhythm])
+  }, [activeNoteIndex, exercise, hostWidth, indexedNotes, measures, previewMode, remainingReps])
 
-  if (!rhythm) {
+  if (!exercise) {
     return (
       <div className="notation-surface notation-empty">
         <p className="staff-empty-message">Load a MusicXML file to display notation.</p>
@@ -492,6 +520,13 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
 
   return (
     <div className="notation-surface">
+      {!previewMode && phase === 'countIn' ? (
+        <div className="count-in-overlay" aria-live="polite" aria-label={`Count-in beat ${currentBeat}`}>
+          <span key={`count-in-value-${countInBlinkTick}`} className="count-in-value count-in-value-throb">
+            {currentBeat}
+          </span>
+        </div>
+      ) : null}
       <div ref={scrollRef} className="vexflow-scroll" aria-label="Snare drum sticking staff">
         <div ref={hostRef} className="vexflow-host" />
       </div>

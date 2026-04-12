@@ -5,7 +5,7 @@ import TransportPrimaryControls from '../molecules/TransportPrimaryControls'
 import Card from '../atoms/Card'
 
 export default function TransportDock({
-  hasRhythms,
+  hasExercises,
   isTransportRunning,
   playPauseLabel,
   onPrevious,
@@ -22,10 +22,10 @@ export default function TransportDock({
   const onPlayPause = isTransportRunning ? onPause : onPlay
 
   return (
-    <Card variant="surface">
-      <HStack gap={8} horizontalScroll>
+    <Card variant="surface" inset>
+      <HStack gap={8} horizontalScroll justify="center">
         <TransportPrimaryControls
-          hasRhythms={hasRhythms}
+          hasExercises={hasExercises}
           isTransportRunning={isTransportRunning}
           playPauseLabel={playPauseLabel}
           onPrevious={onPrevious}

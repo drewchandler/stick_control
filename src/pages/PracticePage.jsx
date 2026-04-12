@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import VexflowStaff from '../VexflowStaff'
 import usePracticeSession from '../hooks/usePracticeSession'
 import useTransportEngine from '../hooks/useTransportEngine'
-import useRhythmLibrary from '../hooks/useRhythmLibrary'
+import useExerciseLibrary from '../hooks/useExerciseLibrary'
 import PracticeTemplate from '../components/templates/PracticeTemplate'
 import TransportDock from '../components/organisms/TransportDock'
 import SettingsModal from '../components/organisms/SettingsModal'
@@ -10,14 +10,18 @@ import UploadModal from '../components/organisms/UploadModal'
 import Card from '../components/atoms/Card'
 import Button from '../components/atoms/Button'
 import Toast from '../components/atoms/Toast'
+import ThemeToggleButton from '../components/atoms/ThemeToggleButton'
+import UpNextPreview from '../components/atoms/UpNextPreview'
 import Modal from '../components/molecules/Modal'
 import HiddenFileInput from '../components/atoms/HiddenFileInput'
 import { BodyText } from '../components/atoms/Typography'
 import ExerciseDropdown from '../components/atoms/ExerciseDropdown'
 import Container from '../components/atoms/Container'
 import { VStack, HStack } from '../components/layout/Stack'
+import useTheme from '../hooks/useTheme'
 
 export default function PracticePage() {
+  const { theme, toggleTheme } = useTheme()
   const {
     state: practiceSession,
     actions: {
@@ -26,12 +30,13 @@ export default function PracticePage() {
       setCountInBars,
       setCountInEnabled,
       setAutoplayNext: setAutoPlayNext,
-      setMetSubdivision,
+      setMetronomeSubdivision,
       setMetronomeMode,
-      setCurrentRhythmIndex,
+      setCurrentExerciseIndex,
       setPhase,
       setCurrentRep,
       setCurrentBeat,
+      setCountInBlinkTick,
       setActiveNoteIndex,
       setTransportState,
       setShowNextModal,
@@ -48,12 +53,14 @@ export default function PracticePage() {
     countInBars,
     countInEnabled,
     autoplayNext: autoPlayNext,
-    metSubdivision,
+    metronomeSubdivision,
     metronomeMode,
-    rhythms,
-    currentRhythmIndex,
+    exercises,
+    currentExerciseIndex,
     currentRep,
     activeNoteIndex,
+    currentBeat,
+    countInBlinkTick,
     phase,
     showNextModal,
     modalText,
@@ -82,16 +89,17 @@ export default function PracticePage() {
     setPhase,
     setCurrentRep,
     setCurrentBeat,
+    setCountInBlinkTick,
     setActiveNoteIndex,
     setTransportState,
     setShowNextModal,
     setModalText,
     setImportError,
-    setCurrentRhythmIndex,
+    setCurrentExerciseIndex,
     resetTransportDisplay,
   })
 
-  const { loadFromFile, loadSample } = useRhythmLibrary({
+  const { loadFromFile, loadSample } = useExerciseLibrary({
     applySessionPatch,
     resetTransport,
     setImportError,
@@ -144,7 +152,10 @@ export default function PracticePage() {
     loadSample()
   }, [loadSample])
 
-  const currentRhythm = useMemo(() => rhythms[currentRhythmIndex] ?? null, [rhythms, currentRhythmIndex])
+  const currentExercise = useMemo(
+    () => exercises[currentExerciseIndex] ?? null,
+    [exercises, currentExerciseIndex],
+  )
 
   function handleOpenFilePicker() {
     fileInputRef.current?.click()
@@ -177,34 +188,34 @@ export default function PracticePage() {
     resetTransport()
   }
 
-  function handleNextRhythm() {
-    if (!rhythms.length) {
+  function handleNextExercise() {
+    if (!exercises.length) {
       return
     }
     handleReset()
-    const nextIndex = (currentRhythmIndex + 1) % rhythms.length
-    setCurrentRhythmIndex(nextIndex)
+    const nextIndex = (currentExerciseIndex + 1) % exercises.length
+    setCurrentExerciseIndex(nextIndex)
   }
 
-  function handlePreviousRhythm() {
-    if (!rhythms.length) {
+  function handlePreviousExercise() {
+    if (!exercises.length) {
       return
     }
     handleReset()
-    const previousIndex = (currentRhythmIndex - 1 + rhythms.length) % rhythms.length
-    setCurrentRhythmIndex(previousIndex)
+    const previousIndex = (currentExerciseIndex - 1 + exercises.length) % exercises.length
+    setCurrentExerciseIndex(previousIndex)
   }
 
-  function handleRhythmSelect(newIndex) {
-    if (!Number.isInteger(newIndex) || newIndex < 0 || newIndex >= rhythms.length) {
+  function handleExerciseSelect(newIndex) {
+    if (!Number.isInteger(newIndex) || newIndex < 0 || newIndex >= exercises.length) {
       return
     }
     handleReset()
-    setCurrentRhythmIndex(newIndex)
+    setCurrentExerciseIndex(newIndex)
     setShowExerciseDropdown(false)
   }
 
-  async function handleRhythmFileChange(event) {
+  async function handleExerciseFileChange(event) {
     const file = event.target.files?.[0]
     try {
       await loadFromFile(file)
@@ -215,11 +226,19 @@ export default function PracticePage() {
 
   const controlsDisabled = phase === 'playing' || phase === 'countIn'
   const isTransportRunning = phase === 'playing' || phase === 'countIn'
-  const hasRhythms = rhythms.length > 0
+  const hasExercises = exercises.length > 0
   const playPauseLabel = isTransportRunning ? 'Pause' : phase === 'paused' ? 'Resume' : 'Play'
-  const currentExerciseLabel = hasRhythms ? currentRhythm?.name ?? `Exercise ${currentRhythmIndex + 1}` : 'No exercises loaded'
+  const currentExerciseLabel = hasExercises
+    ? currentExercise?.name ?? `Exercise ${currentExerciseIndex + 1}`
+    : 'No exercises loaded'
+  const nextExercise = hasExercises ? exercises[(currentExerciseIndex + 1) % exercises.length] ?? null : null
+  const shouldShowUpNextPreview =
+    Boolean(autoPlayNext) &&
+    phase === 'playing' &&
+    hasExercises &&
+    currentRep === Math.max(0, repetitions - 1)
   const remainingReps = Math.max(0, repetitions - currentRep)
-  const metSubdivisionOptions = [
+  const metronomeSubdivisionOptions = [
     { value: 4, label: 'Quarter notes' },
     { value: 8, label: 'Eighth notes' },
     { value: 12, label: 'Eighth-note triplets' },
@@ -230,38 +249,43 @@ export default function PracticePage() {
   return (
     <PracticeTemplate
       title="Stick Control Practice"
+      headerAccessory={<ThemeToggleButton theme={theme} onToggle={toggleTheme} />}
       notation={
         <VStack gap={10}>
           <Container ref={exerciseDropdownRef} minWidth="zero" width="max" flex="grow">
             <ExerciseDropdown
               label={currentExerciseLabel}
-              options={rhythms}
-              selectedIndex={currentRhythmIndex}
+              options={exercises}
+              selectedIndex={currentExerciseIndex}
               open={showExerciseDropdown}
-              disabled={!hasRhythms || controlsDisabled}
+              disabled={!hasExercises || controlsDisabled}
               onToggle={() => setShowExerciseDropdown((previous) => !previous)}
-              onSelect={handleRhythmSelect}
+              onSelect={handleExerciseSelect}
             />
           </Container>
+          {shouldShowUpNextPreview ? <UpNextPreview exercise={nextExercise} /> : null}
           {importError ? <BodyText tone="danger">{importError}</BodyText> : null}
           <VexflowStaff
-            rhythm={currentRhythm}
+            exercise={currentExercise}
             activeNoteIndex={activeNoteIndex}
+            currentBeat={currentBeat}
+            phase={phase}
+            countInBlinkTick={countInBlinkTick}
             remainingReps={remainingReps}
           />
         </VStack>
       }
       transportDock={
         <TransportDock
-          hasRhythms={hasRhythms}
+          hasExercises={hasExercises}
           isTransportRunning={isTransportRunning}
           playPauseLabel={playPauseLabel}
           tempoInput={tempoInput}
           onTempoInputChange={setTempoInput}
           onTempoInputCommit={commitTempoInput}
           onTempoAdjust={adjustBpm}
-          onPrevious={handlePreviousRhythm}
-          onNext={handleNextRhythm}
+          onPrevious={handlePreviousExercise}
+          onNext={handleNextExercise}
           onPlay={handlePlay}
           onPause={handlePause}
           onOpenLibrary={() => setShowUploadModal(true)}
@@ -273,7 +297,7 @@ export default function PracticePage() {
         ref={fileInputRef}
         type="file"
         accept=".xml,.musicxml,text/xml,application/xml"
-        onChange={handleRhythmFileChange}
+        onChange={handleExerciseFileChange}
       />
 
       <Modal open={showUploadModal} onClose={() => setShowUploadModal(false)}>
@@ -299,15 +323,14 @@ export default function PracticePage() {
           onAutoPlayNextChange={setAutoPlayNext}
           metronomeMode={metronomeMode}
           onMetronomeModeChange={setMetronomeMode}
-          metSubdivision={metSubdivision}
-          subdivisions={metSubdivisionOptions}
-          onMetSubdivisionChange={(value) => setMetSubdivision(Number(value))}
+          metronomeSubdivision={metronomeSubdivision}
+          subdivisions={metronomeSubdivisionOptions}
+          onMetronomeSubdivisionChange={(value) => setMetronomeSubdivision(Number(value))}
           countInEnabled={countInEnabled}
           onCountInEnabledChange={setCountInEnabled}
           countInBars={countInBars}
           onCountInBarsChange={(value) => setCountInBars(Math.max(1, Math.min(4, Number(value) || 1)))}
           onReset={handleReset}
-          onDone={() => setShowMetronomeModal(false)}
         />
       </Modal>
 
@@ -316,7 +339,7 @@ export default function PracticePage() {
           <VStack spacing={4}>
             <BodyText>{modalText}</BodyText>
             <HStack spacing={2}>
-              <Button onClick={handlePlay}>Start next rhythm</Button>
+              <Button onClick={handlePlay}>Start next exercise</Button>
               <Button variant="ghost" onClick={() => setShowNextModal(false)}>
                 Later
               </Button>

@@ -1,12 +1,12 @@
 import { useCallback, useRef } from 'react'
-import { parseMusicXmlRhythms } from '../domain/musicXml'
+import { parseMusicXmlExercises } from '../domain/musicXml'
 
 function buildSessionPatchFromParsed(parsed, sourceLabel) {
   const patch = {
-    rhythms: parsed.rhythms,
-    currentRhythmIndex: 0,
+    exercises: parsed.exercises,
+    currentExerciseIndex: 0,
     importError: '',
-    importStatus: `Loaded ${parsed.rhythms.length} exercise(s) from "${sourceLabel}"${
+    importStatus: `Loaded ${parsed.exercises.length} exercise(s) from "${sourceLabel}"${
       parsed.tempo ? ` (tempo ${Math.round(parsed.tempo)} BPM).` : '.'
     }`,
   }
@@ -16,7 +16,7 @@ function buildSessionPatchFromParsed(parsed, sourceLabel) {
   return patch
 }
 
-export default function useRhythmLibrary({
+export default function useExerciseLibrary({
   applySessionPatch,
   resetTransport,
   setImportError,
@@ -45,7 +45,7 @@ export default function useRhythmLibrary({
     async (fileText, sourceLabel) => {
       const requestId = beginImport()
       try {
-        const parsed = parseMusicXmlRhythms(fileText)
+        const parsed = parseMusicXmlExercises(fileText)
         applyIfLatest(requestId, () => buildSessionPatchFromParsed(parsed, sourceLabel))
       } catch (error) {
         if (requestId !== importRequestIdRef.current) {
@@ -84,7 +84,7 @@ export default function useRhythmLibrary({
         throw new Error('Could not load the bundled default MusicXML file.')
       }
       const text = await response.text()
-      const parsed = parseMusicXmlRhythms(text)
+      const parsed = parseMusicXmlExercises(text)
       applyIfLatest(requestId, () => buildSessionPatchFromParsed(parsed, 'stick-control-page-5.musicxml'))
     } catch (error) {
       if (requestId !== importRequestIdRef.current) {

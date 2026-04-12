@@ -9,27 +9,26 @@ export default function SettingsModal({
   controlsDisabled,
   repetitions,
   metronomeMode,
-  metSubdivision,
+  metronomeSubdivision,
   subdivisions,
   countInEnabled,
   countInBars,
   autoPlayNext,
   onRepetitionsChange,
   onMetronomeModeChange,
-  onMetSubdivisionChange,
+  onMetronomeSubdivisionChange,
   onCountInEnabledChange,
   onCountInBarsChange,
   onAutoPlayNextChange,
   onReset,
-  onDone,
 }) {
   return (
     <VStack gap={16}>
       <SectionTitle>Practice settings</SectionTitle>
 
       <HStack wrap gap={12} align="start">
-        <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
-          <LabelText htmlFor="repetitions">Repetitions per rhythm</LabelText>
+        <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
+          <LabelText htmlFor="repetitions">Repetitions per exercise</LabelText>
           <TextInput
             id="repetitions"
             type="number"
@@ -41,7 +40,7 @@ export default function SettingsModal({
           />
         </VStack>
 
-        <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
+        <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
           <LabelText htmlFor="metronomeMode">Click pattern</LabelText>
           <NativeSelect
             id="metronomeMode"
@@ -55,12 +54,12 @@ export default function SettingsModal({
         </VStack>
 
         {metronomeMode === 'subdivision' && (
-          <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
-            <LabelText htmlFor="metSubdivision">Subdivision note value</LabelText>
+          <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
+            <LabelText htmlFor="metronomeSubdivision">Subdivision note value</LabelText>
             <NativeSelect
-              id="metSubdivision"
-              value={metSubdivision}
-              onChange={(event) => onMetSubdivisionChange(event.target.value)}
+              id="metronomeSubdivision"
+              value={metronomeSubdivision}
+              onChange={(event) => onMetronomeSubdivisionChange(event.target.value)}
             >
               {subdivisions.map((subdivision) => (
                 <option key={subdivision.value} value={subdivision.value}>
@@ -71,7 +70,7 @@ export default function SettingsModal({
           </VStack>
         )}
 
-        <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
+        <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
           <LabelText htmlFor="countInEnabled">Count-in</LabelText>
           <HStack gap={8} align="center">
             <Checkbox
@@ -84,7 +83,7 @@ export default function SettingsModal({
         </VStack>
 
         {countInEnabled && (
-          <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
+          <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
             <LabelText htmlFor="countInBars">Count-in bars</LabelText>
             <TextInput
               id="countInBars"
@@ -97,7 +96,7 @@ export default function SettingsModal({
           </VStack>
         )}
 
-        <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
+        <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
           <LabelText htmlFor="autoPlayNext">Exercise flow</LabelText>
           <HStack gap={8} align="center">
             <Checkbox
@@ -113,9 +112,6 @@ export default function SettingsModal({
       <HStack gap={8} wrap>
         <Button variant="ghost" onClick={onReset}>
           Reset
-        </Button>
-        <Button variant="secondary" onClick={onDone}>
-          Done
         </Button>
       </HStack>
     </VStack>

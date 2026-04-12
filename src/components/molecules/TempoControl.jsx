@@ -8,7 +8,14 @@ export default function TempoControl({
   onTempoAdjust,
 }) {
   return (
-    <Container tone="subtle" rounded="xl" padding="xs" border aria-label="Tempo control">
+    <Container
+      tone="subtle"
+      rounded="xl"
+      padding="xs"
+      border
+      className="w-fit"
+      aria-label="Tempo control"
+    >
       <TempoControlBox
         tempoInput={tempoInput}
         onTempoInputChange={onTempoInputChange}

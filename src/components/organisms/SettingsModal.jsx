@@ -28,7 +28,7 @@ export default function SettingsModal({
       <SectionTitle>Practice settings</SectionTitle>
 
       <HStack wrap gap={12} align="start">
-        <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
+        <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
           <LabelText htmlFor="repetitions">Repetitions per exercise</LabelText>
           <TextInput
             id="repetitions"
@@ -41,7 +41,7 @@ export default function SettingsModal({
           />
         </VStack>
 
-        <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
+        <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
           <LabelText htmlFor="metronomeMode">Click pattern</LabelText>
           <NativeSelect
             id="metronomeMode"
@@ -55,7 +55,7 @@ export default function SettingsModal({
         </VStack>
 
         {metronomeMode === 'subdivision' && (
-          <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
+          <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
             <LabelText htmlFor="metronomeSubdivision">Subdivision note value</LabelText>
             <NativeSelect
               id="metronomeSubdivision"
@@ -71,7 +71,7 @@ export default function SettingsModal({
           </VStack>
         )}
 
-        <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
+        <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
           <LabelText htmlFor="countInEnabled">Count-in</LabelText>
           <HStack gap={8} align="center">
             <Checkbox
@@ -84,7 +84,7 @@ export default function SettingsModal({
         </VStack>
 
         {countInEnabled && (
-          <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
+          <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
             <LabelText htmlFor="countInBars">Count-in bars</LabelText>
             <TextInput
               id="countInBars"
@@ -97,7 +97,7 @@ export default function SettingsModal({
           </VStack>
         )}
 
-        <VStack gap={6} style={{ flex: '1 1 220px', minWidth: '220px' }}>
+        <VStack gap={6} flexBasis={220} minWidth={220} flexGrow>
           <LabelText htmlFor="autoPlayNext">Exercise flow</LabelText>
           <HStack gap={8} align="center">
             <Checkbox

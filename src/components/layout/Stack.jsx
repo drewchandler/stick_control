@@ -57,6 +57,29 @@ function resolveJustifyClass(justify) {
   return JUSTIFY_CLASS_BY_TOKEN[justify] ?? justify
 }
 
+function normalizeLength(value) {
+  if (value == null) {
+    return undefined
+  }
+  if (typeof value === 'number') {
+    return `${value}px`
+  }
+  return value
+}
+
+function normalizeFlexBasis(value) {
+  if (value == null) {
+    return undefined
+  }
+  if (typeof value === 'number') {
+    return `${value}px`
+  }
+  if (value === 'auto') {
+    return 'auto'
+  }
+  return value
+}
+
 export function HStack({
   as = 'div',
   className,
@@ -66,15 +89,26 @@ export function HStack({
   wrap = false,
   intrinsicWidth = false,
   horizontalScroll = false,
+  flex,
+  flexBasis,
+  minWidth,
   style,
   children,
   ...rest
 }) {
+  const resolvedFlexBasis = normalizeFlexBasis(flexBasis)
   return createElement(
     as,
     {
       className: cn(stackBaseClass('horizontal', resolveAlignClass(align), resolveJustifyClass(justify), wrap), intrinsicWidth && 'w-max', className),
-      style: { ...(style ?? {}), gap: normalizeSpacing(gap), overflowX: horizontalScroll ? 'auto' : style?.overflowX },
+      style: {
+        ...(style ?? {}),
+        gap: normalizeSpacing(gap),
+        flex,
+        flexBasis: resolvedFlexBasis,
+        minWidth: normalizeLength(minWidth ?? resolvedFlexBasis),
+        overflowX: horizontalScroll ? 'auto' : style?.overflowX,
+      },
       ...rest,
     },
     children,
@@ -88,15 +122,25 @@ export function VStack({
   align,
   justify,
   intrinsicWidth = false,
+  flex,
+  flexBasis,
+  minWidth,
   style,
   children,
   ...rest
 }) {
+  const resolvedFlexBasis = normalizeFlexBasis(flexBasis)
   return createElement(
     as,
     {
       className: cn(stackBaseClass('vertical', resolveAlignClass(align), resolveJustifyClass(justify)), intrinsicWidth && 'w-max', className),
-      style: { ...(style ?? {}), gap: normalizeSpacing(gap) },
+      style: {
+        ...(style ?? {}),
+        gap: normalizeSpacing(gap),
+        flex,
+        flexBasis: resolvedFlexBasis,
+        minWidth: normalizeLength(minWidth ?? resolvedFlexBasis),
+      },
       ...rest,
     },
     children,

@@ -10,6 +10,7 @@ import UploadModal from '../components/organisms/UploadModal'
 import Card from '../components/atoms/Card'
 import Button from '../components/atoms/Button'
 import Toast from '../components/atoms/Toast'
+import UpNextPreview from '../components/atoms/UpNextPreview'
 import Modal from '../components/molecules/Modal'
 import HiddenFileInput from '../components/atoms/HiddenFileInput'
 import { BodyText } from '../components/atoms/Typography'
@@ -227,6 +228,12 @@ export default function PracticePage() {
   const currentExerciseLabel = hasExercises
     ? currentExercise?.name ?? `Exercise ${currentExerciseIndex + 1}`
     : 'No exercises loaded'
+  const nextExercise = hasExercises ? exercises[(currentExerciseIndex + 1) % exercises.length] ?? null : null
+  const shouldShowUpNextPreview =
+    Boolean(autoPlayNext) &&
+    phase === 'playing' &&
+    hasExercises &&
+    currentRep === Math.max(0, repetitions - 1)
   const remainingReps = Math.max(0, repetitions - currentRep)
   const metronomeSubdivisionOptions = [
     { value: 4, label: 'Quarter notes' },
@@ -252,6 +259,7 @@ export default function PracticePage() {
               onSelect={handleExerciseSelect}
             />
           </Container>
+          {shouldShowUpNextPreview ? <UpNextPreview label={nextExercise?.name ?? 'Next exercise'} /> : null}
           {importError ? <BodyText tone="danger">{importError}</BodyText> : null}
           <VexflowStaff
             exercise={currentExercise}

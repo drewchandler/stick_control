@@ -14,9 +14,8 @@ import Modal from '../components/molecules/Modal'
 import HiddenFileInput from '../components/atoms/HiddenFileInput'
 import { BodyText } from '../components/atoms/Typography'
 import ExerciseDropdown from '../components/atoms/ExerciseDropdown'
-import RepCountdownBadge from '../components/atoms/RepCountdownBadge'
 import Container from '../components/atoms/Container'
-import { VStack, HStack } from '../components/layout/Stack'
+import { VStack } from '../components/layout/Stack'
 
 export default function PracticePage() {
   const {
@@ -231,22 +230,19 @@ export default function PracticePage() {
       title="Stick Control Practice"
       notation={
         <VStack gap={10}>
-          <HStack justify="between" align="start" wrap gap={12}>
-            <Container ref={exerciseDropdownRef} minWidth="zero" width="max" flex="grow">
-              <ExerciseDropdown
-                label={currentExerciseLabel}
-                options={rhythms}
-                selectedIndex={currentRhythmIndex}
-                open={showExerciseDropdown}
-                disabled={!hasRhythms || controlsDisabled}
-                onToggle={() => setShowExerciseDropdown((previous) => !previous)}
-                onSelect={handleRhythmSelect}
-              />
-            </Container>
-            <RepCountdownBadge remainingReps={remainingReps} currentRep={currentRep} repetitions={repetitions} />
-          </HStack>
+          <Container ref={exerciseDropdownRef} minWidth="zero" width="max" flex="grow">
+            <ExerciseDropdown
+              label={currentExerciseLabel}
+              options={rhythms}
+              selectedIndex={currentRhythmIndex}
+              open={showExerciseDropdown}
+              disabled={!hasRhythms || controlsDisabled}
+              onToggle={() => setShowExerciseDropdown((previous) => !previous)}
+              onSelect={handleRhythmSelect}
+            />
+          </Container>
           {importError ? <BodyText tone="danger">{importError}</BodyText> : null}
-          <VexflowStaff rhythm={currentRhythm} activeNoteIndex={activeNoteIndex} />
+          <VexflowStaff rhythm={currentRhythm} activeNoteIndex={activeNoteIndex} remainingReps={remainingReps} />
         </VStack>
       }
       transportDock={

@@ -306,7 +306,7 @@ function splitMeasuresIntoRows(measures, logicalWidth, profile) {
   return rows
 }
 
-function VexflowStaff({ rhythm, activeNoteIndex }) {
+function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null, repetitions = null }) {
   const scrollRef = useRef(null)
   const hostRef = useRef(null)
   const [hostWidth, setHostWidth] = useState(1080)
@@ -366,6 +366,14 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
       const context = renderer.getContext()
       context.scale(profile.scale, profile.scale)
       context.setFont('Arial', profile.fontSize, '')
+      if (Number.isFinite(remainingReps) && Number.isFinite(repetitions) && repetitions > 0) {
+        const repeatText = `:| ${Math.max(0, Math.round(remainingReps))} |:`
+        context.save()
+        context.setFont('Arial', Math.max(11, profile.fontSize), 'bold')
+        context.setFillStyle('#334155')
+        context.fillText(repeatText, logicalWidth - profile.systemPaddingX - 64, profile.topPadding - 4)
+        context.restore()
+      }
 
       let noteCursor = 0
       let previousMeasure = null
@@ -454,7 +462,7 @@ function VexflowStaff({ rhythm, activeNoteIndex }) {
       // We keep the notation area empty and log details for debugging.
       console.error('VexFlow render failed:', error)
     }
-  }, [activeNoteIndex, hostWidth, indexedNotes, measures, rhythm])
+  }, [activeNoteIndex, hostWidth, indexedNotes, measures, remainingReps, repetitions, rhythm])
 
   if (!rhythm) {
     return (

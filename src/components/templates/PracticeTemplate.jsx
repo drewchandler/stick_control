@@ -41,7 +41,7 @@ export default function PracticeTemplate({
     <PageShell>
       <VStack gap={12} align="center">
         <HeaderBlock title={title} subtitle={subtitle} accessory={headerAccessory} />
-        <Card inset className="w-full">{notation}</Card>
+        <Card inset>{notation}</Card>
         <Container width="full">{transportDock}</Container>
       </VStack>
       {children}

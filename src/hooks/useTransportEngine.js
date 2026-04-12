@@ -69,6 +69,7 @@ export default function useTransportEngine({
   setPhase,
   setCurrentRep,
   setCurrentBeat,
+  setCountInBlinkTick,
   setActiveNoteIndex,
   setTransportState,
   setShowNextModal,
@@ -249,6 +250,7 @@ export default function useTransportEngine({
 
       if (session.phase === 'countIn') {
         transport.countInPulsesRemaining -= 1
+        const beat = Math.floor(pulseInMeasure / timing.pulsesPerBeat) + 1
         if (transport.countInPulsesRemaining <= 0) {
           transport.noteCursor = 0
           const firstAtZero = exercise.notes.findIndex((note) => note.startPulse === 0)
@@ -256,7 +258,13 @@ export default function useTransportEngine({
             setPhase('playing')
             setTransportState('Playing')
             setCurrentRep(0)
+            setCountInBlinkTick(0)
             setActiveNoteIndex(firstAtZero >= 0 ? firstAtZero : null)
+          })
+        } else {
+          scheduleUiAtAudioTime(pulseTime, () => {
+            setCurrentBeat(String(beat))
+            setCountInBlinkTick((previous) => previous + 1)
           })
         }
         return
@@ -301,6 +309,7 @@ export default function useTransportEngine({
       setCurrentBeat,
       setCurrentRep,
       setPhase,
+      setCountInBlinkTick,
       setTransportState,
     ],
   )
@@ -403,6 +412,7 @@ export default function useTransportEngine({
     clockRef.current.countInPulse = 0
     setCurrentRep(0)
     setCurrentBeat('-')
+    setCountInBlinkTick(0)
     setImportError('')
 
     if (session.countInEnabled) {
@@ -425,6 +435,7 @@ export default function useTransportEngine({
     setActiveNoteIndex,
     setCurrentBeat,
     setCurrentRep,
+    setCountInBlinkTick,
     setCurrentExerciseIndex,
     setImportError,
     setPhase,

@@ -32,6 +32,7 @@ export default function PracticePage() {
       setPhase,
       setCurrentRep,
       setCurrentBeat,
+      setCountInBlinkTick,
       setActiveNoteIndex,
       setTransportState,
       setShowNextModal,
@@ -54,6 +55,8 @@ export default function PracticePage() {
     currentExerciseIndex,
     currentRep,
     activeNoteIndex,
+    currentBeat,
+    countInBlinkTick,
     phase,
     showNextModal,
     modalText,
@@ -82,6 +85,7 @@ export default function PracticePage() {
     setPhase,
     setCurrentRep,
     setCurrentBeat,
+    setCountInBlinkTick,
     setActiveNoteIndex,
     setTransportState,
     setShowNextModal,
@@ -252,6 +256,9 @@ export default function PracticePage() {
           <VexflowStaff
             exercise={currentExercise}
             activeNoteIndex={activeNoteIndex}
+            currentBeat={currentBeat}
+            phase={phase}
+            countInBlinkTick={countInBlinkTick}
             remainingReps={remainingReps}
           />
         </VStack>

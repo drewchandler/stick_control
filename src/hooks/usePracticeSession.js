@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   currentRep: 0,
   activeNoteIndex: null,
   currentBeat: '-',
+  countInBlinkTick: 0,
   phase: 'stopped',
   transportState: '',
   showNextModal: false,
@@ -121,6 +122,7 @@ export function practiceSessionReducer(state, action) {
         currentRep: 0,
         activeNoteIndex: null,
         currentBeat: '-',
+        countInBlinkTick: 0,
         transportState: '',
         showNextModal: false,
       }
@@ -140,6 +142,13 @@ export function practiceSessionReducer(state, action) {
         return state
       }
       return { ...state, currentBeat: next }
+    }
+    case 'transport/setCountInBlinkTick': {
+      const next = Math.max(0, Math.round(Number(resolveNextValue(state.countInBlinkTick, action.value)) || 0))
+      if (next === state.countInBlinkTick) {
+        return state
+      }
+      return { ...state, countInBlinkTick: next }
     }
     case 'transport/setRep': {
       const next = Math.max(0, Math.round(Number(resolveNextValue(state.currentRep, action.value)) || 0))
@@ -220,6 +229,7 @@ export default function usePracticeSession() {
       setPhase: (value) => dispatch({ type: 'transport/setPhase', value }),
       setCurrentRep: (value) => dispatch({ type: 'transport/setRep', value }),
       setCurrentBeat: (value) => dispatch({ type: 'transport/setBeat', value }),
+      setCountInBlinkTick: (value) => dispatch({ type: 'transport/setCountInBlinkTick', value }),
       setActiveNoteIndex: (value) => dispatch({ type: 'transport/setActiveNoteIndex', value }),
       setTransportState: (value) => dispatch({ type: 'transport/setStatus', value }),
       setShowNextModal: (show, text) => dispatch({ type: 'transport/setNextModal', show, text }),

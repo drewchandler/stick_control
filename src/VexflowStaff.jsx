@@ -321,7 +321,14 @@ function splitMeasuresIntoRows(measures, logicalWidth, profile) {
   return rows
 }
 
-function VexflowStaff({ exercise, activeNoteIndex, remainingReps = null }) {
+function VexflowStaff({
+  exercise,
+  activeNoteIndex,
+  currentBeat = '-',
+  phase = 'stopped',
+  countInBlinkTick = 0,
+  remainingReps = null,
+}) {
   const scrollRef = useRef(null)
   const hostRef = useRef(null)
   const [hostWidth, setHostWidth] = useState(1080)
@@ -492,6 +499,16 @@ function VexflowStaff({ exercise, activeNoteIndex, remainingReps = null }) {
 
   return (
     <div className="notation-surface">
+      {phase === 'countIn' ? (
+        <div
+          key={`count-in-${countInBlinkTick}`}
+          className="count-in-overlay"
+          aria-live="polite"
+          aria-label={`Count-in beat ${currentBeat}`}
+        >
+          {currentBeat}
+        </div>
+      ) : null}
       <div ref={scrollRef} className="vexflow-scroll" aria-label="Snare drum sticking staff">
         <div ref={hostRef} className="vexflow-host" />
       </div>

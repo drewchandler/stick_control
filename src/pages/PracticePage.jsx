@@ -10,6 +10,7 @@ import UploadModal from '../components/organisms/UploadModal'
 import Card from '../components/atoms/Card'
 import Button from '../components/atoms/Button'
 import Toast from '../components/atoms/Toast'
+import ThemeToggleButton from '../components/atoms/ThemeToggleButton'
 import UpNextPreview from '../components/atoms/UpNextPreview'
 import Modal from '../components/molecules/Modal'
 import HiddenFileInput from '../components/atoms/HiddenFileInput'
@@ -17,8 +18,10 @@ import { BodyText } from '../components/atoms/Typography'
 import ExerciseDropdown from '../components/atoms/ExerciseDropdown'
 import Container from '../components/atoms/Container'
 import { VStack, HStack } from '../components/layout/Stack'
+import useTheme from '../hooks/useTheme'
 
 export default function PracticePage() {
+  const { theme, toggleTheme } = useTheme()
   const {
     state: practiceSession,
     actions: {
@@ -246,6 +249,7 @@ export default function PracticePage() {
   return (
     <PracticeTemplate
       title="Stick Control Practice"
+      headerAccessory={<ThemeToggleButton theme={theme} onToggle={toggleTheme} />}
       notation={
         <VStack gap={10}>
           <Container ref={exerciseDropdownRef} minWidth="zero" width="max" flex="grow">

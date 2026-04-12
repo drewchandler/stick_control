@@ -386,13 +386,20 @@ function VexflowStaff({
       const renderer = new Renderer(hostElement, Renderer.Backends.SVG)
       renderer.resize(renderWidth, renderHeight)
       const context = renderer.getContext()
+      const computedStyle = window.getComputedStyle(document.documentElement)
+      const getThemeColor = (tokenName, fallback) => {
+        const resolved = computedStyle.getPropertyValue(tokenName)?.trim()
+        return resolved || fallback
+      }
+      const repeatColor = getThemeColor('--color-text-muted', '#334155')
+      const activeColor = getThemeColor('--color-text-danger', '#d52a2a')
       context.scale(profile.scale, profile.scale)
       context.setFont('Arial', profile.fontSize, '')
       if (Number.isFinite(remainingReps)) {
         const repeatText = `|: ${Math.max(0, Math.round(remainingReps))} :|`
         context.save()
         context.setFont('Arial', Math.max(11, profile.fontSize), 'bold')
-        context.setFillStyle('#334155')
+        context.setFillStyle(repeatColor)
         context.fillText(repeatText, logicalWidth - profile.systemPaddingX - 64, profile.topPadding - 4)
         context.restore()
       }
@@ -443,7 +450,12 @@ function VexflowStaff({
             if (segment.kind === 'note') {
               const durationToken = closestDurationForPulses(segment.durationPulses)
               entries.push({
-                note: createVexNote(segment.note, segment.note.globalIndex === activeNoteIndex, durationToken),
+                note: createVexNote(
+                  segment.note,
+                  segment.note.globalIndex === activeNoteIndex,
+                  durationToken,
+                  activeColor,
+                ),
                 triplet: durationToken.triplet ?? null,
               })
               continue

@@ -5,19 +5,18 @@ import { VStack } from '../layout/Stack'
 export default function UpNextPreview({ label }) {
   return (
     <Container
-      tone="subtle"
+      tone="upnext"
       rounded="lg"
       border
       padding="sm"
       width="full"
-      className="border-sky-200 bg-sky-50/60"
       aria-live="polite"
     >
       <VStack gap={2} align="start">
-        <BodyText tone="labelXs" className="text-sky-700">
+        <BodyText tone="labelXs" className="text-upnext-label">
           Up next
         </BodyText>
-        <BodyText className="text-slate-600">{label}</BodyText>
+        <BodyText tone="muted">{label}</BodyText>
       </VStack>
     </Container>
   )

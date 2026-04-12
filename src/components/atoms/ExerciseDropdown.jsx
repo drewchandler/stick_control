@@ -23,9 +23,9 @@ export default function ExerciseDropdown({
         aria-expanded={open}
         aria-haspopup="listbox"
         aria-label="Select exercise"
-        className="w-full justify-start gap-2 border-slate-200 px-3 py-2 text-left text-sm font-semibold"
+        className="w-full justify-start gap-2 border-border px-3 py-2 text-left text-sm font-semibold"
       >
-        <BodyText className="max-w-[min(100%,760px)] truncate text-sm font-semibold text-slate-900">
+        <BodyText className="max-w-[min(100%,760px)] truncate text-sm font-semibold text-text-main">
           {label}
         </BodyText>
         <ChevronDown size={16} className="shrink-0" aria-hidden="true" />
@@ -35,7 +35,7 @@ export default function ExerciseDropdown({
           role="listbox"
           aria-label="Exercises"
           gap={4}
-          className="absolute left-0 right-0 top-[calc(100%+8px)] z-20 max-h-80 overflow-y-auto rounded-xl border border-slate-300 bg-white p-1 shadow-xl"
+          className="absolute left-0 right-0 top-[calc(100%+8px)] z-20 max-h-80 overflow-y-auto rounded-xl border border-border bg-surface p-1 shadow-xl shadow-shadow-elev/20"
         >
           {options.map((option, index) => (
             <Button
@@ -46,9 +46,11 @@ export default function ExerciseDropdown({
               role="option"
               aria-selected={index === selectedIndex}
               onClick={() => onSelect(index)}
-              className={`w-full justify-start gap-2 rounded-lg px-3 py-2 text-left ${index === selectedIndex ? 'bg-slate-200 font-semibold' : ''}`}
+              className={`w-full justify-start gap-2 rounded-lg px-3 py-2 text-left ${
+                index === selectedIndex ? 'bg-surface-muted font-semibold' : ''
+              }`}
             >
-              <BodyText className="min-w-5 text-slate-500">{index + 1}.</BodyText>
+              <BodyText className="min-w-5 text-text-muted">{index + 1}.</BodyText>
               <BodyText>{option.name}</BodyText>
             </Button>
           ))}

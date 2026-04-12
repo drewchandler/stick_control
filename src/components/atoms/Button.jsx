@@ -3,14 +3,14 @@ import { cn } from '../../lib/cn'
 
 const VARIANT_STYLES = {
   primary:
-    'bg-slate-900 text-slate-50 border-slate-900 hover:bg-slate-800 focus-visible:ring-slate-900/30',
+    'bg-brand text-on-brand border-brand hover:bg-brand-hover focus-visible:ring-brand/35',
   secondary:
-    'bg-white text-slate-900 border-slate-300 hover:border-slate-500 focus-visible:ring-slate-500/30',
+    'bg-surface text-text border-border hover:border-border-strong focus-visible:ring-brand/30',
   ghost:
-    'bg-transparent text-slate-700 border-transparent hover:bg-slate-100 focus-visible:ring-slate-500/30',
-  danger: 'bg-red-600 text-white border-red-600 hover:bg-red-500 focus-visible:ring-red-500/30',
-  muted: 'bg-slate-50 text-slate-700 border-slate-300 hover:border-slate-500 focus-visible:ring-slate-500/30',
-  dark: 'bg-slate-900 text-slate-50 border-slate-900 hover:bg-slate-800 focus-visible:ring-slate-900/30',
+    'bg-transparent text-text-muted border-transparent hover:bg-surface-muted focus-visible:ring-brand/28',
+  danger: 'bg-danger text-on-brand border-danger hover:bg-danger-hover focus-visible:ring-danger/35',
+  muted: 'bg-surface-muted text-text-muted border-border hover:border-border-strong focus-visible:ring-brand/28',
+  dark: 'bg-brand text-on-brand border-brand hover:bg-brand-hover focus-visible:ring-brand/35',
 }
 
 const SIZE_STYLES = {

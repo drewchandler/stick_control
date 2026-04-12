@@ -2,9 +2,9 @@ import { createElement } from 'react'
 import { cn } from '../../lib/cn'
 
 const VARIANT_CLASS = {
-  surface: 'rounded-2xl border border-slate-200 bg-white p-3 text-slate-900',
+  surface: 'rounded-2xl border border-border bg-surface p-3 text-text',
   modal:
-    'w-full rounded-none border-0 bg-white p-4 text-neutral-900 shadow-none sm:rounded-xl sm:border sm:border-slate-200 sm:p-5 sm:shadow-lg',
+    'w-full rounded-none border-0 bg-surface p-4 text-text shadow-none sm:rounded-xl sm:border sm:border-border sm:p-5 sm:shadow-lg',
 }
 
 const WIDTH_CLASS = {

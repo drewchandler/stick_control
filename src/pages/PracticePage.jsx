@@ -15,7 +15,7 @@ import HiddenFileInput from '../components/atoms/HiddenFileInput'
 import { BodyText } from '../components/atoms/Typography'
 import ExerciseDropdown from '../components/atoms/ExerciseDropdown'
 import Container from '../components/atoms/Container'
-import { VStack } from '../components/layout/Stack'
+import { VStack, HStack } from '../components/layout/Stack'
 
 export default function PracticePage() {
   const {
@@ -270,7 +270,7 @@ export default function PracticePage() {
         onChange={handleRhythmFileChange}
       />
 
-      <Modal open={showUploadModal}>
+      <Modal open={showUploadModal} onClose={() => setShowUploadModal(false)}>
         <UploadModal
           onUploadFile={() => {
             setShowUploadModal(false)
@@ -284,7 +284,7 @@ export default function PracticePage() {
         />
       </Modal>
 
-      <Modal open={showMetronomeModal} cardWidth="wide">
+      <Modal open={showMetronomeModal} cardWidth="wide" onClose={() => setShowMetronomeModal(false)}>
         <SettingsModal
           controlsDisabled={controlsDisabled}
           repetitions={repetitions}
@@ -303,7 +303,7 @@ export default function PracticePage() {
         />
       </Modal>
 
-      <Modal open={showNextModal} cardWidth="lg">
+      <Modal open={showNextModal} cardWidth="lg" onClose={() => setShowNextModal(false)}>
         <Card variant="surface">
           <VStack spacing={4}>
             <BodyText>{modalText}</BodyText>

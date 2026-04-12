@@ -201,7 +201,7 @@ export default function useTransportEngine({
         if (session.autoplayNext) {
           setTransportState(`Autoplay: ${nextExerciseName}`)
           setShowNextModal(false)
-          void startPracticeFromBeginningRef.current(nextIndex)
+          void startPracticeFromBeginningRef.current(nextIndex, { skipCountIn: true })
           return
         }
         setTransportState('Ready for next exercise')

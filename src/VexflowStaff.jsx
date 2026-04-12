@@ -30,6 +30,7 @@ const DURATION_TOKENS = [
 ]
 
 const FALLBACK_DURATION_TOKEN = DURATION_TOKENS[DURATION_TOKENS.length - 1]
+const MAX_NOTATION_RENDER_WIDTH = 980
 
 function exerciseMeasuresFromExercise(exercise) {
   if (!exercise) {
@@ -349,7 +350,8 @@ function VexflowStaff({
     }
 
     const updateWidth = () => {
-      setHostWidth(Math.max(320, Math.floor(element.clientWidth || 1080)))
+      const measuredWidth = Math.floor(hostRef.current?.clientWidth || element.clientWidth || 1080)
+      setHostWidth(Math.max(320, measuredWidth))
     }
 
     updateWidth()
@@ -381,7 +383,7 @@ function VexflowStaff({
     try {
       const noteDensity = averageNotesPerMeasure(measures, indexedNotes)
       const profile = renderProfileForHostWidth(hostWidth, noteDensity)
-      const renderWidth = Math.max(320, hostWidth)
+      const renderWidth = Math.max(320, Math.min(hostWidth, MAX_NOTATION_RENDER_WIDTH))
       const logicalWidth = Math.max(280, Math.round(renderWidth / profile.scale))
       const measureRows = splitMeasuresIntoRows(measures, logicalWidth, profile)
       const logicalHeight = Math.max(176, profile.topPadding + measureRows.length * profile.rowHeight)

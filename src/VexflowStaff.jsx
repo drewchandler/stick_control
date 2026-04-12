@@ -403,12 +403,15 @@ function VexflowStaff({ rhythm, activeNoteIndex, remainingReps = null }) {
 
           const stave = new Stave(x, rowY, measureWidth)
           if (globalMeasureIndex === 0) {
+            stave.setBegBarType(BarlineType.REPEAT_BEGIN)
+          }
+          if (globalMeasureIndex === 0) {
             stave.setClef('percussion')
           }
           if (signatureChanged(previousMeasure, measure)) {
             stave.addTimeSignature(`${measure.beats}/${measure.beatType}`)
           }
-          stave.setEndBarType(globalMeasureIndex === measures.length - 1 ? BarlineType.END : BarlineType.SINGLE)
+          stave.setEndBarType(globalMeasureIndex === measures.length - 1 ? BarlineType.REPEAT_END : BarlineType.SINGLE)
           stave.setContext(context).draw()
 
           const { nextCursor, segments } = buildMeasureSegments(measure, indexedNotes, noteCursor)

@@ -1,6 +1,23 @@
 import { createElement } from 'react'
 import { cn } from '../../lib/cn'
 
+const ALIGN_CLASS_BY_TOKEN = {
+  start: 'items-start',
+  center: 'items-center',
+  end: 'items-end',
+  stretch: 'items-stretch',
+  baseline: 'items-baseline',
+}
+
+const JUSTIFY_CLASS_BY_TOKEN = {
+  start: 'justify-start',
+  center: 'justify-center',
+  end: 'justify-end',
+  between: 'justify-between',
+  around: 'justify-around',
+  evenly: 'justify-evenly',
+}
+
 function normalizeSpacing(value) {
   if (value == null) {
     return undefined
@@ -30,29 +47,14 @@ function resolveAlignClass(align) {
   if (!align) {
     return undefined
   }
-  const tokenMap = {
-    start: 'items-start',
-    center: 'items-center',
-    end: 'items-end',
-    stretch: 'items-stretch',
-    baseline: 'items-baseline',
-  }
-  return tokenMap[align] ?? align
+  return ALIGN_CLASS_BY_TOKEN[align] ?? align
 }
 
 function resolveJustifyClass(justify) {
   if (!justify) {
     return undefined
   }
-  const tokenMap = {
-    start: 'justify-start',
-    center: 'justify-center',
-    end: 'justify-end',
-    between: 'justify-between',
-    around: 'justify-around',
-    evenly: 'justify-evenly',
-  }
-  return tokenMap[justify] ?? justify
+  return JUSTIFY_CLASS_BY_TOKEN[justify] ?? justify
 }
 
 export function HStack({

@@ -17,6 +17,7 @@ export default function Card({
   as = 'section',
   variant = 'surface',
   width = 'default',
+  inset = false,
   className = '',
   children,
   ...props
@@ -27,6 +28,7 @@ export default function Card({
       className: cn(
         VARIANT_CLASS[variant] ?? VARIANT_CLASS.surface,
         variant === 'modal' && (WIDTH_CLASS[width] ?? WIDTH_CLASS.default),
+        inset && 'mx-1 sm:mx-2',
         className,
       ),
       ...props,

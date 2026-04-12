@@ -25,7 +25,7 @@ export default function PracticeTemplate({ title, subtitle, notation, transportD
     <PageShell>
       <VStack gap={12}>
         <HeaderBlock title={title} subtitle={subtitle} />
-        <Card>{notation}</Card>
+        <Card inset>{notation}</Card>
         {transportDock}
       </VStack>
       {children}
